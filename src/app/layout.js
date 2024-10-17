@@ -1,15 +1,13 @@
 import localFont from "next/font/local";
+import { Urbanist } from "next/font/google"
 import "./globals.css";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
+
+const urbanist = Urbanist({
+  subsets: ["latin"],
+  weight: ['400', '500', '600'],
+  display: "swap",
+  preload: false,
 });
 
 export const metadata = {
@@ -21,7 +19,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${urbanist.className} bg-fade`}
       >
         {children}
       </body>
