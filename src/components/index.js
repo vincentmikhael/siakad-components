@@ -28,5 +28,7 @@ import Text from "./Text";
 import DateInput from "./DateInput";
 import StepperContainer from './StepperContainer'
 import Stepper from './Stepper'
+import LogoItn from "./LogoItn";
+import LogoGoogle from "./LogoGoogle";
 
-export { Button, IconButton, Link, Input, Alert, Toast, Badge, Textarea, Checkbox, Toggle, Helper, Label, Card, Breadcrumb, BreadcrumbItem, Hr, Navbar, NavRow, NavBrand, NavHamburger, NavUl, NavLi, Table, Select, Modal, FileUpload, Text, DateInput,StepperContainer,Stepper };
+export { Button, IconButton, Link, Input, Alert, Toast, Badge, Textarea, Checkbox, Toggle, Helper, Label, Card, Breadcrumb, BreadcrumbItem, Hr, Navbar, NavRow, NavBrand, NavHamburger, NavUl, NavLi, Table, Select, Modal, FileUpload, Text, DateInput, StepperContainer, Stepper, LogoItn, LogoGoogle };

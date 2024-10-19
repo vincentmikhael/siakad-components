@@ -1,7 +1,5 @@
-import localFont from "next/font/local";
 import { Urbanist } from "next/font/google"
 import "./globals.css";
-
 
 const urbanist = Urbanist({
   subsets: ["latin"],

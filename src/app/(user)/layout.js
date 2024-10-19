@@ -1,5 +1,3 @@
-import Image from "next/image";
-import itnWhiteLogo from "../../../public/images/itn-white-logo.png";
 import {
   Bell,
   BellRinging,
@@ -29,6 +27,7 @@ import {
   NavLi,
   NavUl,
   NavRow,
+  LogoItn
 } from "@/components";
 export default function Layout({ children }) {
   const navItems = [
@@ -77,12 +76,7 @@ export default function Layout({ children }) {
         <NavRow>
           <div className="inline-flex items-center md:gap-6 justify-start">
             <NavBrand>
-              <Image
-                src={itnWhiteLogo}
-                alt="itn white logo"
-                width={40}
-                height={40}
-              />
+              <LogoItn type='white' />
               <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"></span>
             </NavBrand>
             <Hr
