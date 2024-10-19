@@ -4,7 +4,7 @@ import { Breadcrumb, BreadcrumbItem, Button, Card, FileUpload, Hr, Input,Label,M
 import { MagnifyingGlass, Plus } from "@phosphor-icons/react/dist/ssr";
 import { useState } from "react";
 
-const dataUtama = () => {
+const DataUtama = () => {
     const [modalAdd,setModalAdd] = useState(false)
     const [modalEdit,setModalEdit] = useState(false)
     const [valueAdd,setValueAdd] = useState({
@@ -19,7 +19,7 @@ const dataUtama = () => {
         { header: 'Name', accessor: 'name' },
         { header: 'Email', accessor: 'email' },
       ]
-    
+
       const data = [
         { id: 1, name: 'John Doe', email: 'john@example.com' },
         { id: 2, name: 'Jane Smith', email: 'jane@example.com' },
@@ -52,7 +52,7 @@ const dataUtama = () => {
             <BreadcrumbItem>Data utama</BreadcrumbItem>
         </Breadcrumb>
         <Card className={'mt-12'}>
-            
+
         <StepperContainer>
             <Stepper title="Halo 1">
                 <Text>Lorem ipsum 1</Text>
@@ -76,7 +76,7 @@ const dataUtama = () => {
             <p className="text-base font-normal text-gray-50">
                   Lorem Ipsum
             </p>
-        
+
             <Hr className="my-6"/>
             <div className="lg:flex justify-between items-end">
                 <div className="hidden lg:block">
@@ -86,12 +86,12 @@ const dataUtama = () => {
                 <div className="flex justify-between items-center gap-3">
                     <Input className={'w-36 lg:w-44'} placeholder={'Cari data disini'} leftIcon={<MagnifyingGlass/>}/>
                     <Button onClick={()=>setModalAdd(true)} leftIcon={<Plus/>} size="md">Tambah data</Button>
-                </div>    
+                </div>
             </div>
 
             <Table columns={columns} data={data} onEdit={()=>setModalEdit(true)} onDelete={()=>alert('ok')}/>
 
-            
+
         </Card>
         <Modal open={modalAdd} onClose={()=>setModalAdd(false)} title="Tambah data tes">
             <form onSubmit={handleTambah} className="w-full">
@@ -139,7 +139,7 @@ const dataUtama = () => {
                     <Button type="submit" className={'mr-3'}>Tambah</Button>
                     <Button onClick={()=>setModalAdd(false)} variant="white">Batal</Button>
                 </div>
-                
+
             </form>
         </Modal>
 
@@ -182,16 +182,16 @@ const dataUtama = () => {
                         placeholder={"Tulis nama"}
                     />
                 </div>
-                
+
                 <div>
                     <Button type="submit" className={'mr-3'}>Tambah</Button>
                     <Button onClick={()=>setModalAdd(false)} variant="white">Batal</Button>
                 </div>
-                
+
             </form>
         </Modal>
 
-        
+
     </div>
   );
 };
