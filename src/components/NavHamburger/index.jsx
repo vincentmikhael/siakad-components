@@ -1,7 +1,7 @@
 'use client'
 import { useContext } from "react";
 import { twMerge } from "tailwind-merge";
-import { Text, IconButton } from "..";
+import { Text } from "..";
 import { List } from "@phosphor-icons/react";
 import { NavbarContext } from "../Navbar";
 
@@ -14,12 +14,12 @@ const {setShowNav} = useContext(NavbarContext)
     <button
       onClick={handleClick}
       className={twMerge(
-        "lg:hidden inline-flex bg-primary-10 gap-1.5 px-2 py-1.5 text-primary-100 rounded-lg items-center",
+        "xl:hidden inline-flex bg-primary-10 gap-1.5 px-2 py-1.5 text-primary-100 rounded-lg items-center",
         className
       )}
       {...props}
     >
-      <Text size="sm" color="primary-100">
+      <Text size="sm" color="text-primary-100">
         Menu
       </Text>
       <List size={16} weight="bold" />

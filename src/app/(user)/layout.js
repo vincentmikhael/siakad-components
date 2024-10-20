@@ -74,15 +74,15 @@ export default function Layout({ children }) {
     <>
       <Navbar>
         <NavRow>
-          <div className="inline-flex items-center md:gap-6 justify-start">
+          <div className="inline-flex items-center lg:gap-6 justify-start">
             <NavBrand>
               <LogoItn type='white' />
               <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"></span>
             </NavBrand>
             <Hr
               direction="vertical"
-              classHr="h-6 bg-white opacity-[32%] hidden md:block"
-              classDiv="hidden md:block"
+              classHr="h-6 bg-white opacity-[32%] hidden lg:block"
+              classDiv="hidden xl:block"
             />
             <NavHamburger />
             <NavUl>
@@ -91,7 +91,7 @@ export default function Layout({ children }) {
                   {label}
                 </NavLi>
               ))}
-              <div className="flex flex-col lg:hidden gap-3">
+              <div className="flex flex-col xl:hidden gap-3">
                 {additionalNavItems.map(({ href, label, icon }) => (
                   <NavLi key={href} href={href} icon={icon}>
                     {label}
@@ -101,7 +101,7 @@ export default function Layout({ children }) {
             </NavUl>
           </div>
           <div
-            className="flex items-center md:w-auto space-x-6 order-2"
+            className="flex items-center xl:w-auto space-x-6 order-2"
             id="navbar-default"
           >
             <BellRinging color="#FFFFFF" size={20} weight="regular" />
@@ -112,7 +112,7 @@ export default function Layout({ children }) {
             />
             <div className="gap-3 flex flex-row items-center">
               <div className="w-8 h-8 bg-white rounded-full" />
-              <p className="text-gray-10 font-normal text-sm hidden md:block">
+              <p className="text-gray-10 font-normal text-sm hidden lg:block">
                 Faisol Klakah
               </p>
               <div className="block">
@@ -122,7 +122,7 @@ export default function Layout({ children }) {
           </div>
         </NavRow>
 
-        <NavRow className="hidden lg:flex h-14">
+        <NavRow className="hidden xl:flex h-14">
           <NavUl>
             <NavLi href="/presensi" icon={<Fingerprint />}>
               Presensi

@@ -11,7 +11,7 @@ const NavLi = ({ children, href, icon }) => {
   const { setShowNav } = useContext(NavbarContext); 
 
   useEffect(() => {
-    setActive(pathname === href);
+    setActive(pathname.includes(href));
   }, [pathname, href]);
 
   const handleClick = () => {
@@ -23,13 +23,13 @@ const NavLi = ({ children, href, icon }) => {
       <Link
         href={href}
         onClick={handleClick}
-        className={`text-sm font-normal rounded-lg flex lg:block p-3 lg:py-1.5 gap-2 items-center ${
+        className={`text-sm font-normal rounded-lg flex xl:block p-3 xl:py-1.5 gap-2 items-center ${
           active
-            ? "bg-primary-100 text-gray-10 lg:bg-gray-10 lg:text-primary-100"
-            : "bg-gray-20 text-gray-70 lg:text-white lg:bg-transparent lg:px-0"
+            ? "bg-primary-100 text-gray-10 xl:bg-gray-10 xl:text-primary-100"
+            : "bg-gray-20 text-gray-70 xl:text-white xl:bg-transparent xl:px-0"
         }`}
       >
-        {icon && <span className="lg:hidden text-base">{icon}</span>}
+        {icon && <span className="xl:hidden text-base">{icon}</span>}
         {children}
       </Link>
     </li>
