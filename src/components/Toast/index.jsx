@@ -57,7 +57,7 @@ const Toast = ({
           <Text size="sm" weight="600">
             {title}
           </Text>
-          <Text size="xs" color="gray-50" weight="600">
+          <Text size="xs" color="text-gray-50" weight="600">
             {message}
           </Text>
         </div>

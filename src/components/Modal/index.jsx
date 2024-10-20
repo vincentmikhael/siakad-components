@@ -104,7 +104,7 @@ const Modal = ({
                     {title}
                   </Text>
                   {description && (
-                    <Text color="gray-60" weight="500" size="sm">
+                    <Text color="text-gray-60" weight="500" size="sm">
                       {description}
                     </Text>
                   )}

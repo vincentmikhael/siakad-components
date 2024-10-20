@@ -38,7 +38,7 @@ const BreadcrumbItem = ({
               {children}
             </Link>
           ) : (
-            <Text tag="span" size="sm" weight="400" color="gray-30" className={classSpan}>
+            <Text tag="span" size="sm" weight="400" color="text-gray-30" className={classSpan}>
               {children}
             </Text>
           )}

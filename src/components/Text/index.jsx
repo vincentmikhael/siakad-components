@@ -56,7 +56,7 @@ const Text = ({
   whitespace = "normal",
   italic = false,
   opacity = 100,
-  color = "gray-100",
+  color = "text-gray-100",
   className,
   children,
   tag = "p",
@@ -69,7 +69,7 @@ const Text = ({
     spaceClasses[spaces],
     whitespaceClasses[whitespace],
     italic && "italic",
-    `text-${color}`,
+    color,
     `opacity-${opacity}`,
     className
   );

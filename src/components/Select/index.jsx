@@ -70,7 +70,7 @@ const Select = ({
           tag="span"
           size="sm"
           weight="400"
-          color={selectedOption ? "gray-100" : "gray-30"}
+          color={selectedOption ? "text-gray-100" : "text-gray-30"}
         >
           {selectedOption ? selectedOption.label : placeholder}
         </Text>

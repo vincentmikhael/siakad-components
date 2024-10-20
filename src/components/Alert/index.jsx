@@ -44,7 +44,7 @@ const Alert = ({
         <Text size="sm" weight="500">
           {title}
         </Text>
-        <Text color="gray-50" size="xs" weight="500">
+        <Text color="text-gray-50" size="xs" weight="500">
           {message}
         </Text>
       </div>
