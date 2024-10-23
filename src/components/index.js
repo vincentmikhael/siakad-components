@@ -20,7 +20,7 @@ import NavHamburger from "./NavHamburger";
 import NavUl from "./NavUl";
 import NavLi from "./NavLi";
 import NavRow from "./NavRow";
-import Table from "./Table"
+import Table from "./Table/Table"
 import Select from "./Select";
 import Modal from "./Modal";
 import FileUpload from "./FileUpload";
@@ -33,5 +33,12 @@ import LogoGoogle from "./LogoGoogle";
 import CardHeader from "./CardHeader";
 import MenuUl from "./MenuUl";
 import MenuLi from "./MenuLi";
+import TableBody from "./Table/TableBody"
+import TableBodyCell from "./Table/TableBodyCell"
+import TableBodyRow from "./Table/TableBodyRow"
+import TableHead from "./Table/TableHead"
+import TableHeadCell from "./Table/TableHeadCell"
+import TableHeadRow from "./Table/TableHeadRow"
 
-export { Button, IconButton, Link, Input, Alert, Toast, Badge, Textarea, Checkbox, Toggle, Helper, Label, Card, Breadcrumb, BreadcrumbItem, Hr, Navbar, NavRow, NavBrand, NavHamburger, NavUl, NavLi, Table, Select, Modal, FileUpload, Text, DateInput, StepperContainer, Stepper, LogoItn, LogoGoogle, CardHeader, MenuUl, MenuLi };
+
+export { Button, IconButton, Link, Input, Alert, Toast, Badge, Textarea, Checkbox, Toggle, Helper, Label, Card, Breadcrumb, BreadcrumbItem, Hr, Navbar, NavRow, NavBrand, NavHamburger, NavUl, NavLi, Table, Select, Modal, FileUpload, Text, DateInput, StepperContainer, Stepper, LogoItn, LogoGoogle, CardHeader, MenuUl, MenuLi,TableBody,TableBodyCell,TableBodyRow,TableHead,TableHeadCell,TableHeadRow };

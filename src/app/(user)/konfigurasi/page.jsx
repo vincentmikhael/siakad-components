@@ -7,8 +7,6 @@ import {
   Card,
   Select,
   Modal,
-  Text,
-  Radio,
 } from "@/components";
 
 export default function Konfigurasi() {
@@ -38,6 +36,12 @@ export default function Konfigurasi() {
     const handleChange = (event) => {
       setSelectedValue(event.target.value);
     };
+    const columns = [
+      { header: 'ID', accessor: 'id' },
+      { header: 'Name', accessor: 'name',pinned: true },
+    ]
+
+  
   return (
     <div>
       <Breadcrumb>
@@ -71,6 +75,8 @@ export default function Konfigurasi() {
             </Button>
           </div>
         </Modal>
+
+        
       </Card>
     </div>
   );
