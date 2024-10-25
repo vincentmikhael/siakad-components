@@ -39,6 +39,7 @@ import TableBodyRow from "./Table/TableBodyRow"
 import TableHead from "./Table/TableHead"
 import TableHeadCell from "./Table/TableHeadCell"
 import TableHeadRow from "./Table/TableHeadRow"
+import Pagination from "./Pagination"
 
 
-export { Button, IconButton, Link, Input, Alert, Toast, Badge, Textarea, Checkbox, Toggle, Helper, Label, Card, Breadcrumb, BreadcrumbItem, Hr, Navbar, NavRow, NavBrand, NavHamburger, NavUl, NavLi, Table, Select, Modal, FileUpload, Text, DateInput, StepperContainer, Stepper, LogoItn, LogoGoogle, CardHeader, MenuUl, MenuLi,TableBody,TableBodyCell,TableBodyRow,TableHead,TableHeadCell,TableHeadRow };
+export { Button, IconButton, Link, Input, Alert, Toast, Badge, Textarea, Checkbox, Toggle, Helper, Label, Card, Breadcrumb, BreadcrumbItem, Hr, Navbar, NavRow, NavBrand, NavHamburger, NavUl, NavLi, Table, Select, Modal, FileUpload, Text, DateInput, StepperContainer, Stepper, LogoItn, LogoGoogle, CardHeader, MenuUl, MenuLi,TableBody,TableBodyCell,TableBodyRow,TableHead,TableHeadCell,TableHeadRow,Pagination };

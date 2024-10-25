@@ -6,11 +6,12 @@ import {
   CaretRight,
 } from "@phosphor-icons/react/dist/ssr";
 import { Button } from "..";
+import TableLazyLoad from "./TableLazyLoad";
 
 export const TableContext = createContext();
 
 
-const Table = ({ columns = [], data = [],children,...props }) => {
+const Table = ({ columns = [], data = [],children,loading = false,...props }) => {
   const columnRefs = useRef([]);
   
   const [columnWidths, setColumnWidths] = useState([]);
@@ -59,37 +60,15 @@ const Table = ({ columns = [], data = [],children,...props }) => {
   };
 
   return (
+    loading ? <TableLazyLoad></TableLazyLoad>: 
     <TableContext.Provider value={{getStickyOffset,columnRefs,headCellsData}}>
-
+      
       <div className="overflow-x-auto mt-8 rounded-xl border border-zinc-100">
             <table className="table-auto w-full bg-white rounded-lg">
               {children}
             </table>
         </div>
 
-        <div className="flex justify-between items-center mt-6">
-          <nav aria-label="Pagination" className="flex items-center w-full">
-            <div className="flex-1 flex justify-start">
-              <Button variant="white" leftIcon={<CaretLeft />}>
-                Previous
-              </Button>
-            </div>
-            <div className="flex-1 flex justify-center gap-3">
-              <Button variant="white">1</Button>
-              <Button variant="white" className={"border-0"}>
-                2
-              </Button>
-              <Button variant="white" className={"border-0"}>
-                3
-              </Button>
-            </div>
-            <div className="flex-1 flex justify-end">
-              <Button variant="white" rightIcon={<CaretRight />}>
-                Next
-              </Button>
-            </div>
-          </nav>
-        </div>
       </TableContext.Provider>
   );
 };

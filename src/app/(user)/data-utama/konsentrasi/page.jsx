@@ -1,3 +1,4 @@
+"use client"
 import {
     Text,
     Table,
@@ -11,10 +12,14 @@ import {
     Label,
     Input,
     Button,
+    Pagination,
+    Modal,
   } from "@/components";
 import { MagnifyingGlass, Plus } from "@phosphor-icons/react/dist/ssr";
+import { useState } from "react";
 
 export default function Peminatan(){
+    const [modalAdd,setModalAdd] = useState(false)
     const data = [
         { id: 1, name: 'John Doe', email: 'john@example.com', prodi: 'Test', a: 'halo',b: 'halo',c: 'halo' },
         { id: 2, name: 'Jane Smith', email: 'jane@example.com', prodi: 'Test', a: 'halo',b: 'halo',c: 'halo' },
@@ -32,7 +37,7 @@ export default function Peminatan(){
       ]
     return (
         <div>
-            <div className="flex justify-between items-end">
+            <div className="md:flex justify-between items-end">
                 <div className="flex gap-3">
                     <div className="">
                         <Label>Fakultas</Label>
@@ -51,19 +56,18 @@ export default function Peminatan(){
                         />
                     </div>
                 </div>
-                <div className="flex gap-3">
-                    <div>
-                        <Input placeholder="Cari data disini" leftIcon={<MagnifyingGlass/>}/>
-                    </div>
-                    <div>
+                <div className="flex gap-3 items-stretch mt-4 md:mt-0">
+        
+                        <Input placeholder="Cari data disini" className="w-40" leftIcon={<MagnifyingGlass/>}/>
+             
                         
-                        <Button size="md" filled leftIcon={<Plus/>} >Tambah Data</Button>
-                    </div>
+                        <Button onClick={()=>setModalAdd(true)} size="md" filled leftIcon={<Plus/>} >Tambah Data</Button>
+           
                 </div>
                 
             </div>
             
-                <Table columns={columns} data={data}>
+                <Table loading={false} columns={columns} data={data}>
                 <TableHead>
                     <TableHeadRow>
                         {columns.map((e,index)=>{
@@ -93,6 +97,53 @@ export default function Peminatan(){
                 </TableBody>
                 
                 </Table>
+
+                <Pagination/>
+
+                <Modal open={modalAdd} onClose={()=>setModalAdd(false)} title="Tambah data konsentrasi">
+                    <div style={{width: '100%'}}>
+                        <div>
+                        <Label>Nama konsentrasi</Label>
+                        <Input placeholder="Tulis nama konsentrasi"/>
+                        </div>
+                        
+                        <div className="grid mt-2 grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <Label>Nama ketua konsentrasi</Label>
+                                <Input placeholder="Tulis nama ketua konsentrasi"/>
+                            </div>
+                            <div>
+                                <Label>NIP ketua konsentrasi</Label>
+                                <Input placeholder="Tulis nama konsentrasi"/>
+                            </div>
+                            <div>
+                                <Label>Nama sekertaris konsentrasi</Label>
+                                <Input placeholder="Tulis nama sekertaris konsentrasi"/>
+                            </div>
+                            <div>
+                                <Label>NIP sekertaris prodi</Label>
+                                <Input placeholder="Tulis NIP sekertaris prodi"/>
+                            </div>
+                            <div>
+                                <Label>Fakultas</Label>
+                                <Select options={[{value: "1", label: "Menu Item 1"}]}>
+                                    
+                                </Select>
+                            </div>
+                            <div>
+                                <Label>Prodi</Label>
+                                <Select options={[{value: "1", label: "Menu Item 1"}]}>
+                                    
+                                </Select>
+                            </div>
+                        </div>
+
+                        <Button className={'mt-8'} filled disabled>Tambah</Button>
+                        <Button onClick={()=>setModalAdd(false)} className={'mt-8 ml-4'} variant="white" >Batal</Button>
+                    </div>
+                    
+                    
+                </Modal>
         </div>
     )
 }
