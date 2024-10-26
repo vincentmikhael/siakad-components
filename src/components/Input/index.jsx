@@ -5,6 +5,8 @@ import { twMerge } from "tailwind-merge";
 
 const Input = ({
   placeholder = "Placeholder",
+  label = "Label",
+  showLabel = false,
   className = "",
   onFocus,
   value,
@@ -49,52 +51,65 @@ const Input = ({
   );
 
   const inputClasses =
-    "w-full block placeholder:text-gray-30 text-sm outline-none text-gray-100";
+    "w-full block placeholder:text-gray-30 text-sm leading-[22.4px] outline-none text-gray-100";
+
+  const colorClasses = disabled ? "text-gray-50" : "text-gray-100";
 
   return (
-    // <div className="flex flex-col gap-1.5 rounded justify-start items-start w-full">
-    <div className={twMerge(fieldClasses, className)}>
-      {type === "email" ? (
-        <EnvelopeSimple size={16} weight="bold" />
-      ) : (
-        leftIcon && <span>{leftIcon}</span>
-      )}
-      <input
-        className={inputClasses}
-        type={inputType}
-        value={value}
-        onChange={disabled ? undefined : onChange}
-        placeholder={placeholder}
-        onFocus={() => {
-          if (!disabled) {
-            setIsFocused(true);
-            if (onFocus) {
-              onFocus(); 
-            }
-          }
-        }}
-        onBlur={() => setIsFocused(false)}
-        disabled={disabled}
-        defaultValue={defaultValue}
-        {...props}
-      />
-      {type === "password" ? (
-        <button
-          type="button"
-          className="text-gray-40"
-          onClick={handleShowPassword}
-        >
-          {inputType === "password" ? (
-            <Eye size={16} weight="bold" />
-          ) : (
-            <EyeSlash size={16} weight="bold" />
+    <div className="flex flex-col gap-1.5">
+      {showLabel && (
+        <label
+          className={twMerge(
+            "block text-sm font-medium",
+            colorClasses,
+            className
           )}
-        </button>
-      ) : (
-        rightIcon && <span>{rightIcon}</span>
+        >
+          {label}
+        </label>
       )}
+      <div className={twMerge(fieldClasses, className)}>
+        {type === "email" ? (
+          <EnvelopeSimple size={16} weight="bold" />
+        ) : (
+          leftIcon && <span className="text-base">{leftIcon}</span>
+        )}
+        <input
+          className={inputClasses}
+          type={inputType}
+          value={value}
+          onChange={disabled ? undefined : onChange}
+          placeholder={placeholder}
+          onFocus={() => {
+            if (!disabled) {
+              setIsFocused(true);
+              if (onFocus) {
+                onFocus();
+              }
+            }
+          }}
+          onBlur={() => setIsFocused(false)}
+          disabled={disabled}
+          defaultValue={defaultValue}
+          {...props}
+        />
+        {type === "password" ? (
+          <button
+            type="button"
+            className="text-gray-40"
+            onClick={handleShowPassword}
+          >
+            {inputType === "password" ? (
+              <Eye size={16} weight="bold" />
+            ) : (
+              <EyeSlash size={16} weight="bold" />
+            )}
+          </button>
+        ) : (
+          rightIcon && <span className="text-base">{rightIcon}</span>
+        )}
+      </div>
     </div>
-    // {/* </div> */}
   );
 };
 
