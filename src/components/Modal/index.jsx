@@ -117,7 +117,7 @@ const Modal = ({
               </div>
             )}
             {/* Modal Body */}
-            <div className="space-y-8 flex pt-8" onClick={onAutoClose}>
+            <div className="space-y-8 flex flex-grow pt-8" onClick={onAutoClose}>
               {children}
             </div>
           </div>
