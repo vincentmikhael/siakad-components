@@ -54,9 +54,9 @@ const Button = ({
   }`;
 
   const sizeClasses = {
-    sm: "text-[13px] py-1.5 px-3",
-    md: "text-sm py-2 px-4",
-    lg: "text-sm py-3 px-4",
+    sm: "text-[13px] leading-[20.8px] py-1.5 px-3 h-9",
+    md: "text-sm leading-[22.4px] py-2 px-4 h-10",
+    lg: "text-sm leading-[22.4px] py-3 px-4 h-12",
   };
 
   const typeClasses = filled ? filledClasses[variant] : outlineClasses[variant];
@@ -75,9 +75,9 @@ const Button = ({
       )}
       {...props}
     >
-      {leftIcon && <span>{leftIcon}</span>}
+      {leftIcon && <span className="text-base">{leftIcon}</span>}
       {children}
-      {rightIcon && <span>{rightIcon}</span>}
+      {rightIcon && <span className="text-base">{rightIcon}</span>}
     </button>
   );
 };
