@@ -26,13 +26,14 @@ const DataRuang = () =>{
                         <Checkbox>Kampus 2</Checkbox>
                     </div>
                 </div>
-                <div className="flex gap-3 items-stretch mt-4 md:mt-0">
-        
-                        <Input placeholder="Cari data disini" className="w-40" leftIcon={<MagnifyingGlass/>}/>
-             
-                        
-                        <Button onClick={()=>setModalAdd(true)} size="md" filled leftIcon={<Plus/>} ><span className="hidden md:block">Tambah Data</span></Button>
-           
+
+                <div className="flex justify-end items-center gap-3 mt-4 md:mt-0">
+                    <div className="grow md:flex-none w-full md:w-auto">
+                        <Input size="xs" placeholder="Cari data disini" className="md:w-40" leftIcon={<MagnifyingGlass weight="bold"/>}/>
+                    </div>
+                    <div className="grow md:flex-none w-full md:w-auto">
+                        <Button onClick={()=>setModalAdd(true)} className={'w-full'} filled leftIcon={<Plus weight="bold"/>} >Tambah Data</Button>
+                    </div>  
                 </div>
             </div>
 
@@ -53,9 +54,9 @@ const DataRuang = () =>{
                         {data.map((e,index)=>{
                         return (
                             <TableBodyRow key={index}>
-                                <TableBodyCell><Text style={{fontSize: '13px'}}>{e.id}</Text></TableBodyCell>
-                                <TableBodyCell><Text style={{fontSize: '13px'}} >{e.name}</Text></TableBodyCell>
-                                <TableBodyCell><Text style={{fontSize: '13px'}}>{e.email}</Text></TableBodyCell>
+                                <TableBodyCell><Text size="xs">{e.id}</Text></TableBodyCell>
+                                <TableBodyCell><Text size="xs" >{e.name}</Text></TableBodyCell>
+                                <TableBodyCell><Text size="xs">{e.email}</Text></TableBodyCell>
                             </TableBodyRow>
                         )
                         })}
@@ -67,24 +68,19 @@ const DataRuang = () =>{
                     <div style={{width: '100%'}}>
                                 <div className="grid grid-cols-12 gap-4">
                                     <div className="col-span-12 md:col-span-4">
-                                            <Label>Lokasi kampus</Label>
-                                            <Select placeholder="pilih lokasi kampus" options={[{value: "1", label: "Menu Item 1"}]} />
+                                            <Select label="Lokasi kampus" showLabel placeholder="pilih lokasi kampus" options={[{value: "1", label: "Menu Item 1"}]} />
                                     </div>
                                     <div className="col-span-12 md:col-span-4">
-                                            <Label>Nama gedung</Label>
-                                            <Input placeholder="Tulis nama gedung" />
+                                            <Input label="Nama gedung" showLabel placeholder="Tulis nama gedung" />
                                     </div>
                                     <div className="col-span-12  md:col-span-4">
-                                            <Label>Lantai</Label>
-                                            <Select placeholder="Pilih lantai" options={[{value: "1", label: "Menu Item 1"}]} />
+                                            <Select label="Lantai" showLabel placeholder="Pilih lantai" options={[{value: "1", label: "Menu Item 1"}]} />
                                     </div>
                                     <div className="col-span-12  md:col-span-6">
-                                            <Label>Jumlah Kapasitas</Label>
-                                            <Input placeholder="Tulis jumlah kapasitas" />
+                                            <Input label="Jumlah kapasitas" showLabel placeholder="Tulis jumlah kapasitas" />
                                     </div>
                                     <div className="col-span-12  md:col-span-6">
-                                            <Label>Program studi</Label>
-                                            <Select placeholder="Pilih program studi" options={[{value: "1", label: "Menu Item 1"}]} />
+                                            <Select label="Program studi" showLabel placeholder="Pilih program studi" options={[{value: "1", label: "Menu Item 1"}]} />
                                     </div>
                                     
                                 </div>

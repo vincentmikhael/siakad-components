@@ -13,17 +13,19 @@ export default function Dosen(){
 
       ]
       const columns = [
-        { name: 'TES',pinned: true },
-        { name: 'TES',pinned: true },
-        { name: 'TES',pinned: false},
+        { name: 'tes',pinned: true },
+        { name: 'tes',pinned: true },
+        { name: 'tes',pinned: false},
       ]
     return (
         <div>
-            <div className="flex justify-end items-center gap-5">
-                    <Input placeholder="Cari data disini" className="w-40" leftIcon={<MagnifyingGlass/>}/>
-                    
-                                
-                    <Button onClick={()=>setModalAdd(true)} size="md" filled leftIcon={<Plus/>} >Tambah Data</Button>
+            <div className="flex justify-end items-center gap-3">
+                <div className="grow md:flex-none w-full md:w-auto">
+                    <Input size="xs" placeholder="Cari data disini" className="md:w-40" leftIcon={<MagnifyingGlass weight="bold"/>}/>
+                </div>
+                <div className="grow md:flex-none w-full md:w-auto">
+                    <Button onClick={()=>setModalAdd(true)} className={'w-full'} filled leftIcon={<Plus weight="bold"/>} >Tambah Data</Button>
+                </div>  
             </div>
 
             <Table loading={false} columns={columns} data={data}>
@@ -43,9 +45,9 @@ export default function Dosen(){
                         {data.map((e,index)=>{
                         return (
                             <TableBodyRow key={index}>
-                                <TableBodyCell><Text style={{fontSize: '13px'}}>{e.id}</Text></TableBodyCell>
-                                <TableBodyCell><Text style={{fontSize: '13px'}} >{e.name}</Text></TableBodyCell>
-                                <TableBodyCell><Text style={{fontSize: '13px'}}>{e.email}</Text></TableBodyCell>
+                                <TableBodyCell><Text size="xs">{e.id}</Text></TableBodyCell>
+                                <TableBodyCell><Text size="xs" >{e.name}</Text></TableBodyCell>
+                                <TableBodyCell><Text size="xs">{e.email}</Text></TableBodyCell>
                             </TableBodyRow>
                         )
                         })}
@@ -61,7 +63,7 @@ export default function Dosen(){
                         <StepperContainer>
                             <Stepper title={"Biografi pegawai"} isActive={true}>
 
-                                <Label>Jenis pegawai</Label>
+                                <Label className={'mb-1.5'}>Jenis pegawai</Label>
                                 <div className="grid grid-cols-12 gap-4">
                                     <div className="col-span-12 md:col-span-6">
                                         <div>
@@ -76,7 +78,7 @@ export default function Dosen(){
                                     
                                 </div>
 
-                                <Label className={'mt-4'}>Penempatan / Bagian / Kampus</Label>
+                                <Label className={'mt-4 mb-1.5'}>Penempatan / Bagian / Kampus</Label>
                                 <div className="grid grid-cols-12 gap-4">
                                     <div className="col-span-12 md:col-span-4">
                                         <div>
@@ -95,7 +97,7 @@ export default function Dosen(){
                                     </div>
                                 </div>
 
-                                <Label className={'mt-4'}>No. induk pegawai</Label>
+                                <Label className={'mt-4 mb-1.5'}>No. induk pegawai</Label>
                                 <div className="grid grid-cols-12 gap-4">
                                     <div className="col-span-12 md:col-span-4">
                                         <div>
@@ -109,7 +111,7 @@ export default function Dosen(){
                                     </div>
                                 </div>
 
-                                <Label className={'mt-4'}>Nama lengkap dan gelar</Label>
+                                <Label className={'mt-4 mb-1.5'}>Nama lengkap dan gelar</Label>
                                 <div className="grid grid-cols-12 gap-4">
                                     <div className="col-span-12 md:col-span-3">
                                         <div>
@@ -128,7 +130,7 @@ export default function Dosen(){
                                     </div>
                                 </div>
 
-                                <Label className={'mt-4'}>Tempat tanggal lahir</Label>
+                                <Label className={'mt-4 mb-1.5'}>Tempat tanggal lahir</Label>
                                 <div className="grid grid-cols-12 gap-4">
                                     <div className="col-span-12 md:col-span-6">
                                         <div>
@@ -142,7 +144,7 @@ export default function Dosen(){
                                     </div>
                                 </div>
 
-                                <Label className={'mt-4'}>Jenis kelamin</Label>
+                                <Label className={'mt-4 mb-1.5'}>Jenis kelamin</Label>
                                 <div className="flex gap-8">
                                     <Radio>Laki - laki</Radio>
                                     <Radio>Perempuan</Radio>
@@ -150,7 +152,7 @@ export default function Dosen(){
 
                             </Stepper>
                             <Stepper title={"Informasi detail"}>
-                                <Label className={'mt-4'}>Agama dan status pernikahan</Label>
+                                <Label className={'mt-4 mb-1.5'}>Agama dan status pernikahan</Label>
                                     <div className="grid grid-cols-12 gap-4">
                                         <div className="col-span-12 md:col-span-6">
                                             <div>
@@ -164,34 +166,31 @@ export default function Dosen(){
                                         </div>
                                     </div>
 
-                                    <Label className={'mt-4'}>Pendidikan terakhir</Label>
-                                    <div className="grid grid-cols-12 gap-4">
+                                    <div className="grid mt-4 grid-cols-12 gap-4">
                                         <div className="col-span-12">
                                             <div>
-                                                <Select options={[{value: "1", label: "Menu Item 1"}]} />
+                                                <Select showLabel label="Pendidikan terakhir" options={[{value: "1", label: "Menu Item 1"}]} />
                                             </div>
                                         </div>
                                     </div>
 
-                                    <Label className={'mt-4'}>Alamat kantor</Label>
-                                    <div className="grid grid-cols-12 gap-4">
+                                    <div className="grid mt-4 grid-cols-12 gap-4">
                                         <div className="col-span-12">
                                             <div>
-                                                <Input placeholder="Tulis alamat kantor"/>
+                                                <Input label="Alamat kantor" showLabel placeholder="Tulis alamat kantor"/>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <Label className={'mt-4'}>Alamat rumah</Label>
-                                    <div className="grid grid-cols-12 gap-4">
+                                    <div className="grid mt-4 grid-cols-12 gap-4">
                                         <div className="col-span-12">
                                             <div>
-                                                <Input placeholder="Tulis alamat rumah"/>
+                                                <Input label="Alamat rumah" showLabel placeholder="Tulis alamat rumah"/>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <Label className={'mt-4'}>Kontak nomor dan email</Label>
+                                    <Label className={'mt-4 mb-1.5'}>Kontak nomor dan email</Label>
                                     <div className="grid grid-cols-12 gap-4">
                                         <div className="col-span-12 md:col-span-6">
                                             <div>
@@ -205,7 +204,7 @@ export default function Dosen(){
                                         </div>
                                     </div>
 
-                                    <Label className={'mt-4'}>Hak akses / status pegawai</Label>
+                                    <Label className={'mt-4 mb-1.5'}>Hak akses / status pegawai</Label>
                                     <div className="grid grid-cols-12 gap-4">
                                         <div className="col-span-12 md:col-span-6">
                                             <div>

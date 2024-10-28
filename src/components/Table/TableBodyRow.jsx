@@ -6,7 +6,7 @@ const TableBodyRow = ({children}) =>{
       });
 
     return (
-        <tr className="hover:bg-zinc-200 group border-b">
+        <tr className="hover:bg-gray-20 group border-b">
             {childrenWithIndex}
         </tr>
     )

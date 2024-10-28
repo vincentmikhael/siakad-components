@@ -63,7 +63,7 @@ const Table = ({ columns = [], data = [],children,loading = false,...props }) =>
     loading ? <TableLazyLoad></TableLazyLoad>: 
     <TableContext.Provider value={{getStickyOffset,columnRefs,headCellsData}}>
       
-      <div className="overflow-x-auto mt-8 rounded-xl border border-zinc-100">
+      <div className="overflow-x-auto mt-8 rounded-xl border border-fade">
             <table className="table-auto w-full bg-white rounded-lg">
               {children}
             </table>

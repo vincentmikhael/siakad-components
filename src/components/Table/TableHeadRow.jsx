@@ -8,7 +8,7 @@ const TableHeadRow = ({children}) =>{
 
 
     return (
-        <tr className="bg-zinc-100 text-black text-left">
+        <tr className="bg-fade text-black text-left">
             {childrenWithIndex}                                                           
         </tr>
     )
