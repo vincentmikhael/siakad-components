@@ -2,8 +2,8 @@ import { twMerge } from "tailwind-merge";
 
 const Badge = ({
   children,
-  type = "default",
-  size = "sm",
+  type = "primary",
+  size = "lg",
   className,
   ...props
 }) => {
@@ -18,6 +18,7 @@ const Badge = ({
     success: "border-success-30 text-success-90 bg-success-10",
     warning: "border-warning-30 text-warning-90 bg-warning-10",
     danger: "border-danger-30 text-danger-90 bg-danger-10",
+    primary: "border-primary-30 text-primary-100 bg-primary-10",
   };
 
   return (

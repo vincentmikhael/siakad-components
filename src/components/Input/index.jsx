@@ -2,11 +2,14 @@
 import { EnvelopeSimple, Eye, EyeSlash } from "@phosphor-icons/react";
 import { useState } from "react";
 import { twMerge } from "tailwind-merge";
+import { Text } from "..";
 
 const Input = ({
   placeholder = "Placeholder",
   label = "Label",
   showLabel = false,
+  showHint = false,
+  hint = "This is a hint text to help user.",
   className = "",
   onFocus,
   value,
@@ -54,6 +57,8 @@ const Input = ({
     "w-full block placeholder:text-gray-30 text-sm leading-[22.4px] outline-none text-gray-100";
 
   const colorClasses = disabled ? "text-gray-50" : "text-gray-100";
+
+  const hintColorClasses = error ? "text-danger-90" : "text-gray-50";
 
   return (
     <div className="flex flex-col gap-1.5">
@@ -109,6 +114,11 @@ const Input = ({
           rightIcon && <span className="text-base">{rightIcon}</span>
         )}
       </div>
+      {showHint && (
+        <Text tag="label" size="sm" weight="400" color={hintColorClasses}>
+          {error}
+        </Text>
+      )}
     </div>
   );
 };
