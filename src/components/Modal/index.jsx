@@ -1,5 +1,5 @@
 "use client";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { twMerge } from "tailwind-merge";
 import { X } from "@phosphor-icons/react";
 import { IconButton, Text } from "..";
@@ -21,7 +21,7 @@ const Modal = ({
 }) => {
   const backdropClasses = "fixed inset-0 z-50 bg-gray-100 bg-opacity-50";
   const dialogClasses =
-    "overflow-y-auto overflow-x-hidden fixed top-0 left-0 right-0 h-modal md:inset-0 md:h-full z-50 w-full p-4 flex";
+    "fixed top-0 left-0 right-0 h-modal md:inset-0 md:h-full z-50 w-full p-4 flex";
   const sizes = {
     xs: "max-w-md",
     sm: "max-w-lg",
@@ -72,6 +72,13 @@ const Modal = ({
 
   if (!open) return null;
 
+  const childrenArray = React.Children.toArray(children);
+  const header =
+    childrenArray.find((child) => child.type === Modal.Header) || null;
+  const body = childrenArray.filter((child) => child.type === Modal.Body);
+  const footer =
+    childrenArray.find((child) => child.type === Modal.Footer) || null;
+
   return (
     <>
       <div className={twMerge(backdropClasses, backdropClass)} />
@@ -92,23 +99,27 @@ const Modal = ({
           <div
             className={twMerge(
               defaultClass,
-              "relative bg-white rounded-[20px] w-full flex-col mx-auto p-8"
+              "flex bg-white rounded-[20px] w-full flex-col mx-auto"
             )}
             {...props}
           >
             {/* Modal Header */}
-            {title && (
-              <div className="flex flex-row justify-between items-start pb-8 border-b border-fade">
-                <div className="w-full flex flex-col gap-1.5">
-                  <Text tag="h3" size="xl" weight="600">
-                    {title}
-                  </Text>
-                  {description && (
-                    <Text color="text-gray-60" weight="500" size="sm">
-                      {description}
+            {(header || title) && (
+              <div className="flex flex-row justify-between items-start p-8 border-b border-fade">
+                {header ? (
+                  header
+                ) : (
+                  <div className="w-full flex flex-col gap-1.5">
+                    <Text tag="h3" size="xl" weight="600">
+                      {title}
                     </Text>
-                  )}
-                </div>
+                    {description && (
+                      <Text color="text-gray-60" weight="500" size="sm">
+                        {description}
+                      </Text>
+                    )}
+                  </div>
+                )}
                 {dismissable && (
                   <IconButton onClick={hide}>
                     <X weight="bold" size={16} />
@@ -117,14 +128,37 @@ const Modal = ({
               </div>
             )}
             {/* Modal Body */}
-            <div className="space-y-8 flex flex-grow pt-8" onClick={onAutoClose}>
-              {children}
+            <div
+              className="space-y-8 flex-1 p-8 overflow-y-auto invisible-overflow overscroll-contain h-full"
+              onClick={onAutoClose}
+            >
+              {dismissable && !header && !title && (
+                <div className="flex justify-end items-start">
+                  <IconButton onClick={hide}>
+                    <X weight="bold" size={16} />
+                  </IconButton>
+                </div>
+              )}
+              {body}
             </div>
+            {/* Modal Footer */}
+            {footer}
           </div>
         </div>
       </div>
     </>
   );
 };
+
+// Header component
+Modal.Header = ({ children }) => children;
+
+// Body component
+Modal.Body = ({ children }) => children;
+
+// Footer component
+Modal.Footer = ({ children }) => (
+  <div className="border-t border-fade p-8">{children}</div>
+);
 
 export default Modal;
