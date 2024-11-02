@@ -1,17 +1,14 @@
 "use client"
 
 import React, { createContext, useEffect, useRef, useState } from "react";
-import {
-  CaretLeft,
-  CaretRight,
-} from "@phosphor-icons/react/dist/ssr";
-import { Button } from "..";
+
 import TableLazyLoad from "./TableLazyLoad";
+import { twMerge } from "tailwind-merge";
 
 export const TableContext = createContext();
 
 
-const Table = ({ columns = [], data = [],children,loading = false,...props }) => {
+const Table = ({ columns = [], data = [],children,loading = false,className,...props }) => {
   const columnRefs = useRef([]);
   
   const [columnWidths, setColumnWidths] = useState([]);
@@ -24,17 +21,14 @@ const Table = ({ columns = [], data = [],children,loading = false,...props }) =>
   // }, [columns, data]);
   }, [children]);
 
-  
   useEffect(() => {
     let data = [];
     React.Children.forEach(children, (child) => {
-      if (child.type === 'thead') {
+      if (child.type.name === 'TableHead') {
         React.Children.forEach(child.props.children, (headRow) => {
-          if (headRow.type === 'tr') {
+          if (headRow.type.name === 'TableHeadRow') {
             React.Children.forEach(headRow.props.children, (headCell) => {
-  
                 data.push({ pinned: headCell.props.pinned });
-              
             });
           }
         });
@@ -63,8 +57,8 @@ const Table = ({ columns = [], data = [],children,loading = false,...props }) =>
     loading ? <TableLazyLoad></TableLazyLoad>: 
     <TableContext.Provider value={{getStickyOffset,columnRefs,headCellsData}}>
       
-      <div className="overflow-x-auto mt-8 rounded-xl border border-fade">
-            <table className="table-auto w-full bg-white rounded-lg">
+      <div className={"overflow-x-auto mt-8 rounded-xl border border-fade"}>
+            <table className={twMerge("table-auto w-full bg-white rounded-lg",className)}>
               {children}
             </table>
         </div>

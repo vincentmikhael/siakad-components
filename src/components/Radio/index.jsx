@@ -11,7 +11,7 @@ const Radio = ({
 }) => {
   return (
     <label className={"flex flex-row gap-1.5 items-center"}>
-      <label class="relative flex items-center cursor-pointer">
+      <label className="relative flex items-center cursor-pointer">
         <input
           type="radio"
           value={value}

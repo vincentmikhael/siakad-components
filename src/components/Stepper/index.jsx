@@ -1,7 +1,9 @@
-const Stepper = ({title,children,isActive}) => {
+import { twMerge } from "tailwind-merge"
+
+const Stepper = ({children,isActive,className}) => {
 
     return (
-        <div className={isActive ? 'block' : 'hidden'}>
+        <div className={twMerge((isActive ? 'block' : 'hidden'),className)}>
             {children}
         </div>
     )

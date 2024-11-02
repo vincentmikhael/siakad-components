@@ -106,6 +106,7 @@ export default function Konsentrasi(){
                 <Pagination/>
 
                 <Modal size="lg" open={modalAdd} onClose={()=>setModalAdd(false)} title="Tambah data konsentrasi">
+                    <Modal.Body>
                     <div style={{width: '100%'}}>
                         <div>
                         <Input showLabel label="Nama konsentrasi" placeholder="Tulis nama konsentrasi"/>
@@ -136,9 +137,15 @@ export default function Konsentrasi(){
                             </div>
                         </div>
 
+                        
+                    </div>
+                    </Modal.Body>
+
+                    <Modal.Footer>
                         <Button className={'mt-8'} filled disabled>Tambah</Button>
                         <Button onClick={()=>setModalAdd(false)} className={'mt-8 ml-4'} variant="white" >Batal</Button>
-                    </div>
+                    </Modal.Footer>
+                    
                     
                     
                 </Modal>

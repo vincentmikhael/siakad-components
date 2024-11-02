@@ -51,7 +51,7 @@ export default function DataUtamaLayout({ children }) {
               </MenuLi>
             ))}
           </MenuUl>
-          <div className="flex-grow">{children}</div>
+          <div className="flex-grow overflow-hidden">{children}</div>
         </div>
       </Card>
     </>
