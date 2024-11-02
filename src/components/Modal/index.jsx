@@ -157,8 +157,8 @@ Modal.Header = ({ children }) => children;
 Modal.Body = ({ children }) => children;
 
 // Footer component
-Modal.Footer = ({ children }) => (
-  <div className="border-t border-fade p-8">{children}</div>
-);
+Modal.Footer = function ModalFooter({ children }) {
+  return (<div className="border-t border-fade p-8">{children}</div>);
+};
 
 export default Modal;

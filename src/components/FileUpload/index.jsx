@@ -118,7 +118,7 @@ function FileUpload() {
 
       {file && (
         <div className="mt-4 border rounded-[15px] border-zinc-200 p-4 flex gap-4">
-          <Image src={iconJpg} width={40} />
+          <Image src={iconJpg} width={40} alt={`Preview image of ${file.name}`}/>
           <div className="grow">
             <Text size="sm">{file.name}</Text>
             <Text size="xs" color="text-gray-500">
