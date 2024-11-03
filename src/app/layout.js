@@ -17,7 +17,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${urbanist.className} bg-fade`}
+        className={`${urbanist.className} bg-fade`} suppressHydrationWarning={true}
       >
         {children}
       </body>
