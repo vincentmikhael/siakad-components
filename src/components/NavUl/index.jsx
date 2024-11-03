@@ -41,7 +41,7 @@ const NavUl = ({
       <div
         className={twMerge(`${
           showNav ? "translate-x-0" : "-translate-x-full xl:translate-x-0"
-        } items-center justify-between xl:flex order-1 fixed xl:static left-0 top-0 w-[250px] md:w-[267px] xl:w-max z-40 xl:z-0 h-full xl:h-fit bg-white xl:bg-transparent py-8 px-6 xl:p-0 transition-transform xl:transition-none duration-500 transform rounded-r-lg overflow-y-auto xl:overflow-hidden invisible-overflow custom-shadow-sidebar xl:shadow-none`, className)}
+        } items-center justify-between xl:flex order-1 fixed xl:static left-0 top-0 w-[250px] md:w-[267px] xl:w-max z-40 xl:z-0 h-full xl:h-fit bg-white xl:bg-transparent py-8 px-6 xl:p-0 transition-transform xl:transition-none duration-500 transform rounded-r-lg overflow-y-auto xl:overflow-hidden scrollbar-none custom-shadow-sidebar xl:shadow-none`, className)}
         {...props}
       >
         <ul className={_ulClass}>{children}</ul>
