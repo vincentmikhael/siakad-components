@@ -7,7 +7,7 @@ const TableBodyRow = ({children,className}) =>{
       });
 
     return (
-        <tr className={twMerge("hover:bg-gray-20 group border-b",className)}>
+        <tr className={twMerge("hover:bg-gray-20 group divide-y divide-fade",className)}>
             {childrenWithIndex}
         </tr>
     )

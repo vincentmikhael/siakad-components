@@ -17,16 +17,18 @@ export default function Dosen(){
         { id: 6, name: 'John Doe', email: 'john@example.com',email1: 'john@example.com',email2: 'john@example.com',email3: 'john@example.com',email4: 'john@ example.com',email5: 'john@example.com',email6: 'john@example.com'},
       ]
       const columns = [
-        { name: 'tes',minWidth: 'min-w-1',pinned: true },
-        { name: 'tes',minWidth: 'lg:min-w-52',pinned: true },
-        { name: 'tes',minWidth: 'min-w-20',pinned: false},
-        { name: 'tes',minWidth: 'min-w-4',pinned: false},
-        { name: 'tes',minWidth: 'min-w-32',pinned: false},
-        { name: 'tes',minWidth: '',pinned: false},
-        { name: 'tes',minWidth: '',pinned: false},
-        { name: 'tes',minWidth: '',pinned: false},
-        { name: 'tes',minWidth: 'min-w-32',pinned: false},
+        { name: 'tes',minWidth: 'min-w-1'},
+        { name: 'tes',minWidth: 'lg:min-w-52'},
+        { name: 'tes',minWidth: 'min-w-20'},
+        { name: 'tes',minWidth: 'min-w-4'},
+        { name: 'tes',minWidth: 'min-w-32'},
+        { name: 'tes',minWidth: ''},
+        { name: 'tes',minWidth: ''},
+        { name: 'tes',minWidth: ''},
+        { name: 'tes',minWidth: 'min-w-32'},
       ]
+
+    const pinnedColumns = [0, 1];
 
       const nextStep = () => {
         if (currentStep < stepperLength - 1) {
@@ -55,12 +57,12 @@ export default function Dosen(){
                 </div>  
             </div>
 
-            <Table loading={false} columns={columns} data={data}>
+            <Table loading={false} columns={columns} data={data} pinned={pinnedColumns}>
                 <TableHead>
                     <TableHeadRow>
                         {columns.map((e,index)=>{
                             return (
-                            <TableHeadCell className={e.minWidth} pinned={e.pinned ?? false} key={index}>{e.name}</TableHeadCell>
+                            <TableHeadCell className={e.minWidth} key={index}>{e.name}</TableHeadCell>
                             )
                         })}
                     </TableHeadRow>
