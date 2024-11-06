@@ -5,6 +5,7 @@ import { jwtVerify } from "jose";
 export async function middleware(request) {
   const { pathname } = request.nextUrl;
   const publicPaths = ["/sso"];
+  
   //dapatkan session id dari cookies
   const sessionId = request.cookies.get("s_id")?.value;
   let isAuthenticated = false;
@@ -42,7 +43,7 @@ export async function middleware(request) {
   }
 
   if (!isAuthenticated && !publicPaths.includes(pathname)) {
-    return NextResponse.redirect(new URL(process.env.MYITN_BASE_URL+"login", request.url));
+    return NextResponse.redirect(new URL(`${process.env.MYITN_BASE_URL}/login`, request.url));
   }
 
   return NextResponse.next();
