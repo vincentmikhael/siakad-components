@@ -16,6 +16,7 @@ const DataRuang = () =>{
         { name: 'TES',pinned: true },
         { name: 'TES',pinned: false},
       ]
+      const pinnedColumns = [0, 1];
     return (
         <div>
             <div className="md:flex justify-between items-end">
@@ -37,7 +38,7 @@ const DataRuang = () =>{
                 </div>
             </div>
 
-            <Table loading={false} columns={columns} data={data}>
+            <Table loading={false} columns={columns} data={data} pinned={pinnedColumns}>
                 <TableHead>
                     <TableHeadRow>
                         {columns.map((e,index)=>{
