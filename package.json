@@ -10,6 +10,9 @@
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.7",
+    "axios": "^1.7.7",
+    "ioredis": "^5.4.1",
+    "jose": "^5.9.6",
     "next": "14.2.15",
     "react": "^18",
     "react-dom": "^18",
