@@ -5,8 +5,9 @@ import { FileJpg, UploadSimple } from "@phosphor-icons/react/dist/ssr";
 import { Trash } from "@phosphor-icons/react";
 import iconJpg from "../../../public/images/icon-jpg.png";
 import Image from "next/image";
+import { twMerge } from "tailwind-merge";
 
-function FileUpload() {
+function FileUpload({className}) {
   const [file, setFile] = useState(null);
   const [dragging, setDragging] = useState(false);
 
@@ -45,7 +46,7 @@ function FileUpload() {
   };
 
   return (
-    <div className="w-full">
+    <div className={twMerge("w-full",className)}>
       <div
         className={`border p-8 rounded-[15px] text-center cursor-pointer ${
           dragging ? "border-zinc-200" : "border-zinc-200"
@@ -118,7 +119,7 @@ function FileUpload() {
 
       {file && (
         <div className="mt-4 border rounded-[15px] border-zinc-200 p-4 flex gap-4">
-          <Image src={iconJpg} width={40} />
+          <Image src={iconJpg} width={40} alt={`Preview image of ${file.name}`}/>
           <div className="grow">
             <Text size="sm">{file.name}</Text>
             <Text size="xs" color="text-gray-500">

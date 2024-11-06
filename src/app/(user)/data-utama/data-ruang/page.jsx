@@ -64,8 +64,9 @@ const DataRuang = () =>{
                 
                 </Table>
 
-                <Modal size="lg" open={modalAdd} onClose={()=>setModalAdd(false)} title="Tambah data konsentrasi">
-                    <div style={{width: '100%'}}>
+                <Modal size="lg" open={modalAdd} onClose={()=>setModalAdd(false)} title="Tambah data ruang">
+                    <Modal.Body>
+                        <div style={{width: '100%'}}>
                                 <div className="grid grid-cols-12 gap-4">
                                     <div className="col-span-12 md:col-span-4">
                                             <Select label="Lokasi kampus" showLabel placeholder="pilih lokasi kampus" options={[{value: "1", label: "Menu Item 1"}]} />
@@ -84,10 +85,14 @@ const DataRuang = () =>{
                                     </div>
                                     
                                 </div>
+                        </div>
+                    </Modal.Body>
 
+                    <Modal.Footer>
                         <Button className={'mt-8'} filled disabled>Tambah</Button>
                         <Button onClick={()=>setModalAdd(false)} className={'mt-8 ml-4'} variant="white" >Batal</Button>
-                    </div>
+                    </Modal.Footer>
+                    
                     
                     
                 </Modal>

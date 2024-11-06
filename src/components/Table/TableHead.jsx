@@ -1,6 +1,8 @@
-const TableHead = ({children}) =>{
+import { twMerge } from "tailwind-merge"
+
+const TableHead = ({children,className}) =>{
     return (
-        <thead className="text-[13px] rounded-lg">
+        <thead className={twMerge("text-[13px] rounded-lg",className)}>
             {children}
         </thead>
     )

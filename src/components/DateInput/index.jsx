@@ -45,7 +45,7 @@ const DateInput = ({ value, onChange, disabled, actionButton = false }) => {
       setCurrentMonth(dateObj.getMonth());
       setCurrentYear(dateObj.getFullYear());
     }
-  }, []);
+  }, [value]);
 
   function togglePopupHandler() {
     setShowPopup((currentShowPopup) => {

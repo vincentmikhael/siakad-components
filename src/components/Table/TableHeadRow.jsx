@@ -1,6 +1,7 @@
 import React from "react";
+import { twMerge } from "tailwind-merge";
 
-const TableHeadRow = ({children}) =>{
+const TableHeadRow = ({children,className}) =>{
 
     const childrenWithIndex = React.Children.map(children, (child, index) => {
         return React.cloneElement(child, { index }); // Menambahkan index sebagai props
@@ -8,7 +9,7 @@ const TableHeadRow = ({children}) =>{
 
 
     return (
-        <tr className="bg-fade text-black text-left">
+        <tr className={twMerge("bg-fade text-black text-left",className)}>
             {childrenWithIndex}                                                           
         </tr>
     )

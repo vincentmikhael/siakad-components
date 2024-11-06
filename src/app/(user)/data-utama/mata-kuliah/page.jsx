@@ -43,7 +43,8 @@ export default function MataKuliah(){
             </div>
 
             <Modal size="lg" open={modalAdd} onClose={()=>setModalAdd(false)} title="Tambah data mata kuliah">
-            <div style={{width: '100%'}}>
+                <Modal.Body>
+                     <div style={{width: '100%'}}>
                                 <div className="grid grid-cols-12 gap-4">
                                     <div className="col-span-12 md:col-span-6">
                                             <Select label="Fakultas" showLabel placeholder="pilih fakultas" options={[{value: "1", label: "Menu Item 1"}]} />
@@ -74,9 +75,15 @@ export default function MataKuliah(){
                                     </div>
                                     
                                 </div>
-                        <Button className={'mt-8'} filled disabled>Tambah</Button>
-                        <Button onClick={()=>setModalAdd(false)} className={'mt-8 ml-4'} variant="white" >Batal</Button>
+                        
                     </div>
+                </Modal.Body>
+
+                <Modal.Footer>
+                    <Button className={'mt-8'} filled disabled>Tambah</Button>
+                    <Button onClick={()=>setModalAdd(false)} className={'mt-8 ml-4'} variant="white" >Batal</Button>
+                </Modal.Footer>
+            
                 </Modal>
         </div>
     )

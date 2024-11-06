@@ -11,7 +11,6 @@ const TableProvider = ({ children }) => {
   useEffect(() => {
     const widths = columnRefs.current.map((ref) => ref?.offsetWidth || 0);
     setColumnWidths(widths);
-    console.log(columnRefs)
   }, [children]);
 
   const getStickyOffset = (index) => {

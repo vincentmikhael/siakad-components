@@ -6,17 +6,46 @@ import { useState } from "react";
 
 export default function Dosen(){
     const [modalAdd,setModalAdd] = useState(false)
+    const [currentStep, setCurrentStep] = useState(0);
+    const [stepperLength,setStepperLength] = useState(0)
     const data = [
-        { id: 1, name: 'John Doe', email: 'john@example.com',},
-        { id: 2, name: 'Jane Smith', email: 'jane@example.com',},
-        { id: 3, name: 'Sam Green', email: 'sam@example.com',},
-
+        { id: 1, name: 'John Doe', email: 'john@example.com',email1: 'john@example.com',email2: 'john@example.com',email3: 'john@example.com',email4: 'john@ example.com',email5: 'john@example.com',email6: 'john@example.com'},
+        { id: 2, name: 'John Doe', email: 'john@example.com',email1: 'john@example.com',email2: 'john@example.com',email3: 'john@example.com',email4: 'john@ example.com',email5: 'john@example.com',email6: 'john@example.com'},
+        { id: 3, name: 'John Doe', email: 'john@example.com',email1: 'john@example.com',email2: 'john@example.com',email3: 'john@example.com',email4: 'john@ example.com',email5: 'john@example.com',email6: 'john@example.com'},
+        { id: 4, name: 'John Doe', email: 'john@example.com',email1: 'john@example.com',email2: 'john@example.com',email3: 'john@example.com',email4: 'john@ example.com',email5: 'john@example.com',email6: 'john@example.com'},
+        { id: 5, name: 'John Doe', email: 'john@example.com',email1: 'john@example.com',email2: 'john@example.com',email3: 'john@example.com',email4: 'john@ example.com',email5: 'john@example.com',email6: 'john@example.com'},
+        { id: 6, name: 'John Doe', email: 'john@example.com',email1: 'john@example.com',email2: 'john@example.com',email3: 'john@example.com',email4: 'john@ example.com',email5: 'john@example.com',email6: 'john@example.com'},
       ]
       const columns = [
-        { name: 'tes',pinned: true },
-        { name: 'tes',pinned: true },
-        { name: 'tes',pinned: false},
+        { name: 'tes',minWidth: 'min-w-1'},
+        { name: 'tes',minWidth: 'lg:min-w-52'},
+        { name: 'tes',minWidth: 'min-w-20'},
+        { name: 'tes',minWidth: 'min-w-4'},
+        { name: 'tes',minWidth: 'min-w-32'},
+        { name: 'tes',minWidth: ''},
+        { name: 'tes',minWidth: ''},
+        { name: 'tes',minWidth: ''},
+        { name: 'tes',minWidth: 'min-w-32'},
       ]
+
+    const pinnedColumns = [0, 1];
+
+      const nextStep = () => {
+        if (currentStep < stepperLength - 1) {
+          setCurrentStep(currentStep + 1);
+        }
+      };
+  
+      const prevStep = () => {
+        if (currentStep > 0) {
+          setCurrentStep(currentStep - 1);
+        }
+      };
+
+      const handleStepperLength = (data) => {
+        setStepperLength(data);
+    };
+
     return (
         <div>
             <div className="flex justify-end items-center gap-3">
@@ -28,12 +57,12 @@ export default function Dosen(){
                 </div>  
             </div>
 
-            <Table loading={false} columns={columns} data={data}>
+            <Table loading={false} columns={columns} data={data} pinned={pinnedColumns}>
                 <TableHead>
                     <TableHeadRow>
                         {columns.map((e,index)=>{
                             return (
-                            <TableHeadCell pinned={e.pinned ?? false} key={index}>{e.name}</TableHeadCell>
+                            <TableHeadCell className={e.minWidth} key={index}>{e.name}</TableHeadCell>
                             )
                         })}
                     </TableHeadRow>
@@ -48,6 +77,12 @@ export default function Dosen(){
                                 <TableBodyCell><Text size="xs">{e.id}</Text></TableBodyCell>
                                 <TableBodyCell><Text size="xs" >{e.name}</Text></TableBodyCell>
                                 <TableBodyCell><Text size="xs">{e.email}</Text></TableBodyCell>
+                                <TableBodyCell><Text size="xs">{e.email2}</Text></TableBodyCell>
+                                <TableBodyCell><Text size="xs">{e.email3}</Text></TableBodyCell>
+                                <TableBodyCell><Text size="xs">{e.email4}</Text></TableBodyCell>
+                                <TableBodyCell><Text size="xs">{e.email5}</Text></TableBodyCell>
+                                <TableBodyCell><Text size="xs">{e.email6}</Text></TableBodyCell>
+                                <TableBodyCell><Text size="xs">{e.email1}</Text></TableBodyCell>
                             </TableBodyRow>
                         )
                         })}
@@ -57,11 +92,12 @@ export default function Dosen(){
 
                 <Pagination/>
 
-                <Modal size="lg" open={modalAdd} onClose={()=>setModalAdd(false)} title="Tambah data konsentrasi">
-                    
-                    <div style={{width: '100%'}}>
-                        <StepperContainer>
-                            <Stepper title={"Biografi pegawai"} isActive={true}>
+                <Modal size="lg" open={modalAdd} onClose={()=>setModalAdd(false)} title="Tambah data dosen">
+                    <Modal.Body>
+                      <div className="w-full">
+
+                        <StepperContainer activeStepper={currentStep} getStepperLength={handleStepperLength}>
+                            <Stepper title={"Biografi pegawai"}>
 
                                 <Label className={'mb-1.5'}>Jenis pegawai</Label>
                                 <div className="grid grid-cols-12 gap-4">
@@ -139,7 +175,7 @@ export default function Dosen(){
                                     </div>
                                     <div className="col-span-12 md:col-span-6">
                                         <div>
-                                            <DateInput placeholder="Tanggal lahir"/>
+                                            <DateInput/>
                                         </div>
                                     </div>
                                 </div>
@@ -151,6 +187,7 @@ export default function Dosen(){
                                 </div>
 
                             </Stepper>
+
                             <Stepper title={"Informasi detail"}>
                                 <Label className={'mt-4 mb-1.5'}>Agama dan status pernikahan</Label>
                                     <div className="grid grid-cols-12 gap-4">
@@ -217,12 +254,33 @@ export default function Dosen(){
                                             </div>
                                         </div>
                                     </div>
-
                             </Stepper>
                         </StepperContainer>
+
+                      </div>
+                    
+                    </Modal.Body>
+
+                    <Modal.Footer>
+                    <div className="flex mt-5 w-full gap-3">
+                        <Button
+                        onClick={nextStep}
+                        className={'py-2'}
+                        >
+                        {currentStep === stepperLength - 1 ? 'Tambah' : 'Selanjutnya'}
+                        </Button>
+
+                        <Button
+                        className={'py-2'}
+                        onClick={prevStep}
+                        // disabled={currentStep === 0}
+                        variant="white"
+                        >
+                        Batal
+                        </Button>
+                        
                     </div>
-                    
-                    
+                    </Modal.Footer>
                 </Modal>
         </div>
     )

@@ -1,12 +1,13 @@
 import React from "react";
+import {twMerge} from "tailwind-merge";
 
-const TableBodyRow = ({children}) =>{
+const TableBodyRow = ({children, className}) => {
     const childrenWithIndex = React.Children.map(children, (child, index) => {
-        return React.cloneElement(child, { index }); // Menambahkan index sebagai props
-      });
+        return React.cloneElement(child, {index}); // Menambahkan index sebagai props
+    });
 
     return (
-        <tr className="hover:bg-gray-20 group border-b">
+        <tr className={twMerge("group divide-y divide-fade", className)}>
             {childrenWithIndex}
         </tr>
     )

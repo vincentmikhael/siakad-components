@@ -129,7 +129,7 @@ const Modal = ({
             )}
             {/* Modal Body */}
             <div
-              className="space-y-8 flex-1 p-8 overflow-y-auto invisible-overflow overscroll-contain h-full"
+              className="space-y-8 flex-1 p-8 overflow-y-auto scrollbar-none overscroll-contain h-full"
               onClick={onAutoClose}
             >
               {dismissable && !header && !title && (
@@ -157,8 +157,8 @@ Modal.Header = ({ children }) => children;
 Modal.Body = ({ children }) => children;
 
 // Footer component
-Modal.Footer = ({ children }) => (
-  <div className="border-t border-fade p-8">{children}</div>
-);
+Modal.Footer = function ModalFooter({ children }) {
+  return (<div className="border-t border-fade p-8">{children}</div>);
+};
 
 export default Modal;
