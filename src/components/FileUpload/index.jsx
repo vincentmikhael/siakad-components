@@ -1,138 +1,1 @@
-"use client";
-import React, { useState } from "react";
-import { IconButton, Text } from "..";
-import { FileJpg, UploadSimple } from "@phosphor-icons/react/dist/ssr";
-import { Trash } from "@phosphor-icons/react";
-import iconJpg from "../../../public/images/icon-jpg.png";
-import Image from "next/image";
-import { twMerge } from "tailwind-merge";
-
-function FileUpload({className}) {
-  const [file, setFile] = useState(null);
-  const [dragging, setDragging] = useState(false);
-
-  // Handle file drop
-  const handleDrop = (e) => {
-    e.preventDefault();
-    setDragging(false);
-    const droppedFiles = e.dataTransfer.files;
-    if (droppedFiles.length) {
-      setFile(droppedFiles[0]);
-    }
-  };
-
-  // Handle file drag over (to change style when file is dragged over)
-  const handleDragOver = (e) => {
-    e.preventDefault();
-    setDragging(true);
-  };
-
-  // Handle drag leave (to reset style when file is no longer dragged over)
-  const handleDragLeave = () => {
-    setDragging(false);
-  };
-
-  // Handle file input change
-  const handleFileChange = (e) => {
-    const selectedFile = e.target.files[0];
-    if (selectedFile) {
-      setFile(selectedFile);
-    }
-  };
-
-  // Handle click on box to trigger file input
-  const handleClick = () => {
-    document.getElementById("fileInput").click();
-  };
-
-  return (
-    <div className={twMerge("w-full",className)}>
-      <div
-        className={`border p-8 rounded-[15px] text-center cursor-pointer ${
-          dragging ? "border-zinc-200" : "border-zinc-200"
-        }`}
-        onDrop={handleDrop}
-        onDragOver={handleDragOver}
-        onDragLeave={handleDragLeave}
-        onClick={handleClick} // Box klik membuka file input
-      >
-        <input
-          type="file"
-          className="hidden"
-          onChange={handleFileChange}
-          id="fileInput"
-        />
-        {file ? (
-          <p className="text-gray-500 font-medium">
-            <div className="flex justify-center mb-3">
-              <IconButton size="md">
-                <UploadSimple weight="bold" color="black" />
-              </IconButton>
-            </div>
-            <Text
-              size="sm"
-              color="text-sky-600"
-              className={"inline-block mb-1"}
-            >
-              Namafile.jpg
-              <Text size="sm" color="text-gray-400" className={"inline-block"}>
-                Uploaded
-              </Text>
-            </Text>
-            <br />
-            <Text
-              size="sm"
-              color="text-gray-400"
-              className={"inline-block text-center"}
-            >
-              SVG, PNG, JPG or GIF (max. 800x400px)
-            </Text>
-          </p>
-        ) : (
-          <p className="text-gray-500 font-medium">
-            <div className="flex justify-center mb-3">
-              <IconButton size="md">
-                <UploadSimple weight="bold" color="black" />
-              </IconButton>
-            </div>
-            <Text
-              size="sm"
-              color="text-sky-600"
-              className={"inline-block mb-1"}
-            >
-              Click to upload
-              <Text size="sm" color="text-gray-400" className={"inline-block"}>
-                or drag and drop
-              </Text>
-            </Text>
-            <br />
-            <Text
-              size="sm"
-              color="text-gray-400"
-              className={"inline-block text-center"}
-            >
-              SVG, PNG, JPG or GIF (max. 800x400px)
-            </Text>
-          </p>
-        )}
-      </div>
-
-      {file && (
-        <div className="mt-4 border rounded-[15px] border-zinc-200 p-4 flex gap-4">
-          <Image src={iconJpg} width={40} alt={`Preview image of ${file.name}`}/>
-          <div className="grow">
-            <Text size="sm">{file.name}</Text>
-            <Text size="xs" color="text-gray-500">
-              16 MB
-            </Text>
-          </div>
-          <IconButton className={"border-none"} onClick={() => setFile(null)}>
-            <Trash color="gray" size={22} />
-          </IconButton>
-        </div>
-      )}
-    </div>
-  );
-}
-
-export default FileUpload;
+"use client";import {useState} from "react";import {UploadSimple, Trash, X} from "@phosphor-icons/react/dist/ssr";import {twMerge} from "tailwind-merge";import {Checkbox, FileIcon} from "@/components";import {useToast} from "@/context/ToastContext";function FileUpload({className, allowDeleted = false, file, setFile, ...props}) {    const showToast = useToast();    const [dragging, setDragging] = useState(false);    const [uploading, setUploading] = useState(false);    const [progress, setProgress] = useState(0);    const [failed, setFailed] = useState(false);    const [xhrInstance, setXhrInstance] = useState(null);    // Fungsi untuk mengunggah file    const uploadFile = async (file) => {        setUploading(true);        setProgress(0);        const formData = new FormData();        formData.set("file", file);        // Gunakan XMLHttpRequest untuk melacak progress        const xhr = new XMLHttpRequest();        xhr.open("POST", "/api/upload-file", true);        setXhrInstance(xhr);        // Event listener untuk mengupdate progress        xhr.upload.onprogress = (event) => {            if (event.lengthComputable) {                const percentComplete = Math.round((event.loaded / event.total) * 100);                setTimeout(() => {                    setProgress(percentComplete);                }, 100);            }        };        xhr.onload = () => {            if (xhr.status === 200) {                setProgress(100);            } else {                setFailed(true);                setProgress(0);            }        };        xhr.onerror = () => {            setFailed(true);            setUploading(false);            setProgress(0);        };        xhr.send(formData);    };    const formatFileSize = (size) => {        if (size < 1024) {            return `${size} B`;        } else if (size < 1024 * 1024) {            return `${(size / 1024).toFixed(2)} KB`;        } else {            return `${(size / (1024 * 1024)).toFixed(2)} MB`;        }    };    // Handle file drop    const handleDrop = async (e) => {        e.preventDefault();        setDragging(false);        const droppedFiles = e.dataTransfer.files;        if (droppedFiles.length) {            const droppedFile = droppedFiles[0];            const validTypes = [                "image/jpeg",                "image/png",                "image/gif",                "application/pdf",                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // Excel .xlsx                "application/vnd.ms-excel", // Excel .xls            ];            if (validTypes.includes(droppedFile.type)) {                setFile(droppedFile);                await uploadFile(droppedFile);            } else {                showToast("Upload failed!", "The file must be an image, PDF, or Excel document", "danger");            }        }    };    const handleDragOver = (e) => {        e.preventDefault();        setDragging(true);    };    const handleDragLeave = () => {        setDragging(false);    };    const handleFileChange = async (e) => {        const selectedFile = e.target.files[0];        if (selectedFile) {            const validTypes = [                "image/jpeg",                "image/png",                "image/gif",                "application/pdf",                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // Excel .xlsx                "application/vnd.ms-excel", // Excel .xls            ];            if (validTypes.includes(selectedFile.type)) {                setFile(selectedFile);                await uploadFile(selectedFile);            } else {                showToast("Upload failed!", "The file must be an image, PDF, or Excel document", "danger");            }        }    };    const handleClick = () => {        document.getElementById("fileInput").click();    };    const handleDeleteFile = () => {        if (xhrInstance) {            xhrInstance.abort(); // Hentikan proses unggahan        }        setFile(null);        setProgress(0);        setUploading(false);        setFailed(false);    }    const handleRetry = async () => {        setFailed(false);        await uploadFile(file);    }    const getFileTypeIcon = (fileType) => {        if (fileType.startsWith("image/")) return "image";        if (fileType === "application/pdf") return "pdf";        if (fileType.includes("spreadsheet")) return "excel";        return "file";    };    return (        <div className={twMerge("w-full flex flex-col gap-4", className)}>            <div                className={`border py-4 px-6 rounded-xl bg-white text-center cursor-pointer ${                    dragging ? "border-primary-90" : "border-fade"                }`}                onDrop={handleDrop}                onDragOver={handleDragOver}                onDragLeave={handleDragLeave}                onClick={handleClick}            >                <input                    type="file"                    className="hidden"                    onChange={handleFileChange}                    id="fileInput"                    {...props}                />                <div className="flex flex-col justify-center items-center gap-3">                    <div className="p-2.5 border-fade border rounded-lg shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)]">                        <UploadSimple size={16} weight="bold" color="text-gray-100"/>                    </div>                    <div className="flex flex-col justify-center items-center gap-1.5">                        <div className="inline-block text-primary-100 text-[13px] font-semibold">                            Click to upload                            <span className="inline-block text-gray-50 font-normal text-xs ml-1">                                or drag and drop                            </span>                        </div>                        <div className="text-gray-50 text-xs font-normal">                            SVG, PNG, JPG or GIF (max. 800x400px)                        </div>                    </div>                </div>            </div>            {file && (                <div                    className={`rounded-xl p-4 flex gap-3 items-start ${failed ? 'border-danger-90 border-2' : 'border-fade border'}`}>                    <FileIcon type={getFileTypeIcon(file.type)}/>                    <div className="flex flex-row items-start gap-1 flex-grow">                        <div className="flex flex-col w-full gap-1">                            <div>                                <p className="text-gray-80 text-sm font-semibold">{file.name}</p>                                <p className="text-gray-50 text-sm font-normal">                                    {failed ? "Upload failed, please try again" : formatFileSize(file.size)}                                </p>                            </div>                            {                                failed ? (                                    <button className="text-primary-100 text-sm font-semibold text-start"                                            onClick={handleRetry}>                                        Try again                                    </button>                                ) : uploading ? (                                    <div className="flex flex-row gap-3 items-center">                                        <div className="bg-fade h-2 w-full rounded-full">                                            <div                                                className="bg-primary-100 h-2 rounded-full"                                                style={{                                                    width: `${progress}%`,                                                    transition: 'width 0.3s ease-in-out'                                                }}                                            />                                        </div>                                        <p className="text-sm text-gray-80 font-semibold leading-[22.4px]">                                            {progress}%                                        </p>                                    </div>                                ) : null                            }                        </div>                        {allowDeleted ? (                            <button className="text-gray-50" onClick={handleDeleteFile}>                                <Trash size={16} weight="bold"/>                            </button>                        ) : progress < 100 ? (                            <button className="text-gray-50" onClick={handleDeleteFile}>                                <X size={16} weight="bold"/>                            </button>                        ) : (                            <Checkbox checked/>                        )                        }                    </div>                </div>            )}        </div>    );}export default FileUpload;
