@@ -1,6 +1,5 @@
-'use server'
-
 import axios from "axios";
+import {getCookie} from "./cookies";
 
 const AxiosInstance = axios.create({
     baseURL: process.env.NEXT_PUBLIC_SIAKAD_BASE_URL,
@@ -10,18 +9,19 @@ const AxiosInstance = axios.create({
 AxiosInstance.interceptors.request.use(
     async (config) => {
         try {
-            const checkTokenResponse = await axios.get("/api/get-session");
+            const {value: sessionId} = await getCookie("s_id");
+            const checkTokenResponse = await axios.get(`/api/get-session?s_id=${sessionId}`);
             if (checkTokenResponse.status === 404) {
                 throw new Error("Token not found in Redis");
             }
 
-            const { accessToken } = await checkTokenResponse.json();
+            const {accessToken} = await checkTokenResponse.data;
             config.headers.Authorization = `Bearer ${accessToken}`;
             return config;
 
         } catch (error) {
             console.error("Error checking token in Redis:", error);
-            return Promise.reject({ ...error, redirect: "/login" });
+            return Promise.reject({...error, redirect: "/login"});
         }
     },
     (error) => Promise.reject(error)
@@ -38,22 +38,27 @@ AxiosInstance.interceptors.response.use(
             originalRequest._retry = true; // Menandai agar tidak terjadi loop
 
             try {
-                const checkTokenResponse = await axios.get("/api/get-session");
+                const {value: sessionId} = await getCookie("s_id");
+                const checkTokenResponse = await axios.get(`/api/get-session?s_id=${sessionId}`);
                 if (checkTokenResponse.status === 404) {
                     throw new Error("Token not found in Redis");
                 }
 
-                const { data, refreshToken } = await checkTokenResponse.json();
+                const {data, refreshToken} = await checkTokenResponse.data;
 
                 // Permintaan untuk refresh token
                 const refreshResponse = await axios.post(
                     `${process.env.NEXT_PUBLIC_SIAKAD_BASE_URL}/auth/refresh-token`,
-                    { refreshToken }
+                    {refreshToken}
                 );
 
-                const { accessToken: newAccessToken, refreshToken: newRefreshToken } = refreshResponse.data;
+                const {accessToken: newAccessToken, refreshToken: newRefreshToken} = refreshResponse.data;
 
-                await axios.post("/api/set-session", { data, accessToken: newAccessToken, refreshToken: newRefreshToken });
+                await axios.post("/api/set-session", {
+                    data,
+                    accessToken: newAccessToken,
+                    refreshToken: newRefreshToken
+                });
 
                 // Set header Authorization dengan token baru
                 originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
@@ -63,7 +68,7 @@ AxiosInstance.interceptors.response.use(
 
             } catch (refreshError) {
                 console.error("Refresh token error:", refreshError);
-                return Promise.reject({ ...refreshError, redirect: "/login" });
+                return Promise.reject({...refreshError, redirect: "/login"});
             }
         }
         return Promise.reject(error);
