@@ -1,5 +1,5 @@
 import axios from "axios";
-import {getCookie} from "./cookies";
+import {getCookie} from "@libs/cookies";
 
 const AxiosInstance = axios.create({
     baseURL: process.env.NEXT_PUBLIC_SIAKAD_BASE_URL,
@@ -21,7 +21,7 @@ AxiosInstance.interceptors.request.use(
 
         } catch (error) {
             console.error("Error checking token in Redis:", error);
-            return Promise.reject({...error, redirect: "/login"});
+            return Promise.reject({...error, redirect: `${process.env.MYITN_BASE_URL}/login`});
         }
     },
     (error) => Promise.reject(error)
@@ -54,11 +54,12 @@ AxiosInstance.interceptors.response.use(
 
                 const {accessToken: newAccessToken, refreshToken: newRefreshToken} = refreshResponse.data;
 
-                await axios.post("/api/set-session", {
+                await axios.post(`/api/set-session?s_id=${sessionId}`, {
                     data,
                     accessToken: newAccessToken,
                     refreshToken: newRefreshToken
                 });
+                console.log('run axiosinstance', sessionId)
 
                 // Set header Authorization dengan token baru
                 originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
@@ -68,7 +69,7 @@ AxiosInstance.interceptors.response.use(
 
             } catch (refreshError) {
                 console.error("Refresh token error:", refreshError);
-                return Promise.reject({...refreshError, redirect: "/login"});
+                return Promise.reject({...refreshError, redirect: `${process.env.MYITN_BASE_URL}/login`});
             }
         }
         return Promise.reject(error);

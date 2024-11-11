@@ -1,16 +1,15 @@
-import { getSession } from "@/libs/redisHelper";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
+import {getSession} from "@libs/redisHelper";
+import {cookies} from "next/headers";
+import {redirect} from "next/navigation";
 
-const SSO = async () =>{
+const SSO = async () => {
     const cookieStore = cookies();
     const s_id = cookieStore.get("s_id")?.value;
     let userSession = await getSession(s_id) //mendapatkan session dari redis berdasarkan session id
-    
-    if(userSession){
-        userSession = JSON.parse(userSession)
+    //
+    if (userSession) {
         redirect('/') //akan melewati middleware untuk cek hak akses app
-    }else{
+    } else {
         redirect(`${process.env.MYITN_BASE_URL}/login`)
     }
 }
