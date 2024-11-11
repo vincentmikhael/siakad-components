@@ -15,7 +15,7 @@ const Table = ({columns = [], data = [], pinned = [], children, loading = false,
     useEffect(() => {
         const widths = columnRefs.current.map((ref) => ref?.getBoundingClientRect().width || 0);
         setColumnWidths(widths);
-    }, [children]);
+    }, []);
 
     useEffect(() => {
         const data = columns.map((col, index) => ({
@@ -23,7 +23,7 @@ const Table = ({columns = [], data = [], pinned = [], children, loading = false,
             pinned: pinned.includes(index),
         }));
         setHeadCellsData(data);
-    }, [columns, pinned]);
+    }, [JSON.stringify(columns), JSON.stringify(pinned)]);
 
     const getStickyOffset = (index) => {
         let offset = 0;
