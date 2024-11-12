@@ -106,6 +106,7 @@ const Select = ({
                         size={size === "xs" ? "xs" : "sm"}
                         weight="400"
                         color={selectedOption ? "text-gray-100" : "text-gray-30"}
+                        className="truncate w-full overflow-hidden whitespace-nowrap"
                     >
                         {selectedOption ? selectedOption.label : placeholder}
                     </Text>

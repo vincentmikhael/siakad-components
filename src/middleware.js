@@ -22,8 +22,7 @@ export async function middleware(request) {
 
             if (response.ok) {
                 const {data, accessToken, refreshToken} = await response.json();
-                const app = data.app_access.find((app) => app.url === request.nextUrl.origin);
-                console.log('run 1 middleware', sessionId)//cek apakah user punya akses app
+                const app = data.app_access.find((app) => app.url === request.nextUrl.origin);//cek apakah user punya akses app
                 if (accessToken && app) {
                     try {
                         await jwtVerify(accessToken, secretKey);
@@ -42,7 +41,6 @@ export async function middleware(request) {
                                 headers: {"Content-Type": "application/json"},
                                 body: JSON.stringify({data, accessToken: newAccessToken, refreshToken: newRefreshToken})
                             })
-                            console.log('run middleware', sessionId)
                             if (setSession.ok) {
                                 isAuthenticated = true
                             }

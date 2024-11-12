@@ -1,12 +1,19 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
     content: [
-        "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-        "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-        "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+        './src/**/*.{js,ts,jsx,tsx,css}'
+        // "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
+        // "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
+        // "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
     ],
     theme: {
         extend: {
+            screens: {
+                sm: '640px',
+                md: '768px',
+                lg: '1024px',
+                xl: '1280px',
+            },
             animation: {
                 'slide-in': 'slide-in 0.3s ease-in-out forwards',
                 'slide-out': 'slide-out 0.3s ease-in-out forwards',

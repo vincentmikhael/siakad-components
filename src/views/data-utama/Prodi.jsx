@@ -56,14 +56,16 @@ const Prodi = ({listFakultas}) => {
 
     return (
         <>
-            <div className="flex flex-col xl:flex-row justify-between items-end">
-                <Select value={selectedFakultas} options={listFakultas} label="Fakultas" showLabel size="xs"
-                        className="md:w-52 w-full"
-                        onChange={handleFakultasChange}/>
-                <div className="flex gap-4">
+            <div className="flex flex-col md:flex-row justify-between items-end gap-4">
+                <div className="w-full md:w-fit">
+                    <Select value={selectedFakultas} options={listFakultas} label="Fakultas" showLabel size="xs"
+                            className="md:w-52 w-full"
+                            onChange={handleFakultasChange}/>
+                </div>
+                <div className="flex gap-4 w-full md:w-fit">
                     <Input
                         size="xs"
-                        className="max-w-[156px]"
+                        className="w-full md:w-[156px]"
                         placeholder={"Cari data disini"}
                         leftIcon={<MagnifyingGlass weight="bold"/>}
                     />
@@ -72,6 +74,7 @@ const Prodi = ({listFakultas}) => {
                         leftIcon={<Plus weight="bold"/>}
                         size="sm"
                         filled
+                        className="w-full md:w-fit"
                     >
                         Tambah data
                     </Button>
