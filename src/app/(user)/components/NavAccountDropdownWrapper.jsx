@@ -5,19 +5,20 @@ import {useState} from "react";
 import {useToast} from "@/context/ToastContext";
 import axios from "axios";
 import {useRouter} from "next/navigation";
+import {SignOut} from "@phosphor-icons/react";
 
-const LogoutElementInitiator = ({direct, onLogout, sId, active, ...props} = {
-    direct: false, onLogout: undefined, sId: '', active: true
+const LogoutButton = ({children, direct, icon, onLogout, sId, active, ...props} = {
+    children: "Log Out", direct: false, icon: undefined, onLogout: undefined, sId: '', active: true
 }) => {
     if (direct) {
         const action = "/api/delete-session";
         return <form action={action} method="POST">
             <input type="hidden" name="s_id" defaultValue={sId}/>
             <input type="hidden" name="_method" value="DELETE"/>
-            <NavButton type="submit">Logout</NavButton>
+            <NavButton type="submit" icon={icon}>{children}</NavButton>
         </form>
     }
-    return <NavButton onClick={onLogout} active={active} {...props}>Logout</NavButton>
+    return <NavButton onClick={onLogout} active={active} icon={icon} {...props}>{children}</NavButton>
 }
 const onLogout = async (event, router, showToast, sId, setLoadingLogout) => {
     event.preventDefault();
@@ -63,9 +64,11 @@ export default function NavAccountDropdownWrapper({userName, sId/*, onLogout*/} 
             <li>
                 <NavLink href="/">Setings profile</NavLink>
             </li>
+            <li className="h-0.5 my-0.5 mx-0.5 bg-gray-200"></li>
             <li>
-                <NavButton>Logout</NavButton>
-                {/*<LogoutElementInitiator sId={sId} onLogout={(e) => onLogout(e, router, showToast, sId, setLoadingLogout)}*/}
+                <NavButton icon={<SignOut/>}>Logout</NavButton>
+                {/*<LogoutElementInitiator sId={sId} icon={<SignOut/>}*/}
+                {/*                        onLogout={(e) => onLogout(e, router, showToast, sId, setLoadingLogout)}*/}
                 {/*                        direct={typeof onLogout !== 'function'} active={!loadingLogout} disabled={loadingLogout}/>*/}
             </li>
         </NavDropdown>
