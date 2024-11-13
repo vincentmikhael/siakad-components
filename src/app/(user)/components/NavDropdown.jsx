@@ -1,0 +1,19 @@
+import {twMerge} from "tailwind-merge";
+
+export default function NavDropdown({
+                                        ulClass = "flex flex-col gap-3 font-normal",
+                                        children,
+                                        className = "",
+                                        showNav,
+                                        ...props
+                                    } = {showNav: true}) {
+    const _ulClass = twMerge(ulClass, props.classUl);
+    return <div
+        className={twMerge(`${
+            (showNav ? "translate-y-0" : "-translate-y-full-16")
+        } items-center !ml-0 !mr-14 mt-16 justify-between order-1 fixed right-0 top-0 w-[250px] md:w-[267px] z-40 lg:z-0 lg:h-fit bg-white p-3 transition-transform duration-500 transform rounded-[20px] overflow-y-auto lg:overflow-hidden custom-shadow-sidebar lg:shadow-none`, className)}
+        {...props}
+    >
+        <ul className={_ulClass}>{children}</ul>
+    </div>
+}

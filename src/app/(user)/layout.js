@@ -1,23 +1,5 @@
 import {
-    Bell,
     BellRinging,
-    BookBookmark,
-    Calendar,
-    CalendarBlank,
-    CaretDown,
-    ChalkboardTeacher,
-    Files,
-    Fingerprint,
-    Gear,
-    GraduationCap,
-    ListChecks,
-    ListDashes,
-    Notepad,
-    NotePencil,
-    PlusMinus,
-    Student,
-    Timer,
-    Users,
 } from "@phosphor-icons/react/dist/ssr";
 import {
     Hr,
@@ -29,48 +11,27 @@ import {
     NavRow,
     LogoItn
 } from "@/components";
+import {additionalNavItems, navItems} from "@/app/(user)/NavigationItems";
+import {NavAccountDropdownWrapper} from "@/app/(user)/components";
+import {getSession} from "@libs/redisHelper";
+import {cookies} from "next/headers";
 
-export default function Layout({children}) {
-    const navItems = [
-        {href: "/dashboard", label: "Dashboard", icon: <Calendar/>},
-        {href: "/konfigurasi", label: "Konfigurasi", icon: <Gear/>},
-        {href: "/data-utama", label: "Data utama", icon: <Files/>},
-        {href: "/management-user", label: "Management user", icon: <Users/>},
-        {href: "/krs", label: "KRS", icon: <PlusMinus/>},
-        {href: "/penjadwalan-kelas", label: "Penjadwalan kelas", icon: <Timer/>},
-        {
-            href: "/management-nilai",
-            label: "Management nilai",
-            icon: <NotePencil/>,
-        },
-        {href: "/penjadwalan-ujian", label: "Penjadwalan ujian", icon: <Timer/>},
-    ];
-
-    const additionalNavItems = [
-        {href: "/presensi", label: "Presensi", icon: <Fingerprint/>},
-        {href: "/pkn-skripsi", label: "PKN & Skripsi", icon: <BookBookmark/>},
-        {
-            href: "/yudisium-wisuda",
-            label: "Yudusium & Wisuda",
-            icon: <GraduationCap/>,
-        },
-        {href: "/status-mahasiswa", label: "Status Mahasiswa", icon: <Student/>},
-        {href: "/report", label: "Report", icon: <Files/>},
-        {
-            href: "/kalender-akademik",
-            label: "Kalender Akademik",
-            icon: <CalendarBlank/>,
-        },
-        {href: "/pengumuman", label: "Pengumuman", icon: <Bell/>},
-        {href: "/kuisioner", label: "Kuisioner", icon: <ListChecks/>},
-        {href: "/dosen-wali", label: "Dosen Wali", icon: <ChalkboardTeacher/>},
-        {href: "/tagihan", label: "Tagihan", icon: <Notepad/>},
-        {
-            href: "/daftar-pengajuan",
-            label: "Daftar Pengajuan",
-            icon: <ListDashes/>,
-        },
-    ];
+const renderMenuList = (list)=>{
+    return list.map(({href, label, icon}) => (
+        <NavLi key={href} href={href} icon={icon}>
+            {label}
+        </NavLi>
+    ))
+}
+export default async function Layout({children}) {
+    const cookieStore = cookies();
+    const s_id = cookieStore.get("s_id")?.value;
+    let userName = "user";
+    const userData = await getSession(s_id);
+    if (userData) {
+        const parsedData = JSON.parse(userData);
+        userName = parsedData?.data?.nama_lengkap || "User";
+    }
     return (
         <>
             <Navbar>
@@ -88,17 +49,9 @@ export default function Layout({children}) {
                         />
                         <NavHamburger/>
                         <NavUl>
-                            {navItems.map(({href, label, icon}) => (
-                                <NavLi key={href} href={href} icon={icon}>
-                                    {label}
-                                </NavLi>
-                            ))}
+                            {renderMenuList(navItems)}
                             <div className="flex flex-col xl:hidden gap-3">
-                                {additionalNavItems.map(({href, label, icon}) => (
-                                    <NavLi key={href} href={href} icon={icon}>
-                                        {label}
-                                    </NavLi>
-                                ))}
+                                {renderMenuList(additionalNavItems)}
                             </div>
                         </NavUl>
                     </div>
@@ -112,53 +65,13 @@ export default function Layout({children}) {
                             classHr="h-6 bg-white opacity-[32%]"
                             classDiv="hidden md:block"
                         />
-                        <div className="gap-3 flex flex-row items-center">
-                            <div className="w-8 h-8 bg-white rounded-full"/>
-                            <p className="text-gray-10 font-normal text-sm hidden lg:block">
-                                Faisol Klakah
-                            </p>
-                            <div className="block">
-                                <CaretDown size={16} weight="regular" color="#FFFFFF"/>
-                            </div>
-                        </div>
+                        <NavAccountDropdownWrapper userName={userName} sId={s_id}/>
                     </div>
                 </NavRow>
 
                 <NavRow className="hidden xl:flex h-14">
                     <NavUl>
-                        <NavLi href="/presensi" icon={<Fingerprint/>}>
-                            Presensi
-                        </NavLi>
-                        <NavLi href="/pkn-skripsi" icon={<BookBookmark/>}>
-                            PKN & Skripsi
-                        </NavLi>
-                        <NavLi href="/yudisium-wisuda" icon={<GraduationCap/>}>
-                            Yudusium & Wisuda
-                        </NavLi>
-                        <NavLi href="/status-mahasiswa" icon={<Student/>}>
-                            Status Mahasiswa
-                        </NavLi>
-                        <NavLi href="/report" icon={<Files/>}>
-                            Report
-                        </NavLi>
-                        <NavLi href="/kalender-akademik" icon={<CalendarBlank/>}>
-                            Kalender Akademik
-                        </NavLi>
-                        <NavLi href="/pengumuman" icon={<Bell/>}>
-                            Pengumuman
-                        </NavLi>
-                        <NavLi href="/kuisioner" icon={<ListChecks/>}>
-                            Kuisioner
-                        </NavLi>
-                        <NavLi href="/dosen-wali" icon={<ChalkboardTeacher/>}>
-                            Dosen Wali
-                        </NavLi>
-                        <NavLi href="/tagihan" icon={<Notepad/>}>
-                            Tagihan
-                        </NavLi>
-                        <NavLi href="/daftar-pengajuan" icon={<ListDashes/>}>
-                            Daftar Pengajuan
-                        </NavLi>
+                        {renderMenuList(additionalNavItems)}
                     </NavUl>
                 </NavRow>
             </Navbar>

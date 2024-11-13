@@ -8,6 +8,10 @@ module.exports = {
     ],
     theme: {
         extend: {
+            translate: {
+                // Adds a class -translate-y-[calc(100% + 4rem)]
+                '-full-16': 'calc(-100% - 4rem)',// for navbar dropdown
+            },
             screens: {
                 sm: '640px',
                 md: '768px',
