@@ -85,7 +85,7 @@ export default function NavAccountDropdownWrapper({userName, sId/*, onLogout*/} 
             </li>
             <li className="h-0.5 my-0.5 mx-0.5 bg-gray-20"></li>
             <li>
-                <NavButton icon={<SignOut/>}>Logout</NavButton>
+                <NavButton icon={<SignOut/>}>Log out</NavButton>
                 {/*<ButtonLogoutOut sId={sId} icon={<SignOut/>}*/}
                 {/*                        onLogout={(e) => onLogout(e, router, showToast, sId, setLoadingLogout)}*/}
                 {/*                        direct={typeof onLogout !== 'function'} active={!loadingLogout} disabled={loadingLogout}/>*/}

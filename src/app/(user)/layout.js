@@ -16,7 +16,7 @@ import {NavAccountDropdownWrapper} from "@/app/(user)/components";
 import {getSession} from "@libs/redisHelper";
 import {cookies} from "next/headers";
 
-const renderMenuList = (list)=>{
+const renderMenuList = (list) => {
     return list.map(({href, label, icon}) => (
         <NavLi key={href} href={href} icon={icon}>
             {label}
