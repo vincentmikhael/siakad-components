@@ -13,7 +13,7 @@ const NavDropdown =
             const _ulClass = twMerge(ulClass, props.classUl);
             return <div className={twMerge(`${
                             (showNav ? "translate-y-0 opacity-100" : "-translate-y-full-16 opacity-0")
-                        } items-center !ml-0 !mr-5 md:!mr-14 mt-16 justify-between order-1 fixed right-0 top-0 w-[250px] md:w-[267px] z-0 lg:h-fit bg-white p-3 transition-all duration-500 transform rounded-[20px] overflow-y-auto lg:overflow-hidden custom-shadow-sidebar lg:shadow-none`, className)}
+                        } items-center mt-10 justify-between order-1 absolute right-0 top-0 w-[250px] md:w-[267px] z-0 lg:h-fit bg-white p-3 transition-all duration-500 transform rounded-[20px] overflow-y-auto lg:overflow-hidden custom-shadow-sidebar lg:shadow-none`, className)}
                         {...props}
             >
                 <ul className={_ulClass}>{children}</ul>

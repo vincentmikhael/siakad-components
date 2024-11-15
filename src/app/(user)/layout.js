@@ -55,18 +55,22 @@ export default async function Layout({children}) {
                             </div>
                         </NavUl>
                     </div>
-                    <div
-                        className="flex items-center xl:w-auto space-x-6 order-2"
-                        id="navbar-default"
-                    >
-                        <BellRinging color="#FFFFFF" size={20} weight="regular"/>
-                        <Hr
-                            direction="vertical"
-                            classHr="h-6 bg-white opacity-[32%]"
-                            classDiv="hidden md:block"
-                        />
-                        <NavAccountDropdownWrapper userName={userName} sId={s_id}/>
-                    </div>
+                    <ul className="flex items-center xl:w-auto space-x-6 order-2"
+                        id="navbar-default">
+                        <li className="block relative">
+                            <button className="flex items-center">
+                                <BellRinging color="#FFFFFF" size={20} weight="regular"/>
+                            </button>
+                        </li>
+                        <li>
+                            <Hr className="flex items-center" direction="vertical"
+                                classHr="h-6 bg-white opacity-[32%]"
+                                classDiv="hidden md:block"/>
+                        </li>
+                        <li className="block relative">
+                            <NavAccountDropdownWrapper userName={userName} sId={s_id}/>
+                        </li>
+                    </ul>
                 </NavRow>
 
                 <NavRow className="hidden xl:flex h-14">
