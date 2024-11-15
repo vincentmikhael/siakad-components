@@ -3,18 +3,18 @@ import {
 } from "@phosphor-icons/react/dist/ssr";
 import {
     Hr,
+    LogoItn,
+    NavAccountDropdownWrapper,
     Navbar,
     NavBrand,
     NavHamburger,
     NavLi,
     NavUl,
     NavRow,
-    LogoItn
 } from "@/components";
 import {additionalNavItems, navItems} from "@/app/(user)/NavigationItems";
-import {NavAccountDropdownWrapper} from "@/app/(user)/components";
-import {getSession} from "@libs/redisHelper";
 import {cookies} from "next/headers";
+import {getSession} from "@libs/redisHelper";
 
 const renderMenuList = (list) => {
     return list.map(({href, label, icon}) => (

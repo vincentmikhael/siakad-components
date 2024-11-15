@@ -1,6 +1,10 @@
 "use client"
 import {CaretDown} from "@phosphor-icons/react/dist/ssr";
-import {NavButton, NavDropdown, NavLink} from "@/app/(user)/components";
+import {
+    NavButton,
+    NavDropdown,
+    NavLink
+} from "@/components";
 import {useEffect, useRef, useState} from "react";
 // import {useToast} from "@/context/ToastContext";
 // import axios from "axios";
@@ -81,7 +85,7 @@ export default function NavAccountDropdownWrapper({userName, sId/*, onLogout*/} 
         <NavDropdown ref={dropdownRef} className="" showNav={showNav}>
             <li>
                 <NavLink className="font-bold bg-primary-10 text-primary-90 active:text-white active:bg-primary-90"
-                         href="/">Settings profile</NavLink>
+                         href="/public">Settings profile</NavLink>
             </li>
             <li className="h-0.5 my-0.5 mx-0.5 bg-gray-20"></li>
             <li>

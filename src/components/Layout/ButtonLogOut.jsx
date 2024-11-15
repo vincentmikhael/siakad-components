@@ -1,4 +1,4 @@
-import {NavButton} from "@/app/(user)/components";
+import {NavButton} from "@/components";
 
 const DEFAULT_CLASS = {
     ENABLED: "font-bold text-danger-90 bg-transparent active:text-white active:bg-danger-90",
