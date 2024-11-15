@@ -36,7 +36,7 @@ import {SignOut} from "@phosphor-icons/react";
 export default function NavAccountDropdownWrapper({userName, sId/*, onLogout*/} = {
     userName: ''/*, onLogout: undefined*/, sId: ''
 }) {
-    const [showNav, setShowNav] = useState(false);
+    const [showDropdown, setshowDropdown] = useState(false);
     // const showToast = useToast();
     // const router = useRouter();
     // const [loadingLogout, setLoadingLogout] = useState(false);
@@ -44,7 +44,7 @@ export default function NavAccountDropdownWrapper({userName, sId/*, onLogout*/} 
     const ignoreOutsideClick = useRef(false);
     const toggleNav = () => {
         ignoreOutsideClick.current = true;
-        setShowNav((prev) => !prev);
+        setshowDropdown((prev) => !prev);
     }
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -53,12 +53,12 @@ export default function NavAccountDropdownWrapper({userName, sId/*, onLogout*/} 
                 return;
             }
             if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-                requestAnimationFrame(() => setTimeout(() => setShowNav(false), 0));
+                requestAnimationFrame(() => setTimeout(() => setshowDropdown(false), 0));
             }
         };
 
         const handleScroll = () => {
-            setShowNav(false);
+            setshowDropdown(false);
         };
 
         // Attach listeners
@@ -72,8 +72,8 @@ export default function NavAccountDropdownWrapper({userName, sId/*, onLogout*/} 
         };
     }, []);
     return <>
-        <button ref={dropdownRef} onClick={toggleNav} aria-expanded={showNav}
-                className="gap-3 flex flex-row items-center">
+        <button ref={dropdownRef} onClick={toggleNav} aria-expanded={showDropdown}
+                className="gap-3 flex flex-row items-center min-h-[44px] pl-3">
             <div className="w-8 h-8 bg-white rounded-full"/>
             <p className="text-gray-10 font-normal text-sm hidden lg:block">
                 {userName}
@@ -82,9 +82,9 @@ export default function NavAccountDropdownWrapper({userName, sId/*, onLogout*/} 
                 <CaretDown size={16} weight="regular" color="#FFFFFF"/>
             </div>
         </button>
-        <NavDropdown ref={dropdownRef} className="" showNav={showNav}>
+        <NavDropdown ref={dropdownRef} className="" showDropdown={showDropdown}>
             <li>
-                <NavLink className="font-bold bg-primary-10 text-primary-90 active:text-white active:bg-primary-90"
+                <NavLink className="font-extrabold bg-primary-10 text-primary-90 active:text-white active:bg-primary-90"
                          href={`/`}>Settings profile</NavLink>
             </li>
             <li className="h-0.5 my-0.5 mx-0.5 bg-gray-20"></li>

@@ -1,10 +1,11 @@
-import {
-    BellRinging,
-} from "@phosphor-icons/react/dist/ssr";
+// import {
+//     BellRinging,
+// } from "@phosphor-icons/react/dist/ssr";
 import {
     Hr,
     LogoItn,
     NavAccountDropdownWrapper,
+    NavNotificationDropdownWrapper,
     Navbar,
     NavBrand,
     NavHamburger,
@@ -55,12 +56,13 @@ export default async function Layout({children}) {
                             </div>
                         </NavUl>
                     </div>
-                    <ul className="flex items-center xl:w-auto space-x-6 order-2"
+                    <ul className="flex items-center xl:w-auto space-x-3 order-2"
                         id="navbar-default">
                         <li className="block relative">
-                            <button className="flex items-center">
-                                <BellRinging color="#FFFFFF" size={20} weight="regular"/>
-                            </button>
+                            {/*<button className="flex items-center p-3">*/}
+                            {/*    <BellRinging color="#FFFFFF" size={20} weight="regular"/>*/}
+                            {/*</button>*/}
+                            <NavNotificationDropdownWrapper/>
                         </li>
                         <li>
                             <Hr className="flex items-center" direction="vertical"

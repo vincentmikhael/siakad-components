@@ -22,9 +22,9 @@ import MenuLi from "./MenuLi";
 import Modal from "./Modal";
 import Navbar from "./Navbar";
 import NavBrand from "./NavBrand";
-import {NavAccountDropdownWrapper, ButtonLogOut} from "./Layout";
+import {NavAccountDropdownWrapper, NavNotificationDropdownWrapper, ButtonLogOut} from "./Layout";
 import {NavButton} from "./NavButton";
-import {NavDropdown} from "./NavDropdown";
+import {NavDropdown, NavDropdownClosable} from "./NavDropdown";
 import NavHamburger from "./NavHamburger";
 import NavLi from "./NavLi";
 import {NavLink} from "./NavLink";
@@ -71,10 +71,12 @@ export {
     MenuLi,
     Modal,
     NavAccountDropdownWrapper,
+    NavNotificationDropdownWrapper,
     Navbar,
     NavBrand,
     NavButton,
     NavDropdown,
+    NavDropdownClosable,
     NavHamburger,
     NavLi,
     NavLink,
