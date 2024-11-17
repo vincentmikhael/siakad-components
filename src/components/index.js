@@ -45,6 +45,8 @@ import Text from "./Text";
 import Textarea from "./Textarea";
 import Toast from "./Toast";
 import Toggle from "./Toggle";
+import ProfileDropdown from "./ProfileDropdown";
+import NotificationDropdown from "./NotificationDropdown";
 
 export {
     Alert,
@@ -82,7 +84,9 @@ export {
     NavLink,
     NavRow,
     NavUl,
+    NotificationDropdown,
     Pagination,
+    ProfileDropdown,
     Select,
     Stepper,
     StepperContainer,

@@ -1,17 +1,14 @@
-// import {
-//     BellRinging,
-// } from "@phosphor-icons/react/dist/ssr";
 import {
     Hr,
     LogoItn,
-    NavAccountDropdownWrapper,
-    NavNotificationDropdownWrapper,
     Navbar,
     NavBrand,
     NavHamburger,
     NavLi,
     NavUl,
     NavRow,
+    NotificationDropdown,
+    ProfileDropdown
 } from "@/components";
 import {additionalNavItems, navItems} from "@/app/(user)/NavigationItems";
 import {cookies} from "next/headers";
@@ -56,23 +53,15 @@ export default async function Layout({children}) {
                             </div>
                         </NavUl>
                     </div>
-                    <ul className="flex items-center xl:w-auto space-x-3 order-2"
-                        id="navbar-default">
-                        <li className="block relative">
-                            {/*<button className="flex items-center p-3">*/}
-                            {/*    <BellRinging color="#FFFFFF" size={20} weight="regular"/>*/}
-                            {/*</button>*/}
-                            <NavNotificationDropdownWrapper/>
-                        </li>
-                        <li>
-                            <Hr className="flex items-center" direction="vertical"
-                                classHr="h-6 bg-white opacity-[32%]"
-                                classDiv="hidden md:block"/>
-                        </li>
-                        <li className="block relative">
-                            <NavAccountDropdownWrapper userName={userName} sId={s_id}/>
-                        </li>
-                    </ul>
+                    <div
+                        className="flex items-center md:w-auto space-x-6 order-2"
+                        id="navbar-default"
+                    >
+                        <NotificationDropdown/>
+                        <Hr className="flex items-center" direction="vertical"
+                            classHr="h-6 bg-white opacity-[32%]" classDiv="hidden md:block"/>
+                        <ProfileDropdown userName={userName}/>
+                    </div>
                 </NavRow>
 
                 <NavRow className="hidden xl:flex h-14">

@@ -14,18 +14,15 @@ export async function POST(req) {
         });
     }
     try {
-        console.log('cook', existingSessionId)
         let sessionId = existingSessionId;
         const existingSession = await getSession(sessionId);
         let cookieHeader = ""
 
         if (sessionId && existingSession) {
             await setSession(sessionId, userData);
-            console.log('exist', sessionId)
         } else {
             sessionId = uuidv7();
             await setSession(sessionId, userData);
-            console.log('new', sessionId)
             cookieHeader = cookies().set("s_id", sessionId, {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === "production",
