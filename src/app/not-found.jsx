@@ -73,7 +73,7 @@ export default async function NotFound({/*children*/}) {
 
             <div
                 className="bg-radial-gradient h-[calc(100%*0.62391304)] md:h-[calc(100%*0.62391304)] w-full absolute top-16"/>
-            <div className="overflow-hidden min-h-[calc(100vh-129px-36px)]">
+            <div className="overflow-hidden min-h-[calc(100vh-3em-55px)] lg:min-h-[calc(100vh-129px-36px)]">
                 <div className="px-5 py-8 md:p-14 relative h-full w-full">
                     <main>
                         <div className="flex flex-col gap-3">
