@@ -3,9 +3,11 @@ import Badge from "./Badge";
 import Breadcrumb from "./Breadcrumb";
 import BreadcrumbItem from "./BreadcrumbItem";
 import Button from "./Button";
+import ButtonRedirectBack from "./ButtonRedirectBack";
 import Card from "./Card";
 import CardHeader from "./CardHeader";
 import Checkbox from "./Checkbox";
+import {DashboardDate} from "./Dashboard";
 import DateInput from "./DateInput";
 import FileIcon from "./FileIcon";
 import FileUpload from "./FileUpload";
@@ -14,6 +16,7 @@ import Hr from "./Hr";
 import IconButton from "./IconButton";
 import Input from "./Input";
 import Label from "./Label";
+import {navItems, additionalNavItems, daysOfWeek, monthsOfYear, Footer, Utils} from "./Layout";
 import Link from "./Link";
 import LogoItn from "./LogoItn";
 import LogoGoogle from "./LogoGoogle";
@@ -22,12 +25,8 @@ import MenuLi from "./MenuLi";
 import Modal from "./Modal";
 import Navbar from "./Navbar";
 import NavBrand from "./NavBrand";
-import {NavAccountDropdownWrapper, NavNotificationDropdownWrapper, ButtonLogOut} from "./Layout";
-import {NavButton} from "./NavButton";
-import {NavDropdown, NavDropdownClosable} from "./NavDropdown";
 import NavHamburger from "./NavHamburger";
 import NavLi from "./NavLi";
-import {NavLink} from "./NavLink";
 import NavRow from "./NavRow";
 import NavUl from "./NavUl";
 import Pagination from "./Pagination"
@@ -54,13 +53,15 @@ export {
     Breadcrumb,
     BreadcrumbItem,
     Button,
-    ButtonLogOut,
+    ButtonRedirectBack,
     Card,
     CardHeader,
     Checkbox,
+    DashboardDate,
     DateInput,
     FileIcon,
     FileUpload,
+    Footer,
     Helper,
     Hr,
     IconButton,
@@ -72,16 +73,11 @@ export {
     MenuUl,
     MenuLi,
     Modal,
-    NavAccountDropdownWrapper,
-    NavNotificationDropdownWrapper,
     Navbar,
     NavBrand,
-    NavButton,
-    NavDropdown,
-    NavDropdownClosable,
     NavHamburger,
+    navItems, additionalNavItems,
     NavLi,
-    NavLink,
     NavRow,
     NavUl,
     NotificationDropdown,
@@ -101,4 +97,5 @@ export {
     Textarea,
     Toast,
     Toggle,
+    Utils,
 };

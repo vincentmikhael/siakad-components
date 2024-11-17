@@ -5,9 +5,14 @@ import {
     CardHeader,
     Text,
     MenuUl,
-    MenuLi
+    MenuLi, Utils
 } from "@/components";
 
+export async function generateMetadata(/*{params}*/){
+    return {
+        title: Utils.getDocumentTitle('Data Utama'),
+    }
+}
 export default function DataUtamaLayout({children}) {
     const menu = [
         {label: "Fakultas", href: "/data-utama/fakultas"},

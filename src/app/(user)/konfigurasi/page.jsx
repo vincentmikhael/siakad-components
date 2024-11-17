@@ -1,14 +1,22 @@
 "use client"
 import { useState } from "react";
 import {
-  Breadcrumb,
-  BreadcrumbItem,
-  Button,
-  Card,
-  Select,
-  Modal,
+    Breadcrumb,
+    BreadcrumbItem,
+    Button,
+    Card,
+    Select,
+    Modal, //Utils,
 } from "@/components";
 
+// export async function generateMetadata(/*{params}*/){
+//     return {
+//         title: Utils.getDocumentTitle('Konfigurasi'),
+//     }
+// }
+// export const metadata = {
+//     title: Utils.getDocumentTitle('Konfigurasi'),
+// }
 export default function Konfigurasi() {
     const [isOpen, setIsOpen] = useState(false);
 
@@ -41,7 +49,7 @@ export default function Konfigurasi() {
       { header: 'Name', accessor: 'name',pinned: true },
     ]
 
-  
+
   return (
     <div>
       <Breadcrumb>
@@ -76,7 +84,7 @@ export default function Konfigurasi() {
           </div>
         </Modal>
 
-        
+
       </Card>
     </div>
   );

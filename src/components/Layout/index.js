@@ -1,3 +1,4 @@
-export {default as NavAccountDropdownWrapper} from "./NavAccountDropdownWrapper";
-export {default as NavNotificationDropdownWrapper} from "./NavNotificationDropdownWrapper";
-export {default as ButtonLogOut} from "./ButtonLogOut";
+export {navItems, additionalNavItems} from './NavigationItems'
+export {daysOfWeek, monthsOfYear} from './CalendarDictionary';
+export {default as Utils} from './Utils';
+export {default as Footer} from './Footer';
