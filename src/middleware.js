@@ -61,7 +61,7 @@ export async function middleware(request) {
     }
 
     if (!isAuthenticated && !publicPaths.includes(pathname)) {
-        return NextResponse.redirect(new URL(`${process.env.MYITN_BASE_URL}/login`, request.url));
+        return NextResponse.redirect(new URL(`${process.env.NEXT_PUBLIC_MYITN_BASE_URL}/login`, request.url));
     }
     //redirect jika akses "/"
     if (isAuthenticated && pathname === "/") {

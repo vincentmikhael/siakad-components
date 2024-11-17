@@ -21,7 +21,7 @@ AxiosInstance.interceptors.request.use(
 
         } catch (error) {
             console.error("Error checking token in Redis:", error);
-            return Promise.reject({...error, redirect: `${process.env.MYITN_BASE_URL}/login`});
+            return Promise.reject({...error, redirect: `${process.env.NEXT_PUBLIC_MYITN_BASE_URL}/login`});
         }
     },
     (error) => Promise.reject(error)
@@ -69,7 +69,7 @@ AxiosInstance.interceptors.response.use(
 
             } catch (refreshError) {
                 console.error("Refresh token error:", refreshError);
-                return Promise.reject({...refreshError, redirect: `${process.env.MYITN_BASE_URL}/login`});
+                return Promise.reject({...refreshError, redirect: `${process.env.NEXT_PUBLIC_MYITN_BASE_URL}/login`});
             }
         }
         return Promise.reject(error);

@@ -5,7 +5,7 @@ import {NextResponse} from "next/server";
 export async function checkSession(sessionId) {
     const userSession = await getSession(sessionId);
     if (!userSession) {
-        return NextResponse.redirect(`${process.env.MYITN_BASE_URL}/login`, 308);
+        return NextResponse.redirect(`${process.env.NEXT_PUBLIC_MYITN_BASE_URL}/login`, 308);
     }
 
     let {data, accessToken, refreshToken} = JSON.parse(userSession);

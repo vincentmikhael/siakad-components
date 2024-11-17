@@ -10,7 +10,7 @@ const SSO = async () => {
     if (userSession) {
         redirect('/') //akan melewati middleware untuk cek hak akses app
     } else {
-        redirect(`${process.env.MYITN_BASE_URL}/login`)
+        redirect(`${process.env.NEXT_PUBLIC_MYITN_BASE_URL}/login`)
     }
 }
 export default SSO
