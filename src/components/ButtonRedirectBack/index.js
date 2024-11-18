@@ -23,11 +23,14 @@ const ButtonRedirectBack = ({
     const goBack = () => {
         if (referrer) {
             router.push(referrer); // Redirect to the referrer URL
+        } else if (url) {
+            router.push(url);
         } else {
             router.back(); // Fallback to browser history
         }
     };
-    return <Button onClick={onClick ?? goBack} className={className} leftIcon={leftIcon} rightIcon={rightIcon} filled variant={variant ?? "white"}
+    return <Button onClick={onClick ?? goBack} className={className} leftIcon={leftIcon} rightIcon={rightIcon}
+                   filled={filled} variant={variant ?? "white"}
                    size={size ?? "sm"} type={type ?? "button"} disabled={disabled} fullWidth={fullWidth} {...props}>
         {children ?? "Kembali ke Halaman Sebelumnya"}
     </Button>
