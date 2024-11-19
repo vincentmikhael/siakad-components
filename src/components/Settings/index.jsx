@@ -99,16 +99,15 @@ const UpdateFormModal = ({open, setOpen, onClose, userData, showToast, className
         <Modal.Footer>
             <div className="gap-4 flex flex-row">
                 <Button
-                    leftIcon={<Pencil/>}
                     type="button"
-                    variant="warning"
+                    variant="primary"
                     size="md"
                     fullWidth={false}
                     filled
                     disabled={(!password || !passwordNew || !passwordConfirmation) || pending}
                     onClick={handleSubmit}
                 >
-                    {pending ? <Spinner/> : "Perbarui data"}
+                    {pending ? <Spinner/> : "Perbarui"}
                 </Button>
                 <Button variant="white" size="md" filled onClick={() => setOpen && setOpen(false)}>
                     Batal
@@ -135,7 +134,7 @@ export default function SettingsForm({
         <form onSubmit={handleLogin} {...props}
               className={twMerge("flex flex-col gap-6 items-start", className)}
         >
-            <div className="flex flex-col gap-4 justify-center items-center w-full lg:w-auto">
+            <div className="flex flex-col gap-4 justify-center items-start w-full lg:w-auto">
                 <Input className="w-full lg:w-auto"
                     label="Nama Lengkap"
                     placeholder="Nama Lengkap"
@@ -171,7 +170,7 @@ export default function SettingsForm({
                     type="submit"
                     variant="warning"
                     size="md"
-                    fullWidth
+                    fullWidth={false}
                     filled
                     disabled={false}
                 >Perbarui data</Button>

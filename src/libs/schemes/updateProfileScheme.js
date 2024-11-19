@@ -12,6 +12,7 @@ const validatePasswordNew = (passwordNew) => {
         return 'Katasandi baru tidak boleh kosong'
     if (passwordNew.length < 8)
         return 'Panjang katasandi baru tidak boleh kurang dari 8 karakter'
+    return undefined;
 }
 
 const validatePasswordConfirmation = (passwordNew, passwordConfirmation) => {
