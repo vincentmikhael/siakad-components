@@ -136,14 +136,14 @@ export default function SettingsForm({
               className={twMerge("flex flex-col gap-6 items-start", className)}
         >
             <div className="flex flex-col gap-4 justify-center items-center w-full lg:w-auto">
-                <Input
+                <Input className="w-full lg:w-auto"
                     label="Nama Lengkap"
                     placeholder="Nama Lengkap"
                     showLabel readOnly
                     rightIcon={<User/>}
                     type="text"
                     defaultValue={userData?.nama_lengkap}/>
-                <Input
+                <Input className="w-full lg:w-auto"
                     rightIcon={<Envelope/>}
                     leftIcon={undefined}
                     label="Surel"
