@@ -31,6 +31,8 @@ import NavRow from "./NavRow";
 import NavUl from "./NavUl";
 import Pagination from "./Pagination"
 import Select from "./Select";
+import SettingsForm from "./Settings";
+import Spinner from "./Spinner";
 import Stepper from './Stepper'
 import StepperContainer from './StepperContainer'
 import Table from "./Table/Table"
@@ -59,6 +61,7 @@ export {
     Checkbox,
     DashboardDate,
     DateInput,
+    daysOfWeek, monthsOfYear,
     FileIcon,
     FileUpload,
     Footer,
@@ -84,6 +87,8 @@ export {
     Pagination,
     ProfileDropdown,
     Select,
+    SettingsForm,
+    Spinner,
     Stepper,
     StepperContainer,
     Table,

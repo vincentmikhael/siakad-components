@@ -16,7 +16,7 @@ const ButtonRedirectBack = ({
                                 className,
                                 disabled = false,
                                 fullWidth = false,
-                                filled = false,
+                                filled = true,
                                 ...props
                             }) => {
     const router = useRouter();

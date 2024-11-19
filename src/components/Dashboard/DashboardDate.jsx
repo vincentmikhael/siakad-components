@@ -1,6 +1,5 @@
 'use client'
-import {Text} from "@/components";
-import {daysOfWeek, monthsOfYear} from "@components/Layout";
+import {daysOfWeek, monthsOfYear, Text} from "@/components";
 
 export default function DashboardDate({className, children}) {
     const dateToday = new Date();
