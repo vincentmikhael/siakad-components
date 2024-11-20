@@ -9,6 +9,7 @@ import CardHeader from "./CardHeader";
 import Checkbox from "./Checkbox";
 import {DashboardDate} from "./Dashboard";
 import DateInput from "./DateInput";
+import {EntriPengajarKelasView} from "./PenjadwalanKelas";
 import FileIcon from "./FileIcon";
 import FileUpload from "./FileUpload";
 import Helper from "./Helper";
@@ -62,6 +63,7 @@ export {
     DashboardDate,
     DateInput,
     daysOfWeek, monthsOfYear,
+    EntriPengajarKelasView,
     FileIcon,
     FileUpload,
     Footer,

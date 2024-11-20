@@ -1,0 +1,1 @@
+export {EntriPengajarKelasView} from "./EntriPengajarKelas";

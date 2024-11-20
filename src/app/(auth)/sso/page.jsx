@@ -1,6 +1,7 @@
 import {getSession} from "@libs/redisHelper";
 import {cookies} from "next/headers";
 import {redirect} from "next/navigation";
+import {Utils} from "@/components";
 
 const SSO = async () => {
     const cookieStore = cookies();
@@ -10,7 +11,7 @@ const SSO = async () => {
     if (userSession) {
         redirect('/') //akan melewati middleware untuk cek hak akses app
     } else {
-        redirect(`${process.env.NEXT_PUBLIC_MYITN_BASE_URL}/login`)
+        Utils.redirectLogin();
     }
 }
 export default SSO

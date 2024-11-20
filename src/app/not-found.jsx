@@ -26,10 +26,10 @@ export default async function NotFound({/*children*/}) {
     const s_id = cookieStore.get("s_id")?.value;
     let userName = "user";
     const userData = await getSession(s_id);
-    if (userData) {
-        const parsedData = JSON.parse(userData);
-        userName = parsedData?.data?.nama_lengkap || "User";
-    }
+    if (!userData)
+        return Utils.redirectLogin();
+    const parsedData = JSON.parse(userData);
+    userName = parsedData?.data?.nama_lengkap || "User";
     return (
         <>
             <Navbar>

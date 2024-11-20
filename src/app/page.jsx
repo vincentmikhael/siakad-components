@@ -1,6 +1,7 @@
 import {cookies} from "next/headers";
 import {getSession} from "@/libs/redisHelper";
 import {redirect} from "next/navigation";
+import {Utils} from "@/components";
 
 export default async function Home(){
     const cookieStore = cookies();
@@ -9,5 +10,5 @@ export default async function Home(){
     if (userData) {
         return redirect(`/dashboard`);
     }
-    return redirect(`${process.env.NEXT_PUBLIC_MYITN_BASE_URL}/login`);
+    return Utils.redirectLogin();
 }

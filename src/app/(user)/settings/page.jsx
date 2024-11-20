@@ -1,7 +1,6 @@
 import {Breadcrumb, BreadcrumbItem, Card, Hr, SettingsForm, Text, Utils} from "@/components";
 import {cookies} from "next/headers";
 import {getSession} from "@libs/redisHelper";
-import {redirect} from "next/navigation";
 
 export const metadata = {
     title: Utils.getDocumentTitle('Settings Profile'),
@@ -13,11 +12,9 @@ export default async function Settings() {
     const s_id = cookieStore.get("s_id")?.value;
     let parsedData;
     const userData = await getSession(s_id);
-
     if (!userData)
-        return redirect('/login');
+        return Utils.redirectLogin();
     parsedData = JSON.parse(userData);
-
     return (
         <div>
             <Breadcrumb className="mb-8">
