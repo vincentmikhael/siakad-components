@@ -71,7 +71,7 @@ export async function middleware(request) {
     if (isAuthenticated && pathname === "/data-utama") {
         return NextResponse.redirect(new URL('/data-utama/fakultas', request.url));
     }
-    console.log(pathname, pathname === "/penjadwalan-kelas")
+    //redirect jika akses "/penjadwalan-kelas"
     if (isAuthenticated && pathname === "/penjadwalan-kelas") {
         return NextResponse.redirect(new URL('/penjadwalan-kelas/entri-pengajar', request.url));
     }
