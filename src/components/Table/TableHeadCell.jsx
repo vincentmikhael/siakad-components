@@ -40,7 +40,7 @@ const TableHeadCell = ({children, index, className}) => {
     return (
         <th
             className={
-                twMerge(`bg-fade uppercase px-5 py-4 ${(headCellsData[index]?.pinned ? `sticky left-[${getStickyOffset(index)}px] last:border-r-4 last:border-fade` : "")}`,
+                twMerge(`bg-fade uppercase px-4 py-3 ${(headCellsData[index]?.pinned ? `sticky left-[${getStickyOffset(index)}px] last:border-r-4 last:border-fade` : "")}`,
                     className)}
 
             style={{
