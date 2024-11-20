@@ -8,11 +8,12 @@ import {
     MenuLi, Utils
 } from "@/components";
 
-export async function generateMetadata(/*{params}*/){
+export async function generateMetadata(/*{params}*/) {
     return {
         title: Utils.getDocumentTitle('Data Utama'),
     }
 }
+
 export default function DataUtamaLayout({children}) {
     const menu = [
         {label: "Fakultas", href: "/data-utama/fakultas"},
@@ -30,7 +31,7 @@ export default function DataUtamaLayout({children}) {
         {label: "Data Ruang", href: "/data-utama/data-ruang"},
         {label: "Mata kuliah", href: "/data-utama/mata-kuliah"},
         {label: "Kurikulum", href: "/data-utama/kurikulum"},
-        {label: "Prasyarat mata kuliah", href: "/data-utama/prasyarat mata kuliah"},
+        {label: "Prasyarat mata kuliah", href: "/data-utama/prasyarat-mata-kuliah"},
     ];
     return (
         <>
