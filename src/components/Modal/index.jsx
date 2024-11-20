@@ -78,7 +78,7 @@ const Modal = ({
     const body = childrenArray.find((child) => child.type === Modal.Body) || null;
     const footer =
         childrenArray.find((child) => child.type === Modal.Footer) || null;
-    
+
     return (
         <>
             <div className={twMerge(backdropClasses, backdropClass)}/>
@@ -130,7 +130,7 @@ const Modal = ({
                         {/* Modal Body */}
                         {body && (
                             <div
-                                className="space-y-8 flex-1 p-8 overflow-y-auto scrollbar-none overscroll-contain h-full"
+                                className="space-y-6 flex-1 p-8 overflow-y-auto scrollbar-none overscroll-contain h-full"
                                 onClick={onAutoClose}
                             >
                                 {dismissable && !header && !title && (
