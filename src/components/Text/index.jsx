@@ -20,6 +20,8 @@ const weightClasses = {
   400: "font-normal",
   500: "font-medium",
   600: "font-semibold",
+  800: "font-bold",
+  1000: "font-extrabold",
 };
 
 const spaceClasses = {

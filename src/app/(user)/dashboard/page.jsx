@@ -1,4 +1,4 @@
-import {DashboardDate, Button, Text, Utils, Card} from "@/components";
+import {DashboardDate, Button, Text, Utils, Card, Hr} from "@/components";
 import {Calendar} from "@phosphor-icons/react/dist/ssr";
 
 export async function generateMetadata(/*{params}*/) {
@@ -26,71 +26,136 @@ export default function Dashboard() {
                 {/*<Select label="Masa Akademik" showLabel/>*/}
                 <div className="flex flex-col">
                     <Text className="text-right mb-3" size="base" weight={600} color="text-white">Masa Akademik</Text>
-                    <Button leftIcon={<Calendar/>} variant="white" fullWidth={true}
+                    <Button leftIcon={<Calendar className="text-primary-100"/>} variant="white" fullWidth={true}
                             filled>{`${academic['1'].start} - ${academic['1'].end}`}</Button>
                 </div>
             </div>
-            <div className="flex justify-center flex-col gap-3">
-                <div className="flex flex-col lg:flex-row justify-center gap-3">
-                    <div className="w-full lg:w-2/4"><Card className="min-h-[216px]">
+            <div className="flex justify-center flex-wrap -mx-2 gap-y-4">
+                <div className="w-full lg:w-1/2 px-2">
+                    <Card className="min-h-[216px]">
                         <Text className="mb-3" tag="h2" color="text-black" weight="600" size="xl">
                             Penerimaan mahasiswa baru
                         </Text>
                         <Text className="mb-3" color="text-gray-50" weight="400" size="base">
                             Mahasiswa baru setiap program studi
                         </Text>
-                    </Card></div>
-                    <div className="w-full lg:w-1/4"><Card className="min-h-[216px]">
+                        <Hr/>
+                    </Card>
+                </div>
+                <div className="w-full lg:w-1/4 px-2">
+                    <Card className="min-h-[216px]">
                         <Text className="mb-3" tag="h2" color="text-black" weight="600" size="xl">
                             Masa study
                         </Text>
-                    </Card></div>
-                    <div className="w-full lg:w-1/4"><Card className="min-h-[216px]">
+                        <Text className="mb-3" color="text-gray-50" weight="400" size="base">
+                            2024 / 2025 Ganjil
+                        </Text>
+                        <Hr/>
+                    </Card>
+                </div>
+                <div className="w-full lg:w-1/4 px-2">
+                    <Card className="min-h-[216px]">
                         <Text className="mb-3" tag="h2" color="text-black" weight="600" size="xl">
                             Mahasiswa kritis
                         </Text>
-                    </Card></div>
+                        <Text className="mb-3" color="text-gray-50" weight="400" size="base">
+                            2024 / 2025 Ganjil
+                        </Text>
+                        <Hr/>
+                    </Card>
                 </div>
-                <div className="flex flex-col lg:flex-row justify-center gap-3">
-                    <div className="w-full lg:w-1/4 gap-3">
-                        <div className="w-full mb-3"><Card>
+                <div className="w-full lg:w-1/4 px-2 flex flex-wrap gap-y-4">
+                    <div className="w-full">
+                        <Card>
                             <Text className="mb-3" tag="h2" color="text-black" weight="600" size="xl">
                                 Total dosen
                             </Text>
-                        </Card></div>
-                        <div className="w-full mb-3"><Card>
+                            <Text className="mb-3" color="text-gray-50" weight="400" size="base">
+                                Terhitung dari daftar total 1.024
+                            </Text>
+                            <div className="flex gap-3 items-center">
+                                <Text size="4xl" weight={800} color="text-black">1.006</Text>
+                                <Text className="" tag="span" color="text-gray-50" weight="400" size="base">
+                                    Dosen aktif
+                                </Text>
+                            </div>
+                        </Card>
+                    </div>
+                    <div className="w-full">
+                        <Card>
                             <Text className="mb-3" tag="h2" color="text-black" weight="600" size="xl">
                                 Total mahasiswa
                             </Text>
-                        </Card></div>
-                        <div className="w-full"><Card>
+                            <Text className="mb-3" color="text-gray-50" weight="400" size="base">
+                                Terhitung dari daftar total 7.010
+                            </Text>
+                            <div className="flex gap-3 items-center">
+                                <Text size="4xl" weight={800} color="text-black">6.906</Text>
+                                <Text className="" tag="span" color="text-gray-50" weight="400" size="base">
+                                    Mahasiswa aktif
+                                </Text>
+                            </div>
+                        </Card>
+                    </div>
+                    <div className="w-full">
+                        <Card>
                             <Text className="mb-3" tag="h2" color="text-black" weight="600" size="xl">
                                 Total karyawan
                             </Text>
-                        </Card></div>
+                            <Text className="mb-3" color="text-gray-50" weight="400" size="base">
+                                Terhitung dari daftar total 224
+                            </Text>
+                            <div className="flex gap-3 items-center">
+                                <Text size="4xl" weight={800} color="text-black">209</Text>
+                                <Text className="" tag="span" color="text-gray-50" weight="400" size="base">
+                                    Karyawan aktif
+                                </Text>
+                            </div>
+                        </Card>
                     </div>
-                    <div className="w-full lg:w-1/4 h-full"><Card className="h-full min-h-[216px]">
+                </div>
+                <div className="w-full lg:w-1/4 h-full px-2">
+                    <Card className="h-full min-h-[216px]">
                         <Text className="mb-3" tag="h2" color="text-black" weight="600" size="xl">
                             Kelulusan
                         </Text>
-                    </Card></div>
-                    <div className="w-full lg:w-2/4 h-full"><Card className="h-full min-h-[216px]">
+                        <Text className="mb-3" color="text-gray-50" weight="400" size="base">
+                            2024 / 2025 Ganjil
+                        </Text>
+                        <Hr/>
+                    </Card>
+                </div>
+                <div className="w-full lg:w-1/2 h-full px-2">
+                    <Card className="h-full min-h-[216px]">
                         <Text className="mb-3" tag="h2" color="text-black" weight="600" size="xl">
                             Keuangan akademik
                         </Text>
-                    </Card></div>
+                        <Text className="mb-3" color="text-gray-50" weight="400" size="base">
+                            2024 / 2025 Ganjil
+                        </Text>
+                    </Card>
                 </div>
-                <div className="flex flex-col lg:flex-row justify-center gap-3">
-                    <div className="w-full lg:w-2/4"><Card className={"min-h-[216px]"}>
+                <div className="w-full lg:w-1/2 px-2">
+                    <Card className={"min-h-[216px]"}>
                         <Text className="mb-3" tag="h2" color="text-black" weight="600" size="xl">
                             Data mahasiswa
                         </Text>
-                    </Card></div>
-                    <div className="w-full lg:w-2/4"><Card className={"min-h-[216px]"}>
+                        <Text className="mb-3" color="text-gray-50" weight="400" size="base">
+                            2024 / 2025 Ganjil
+                        </Text>
+                        <Hr/>
+                    </Card>
+                </div>
+                <div className="w-full lg:w-1/2 px-2">
+                    <Card className={"min-h-[216px]"}>
                         <Text className="mb-3" tag="h2" color="text-black" weight="600" size="xl">
                             Data dosen
                         </Text>
-                    </Card></div>
+                        <Text className="mb-3" color="text-gray-50" weight="400" size="base">
+                            Terhitung dari daftar total 1.0024
+                        </Text>
+                        <Hr/>
+                    </Card>
                 </div>
             </div>
         </main>

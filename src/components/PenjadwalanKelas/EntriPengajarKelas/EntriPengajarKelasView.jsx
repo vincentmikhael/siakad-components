@@ -97,12 +97,12 @@ export default function EntriPengajarKelasView({listPengajarKelas}) {
             <Select label="Tahun Akademik" showLabel/>
             <Input
                 size="xs"
-                className="max-w-[156px] self-end"
+                className="max-w-[156px] min-w-[156px] self-end"
                 placeholder={"Cari data disini"}
                 leftIcon={<MagnifyingGlass weight="bold"/>}
             />
             <Button
-                className="self-end"
+                className="self-end text-nowrap"
                 onClick={openModal}
                 leftIcon={<Plus weight="bold"/>}
                 size="sm"
