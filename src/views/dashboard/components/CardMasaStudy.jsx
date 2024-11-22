@@ -81,8 +81,8 @@ export default function CardMasaStudy({
         <Hr className=""/>
         <div className="flex relative justify-center mb-8">
             <ProgressBarRadianHalf width={300} progress={projectionBar}/>
-            <div className="flex flex-col absolute bottom-0 justify-center text-center">
-                <Text className="text-center" weight="600" size="xl"
+            <div className="flex flex-col absolute bottom-[-10px] justify-center text-center">
+                <Text className="text-center mb-3" weight="600" size="xl"
                       color="text-gray-100">{`${meanTahun}`}<Text weight="500"
                                                                   className="ml-1"
                                                                   size="sm" tag="span"
@@ -99,7 +99,7 @@ export default function CardMasaStudy({
                             {`${Utils.fixFloatingPoint(masaStudy.years, 1)} tahun`}
                         </Text>
                     </div>
-                    <ProgressBar fullWidth width={500} height={25}
+                    <ProgressBar fullWidth width={500} height={20}
                         progress={maksTahun === 0 ? 0 : (masaStudy.years / maksTahun * 100)}/>
                 </div>
             })}

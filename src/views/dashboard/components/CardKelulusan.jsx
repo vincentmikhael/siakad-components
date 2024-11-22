@@ -225,7 +225,7 @@ export default function CardKelulusan({
             <IconButton><CaretRight weight="bold" size={16}/></IconButton>
         </div>
         <Hr className="mb-8"/>
-        <div className="flex flex-col gap-8">
+        <div className="flex flex-col gap-8 mb-8">
             {kelulusanList && kelulusanList.map((kelulusan, index) => {
                 return <div className="flex flex-col items-center gap-1 justify-between" key={index}>
                     <div className="flex flex-row justify-between w-full">
@@ -236,7 +236,7 @@ export default function CardKelulusan({
                                                                                    size="sm" tag="span"
                                                                                    color="text-gray-60">{`Mahasiswa`}</Text></Text>
                     </div>
-                    <ProgressBar fullWidth  width={500} height={25} withBackground={false}
+                    <ProgressBar fullWidth  width={500} height={20} withBackground={false}
                         progress={maksKelulusanListed === 0 ? 0 : (kelulusan.quantity / maksKelulusanListed * 100)}/>
                 </div>
             })}
