@@ -30,8 +30,8 @@ export default function CardDataMahasiswa({
         </div>
         <Hr className="mb-8"/>
         <div className="flex flex-wrap">
-            <div className="w-full lg:w-1/3"></div>
-            <div className="w-full lg:w-2/3 flex gap-3">
+            <div className="w-full xl:w-1/3"></div>
+            <div className="w-full xl:w-2/3 flex gap-3">
                 {mahasiswaStatusCountList && <CardDataLegends className="w-1/3"
                     defaultList={mahasiswaStatusCountList} namePrefix={'Mahasiswa'}
                 />}

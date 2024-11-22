@@ -24,16 +24,16 @@ export default function Index({academic, selected = 1}) {
             </div>
         </div>
         <div className="flex justify-center flex-wrap -mx-2 gap-y-4">
-            <div className="w-full lg:w-1/2 px-2">
+            <div className="w-full xl:w-1/2 px-2">
                 <CardPenerimaanMahasiswaBaru className="min-h-[216px]"/>
             </div>
-            <div className="w-full lg:w-1/4 px-2">
+            <div className="w-full lg:w-1/2 xl:w-1/4 px-2">
                 <CardMasaStudy className="min-h-[216px]" academic={academic} selected={selected}/>
             </div>
-            <div className="w-full lg:w-1/4 px-2">
+            <div className="w-full lg:w-1/2 xl:w-1/4 px-2">
                 <CardMahasiswaKritis className="min-h-[216px]" academic={academic} selected={selected}/>
             </div>
-            <div className="w-full lg:w-1/4 px-2 flex flex-wrap gap-y-4">
+            <div className="w-full lg:w-2/5 xl:w-1/4 px-2 flex flex-wrap gap-y-4">
                 <div className="w-full">
                     <CardTotalDosen/>
                 </div>
@@ -44,10 +44,10 @@ export default function Index({academic, selected = 1}) {
                     <CardTotalKaryawan/>
                 </div>
             </div>
-            <div className="w-full lg:w-1/4 h-full px-2">
+            <div className="w-full lg:w-3/5 xl:w-1/4 h-full px-2">
                 <CardKelulusan className="h-full min-h-[216px]" academic={academic} selected={selected}/>
             </div>
-            <div className="w-full lg:w-1/2 h-full px-2">
+            <div className="w-full xl:w-1/2 h-full px-2">
                 <CardKeuanganAkademik className="h-full min-h-[216px]" academic={academic} selected={selected}/>
             </div>
             <div className="w-full lg:w-1/2 px-2">
