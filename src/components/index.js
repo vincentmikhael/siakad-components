@@ -7,9 +7,7 @@ import ButtonRedirectBack from "./ButtonRedirectBack";
 import Card from "./Card";
 import CardHeader from "./CardHeader";
 import Checkbox from "./Checkbox";
-import {DashboardDate} from "./Dashboard";
 import DateInput from "./DateInput";
-import {EntriPengajarKelasView} from "./PenjadwalanKelas";
 import FileIcon from "./FileIcon";
 import FileUpload from "./FileUpload";
 import Helper from "./Helper";
@@ -31,8 +29,8 @@ import NavLi from "./NavLi";
 import NavRow from "./NavRow";
 import NavUl from "./NavUl";
 import Pagination from "./Pagination"
+import {ProgressBar, ProgressBarRadian, ProgressBarRadianHalf} from "./ProgressBar";
 import Select from "./Select";
-import SettingsForm from "./Settings";
 import Spinner from "./Spinner";
 import Stepper from './Stepper'
 import StepperContainer from './StepperContainer'
@@ -44,6 +42,7 @@ import TableHead from "./Table/TableHead"
 import TableHeadCell from "./Table/TableHeadCell"
 import TableHeadRow from "./Table/TableHeadRow"
 import Text from "./Text";
+import TextWithRef from "./TextWithRef";
 import Textarea from "./Textarea";
 import Toast from "./Toast";
 import Toggle from "./Toggle";
@@ -60,10 +59,8 @@ export {
     Card,
     CardHeader,
     Checkbox,
-    DashboardDate,
     DateInput,
     daysOfWeek, monthsOfYear,
-    EntriPengajarKelasView,
     FileIcon,
     FileUpload,
     Footer,
@@ -88,8 +85,8 @@ export {
     NotificationDropdown,
     Pagination,
     ProfileDropdown,
+    ProgressBar, ProgressBarRadian, ProgressBarRadianHalf,
     Select,
-    SettingsForm,
     Spinner,
     Stepper,
     StepperContainer,
@@ -102,6 +99,7 @@ export {
     TableHeadRow,
     Text,
     Textarea,
+    TextWithRef,
     Toast,
     Toggle,
     Utils,

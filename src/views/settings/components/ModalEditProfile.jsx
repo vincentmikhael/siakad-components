@@ -11,7 +11,7 @@ const initialState = {
     password_new: "",
     password_confirmation: "",
 }
-export default function EditProfileModal({
+export default function ModalEditProfile({
                                             open,
                                             setOpen,
                                             onClose,

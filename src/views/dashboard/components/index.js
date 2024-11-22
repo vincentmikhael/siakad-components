@@ -1,0 +1,11 @@
+export {default as CardDataDosen} from './CardDataDosen';
+export {default as CardDataMahasiswa} from './CardDataMahasiswa';
+export {default as CardKelulusan} from './CardKelulusan';
+export {default as CardKeuanganAkademik} from './CardKeuanganAkademik';
+export {default as CardMahasiswaKritis} from './CardMahasiswaKritis';
+export {default as CardMasaStudy} from './CardMasaStudy';
+export {default as CardPenerimaanMahasiswaBaru} from './CardPenerimaanMahasiswaBaru';
+export {default as CardTotalDosen} from './CardTotalDosen';
+export {default as CardTotalKaryawan} from './CardTotalKaryawan';
+export {default as CardTotalMahasiswa} from './CardTotalMahasiswa';
+export {default as DashboardDate} from './DashboardDate';

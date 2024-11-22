@@ -1,6 +1,7 @@
-import {Breadcrumb, BreadcrumbItem, Card, Hr, SettingsForm, Text, Utils} from "@/components";
+import {Breadcrumb, BreadcrumbItem, Card, Hr, Text, Utils} from "@/components";
 import {cookies} from "next/headers";
 import {getSession} from "@libs/redisHelper";
+import SettingsForm from "@views/settings";
 
 export const metadata = {
     title: Utils.getDocumentTitle('Settings Profile'),

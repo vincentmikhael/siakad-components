@@ -4,9 +4,9 @@ import {useState} from "react";
 import {Envelope, Pencil, User} from "@phosphor-icons/react";
 import {twMerge} from "tailwind-merge";
 import {useToast} from "@context/ToastContext";
-import EditProfileModal from "./EditProfileModal";
+import ModalEditProfile from "./components/ModalEditProfile";
 
-export default function SettingsForm({
+export default function Index({
                                          userData, className, ...props
                                      }) {
     const [openUpdateModal, setOpenUpdateModal] = useState(false);
@@ -63,7 +63,7 @@ export default function SettingsForm({
                 >Perbarui data</Button>
             </div>
         </form>
-        <EditProfileModal open={openUpdateModal} setOpen={setOpenUpdateModal} onClose={onCloseModal}
+        <ModalEditProfile open={openUpdateModal} setOpen={setOpenUpdateModal} onClose={onCloseModal}
                           showToast={showToast}/>
     </>
 }

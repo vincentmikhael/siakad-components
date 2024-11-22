@@ -1,0 +1,1 @@
+export {default as TableEntriPengajarKelas} from './TableEntriPengajarKelas';

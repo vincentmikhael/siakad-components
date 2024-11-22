@@ -1,7 +1,6 @@
-import {EntriPengajarKelasView, Utils} from "@/components";
-// import EntriPengajarKelasView from "./EntriPengajarKelasView";
-// import {EntriPengajarKelasView} from "@components/PenjadwalanKelas/EntriPengajarKelas";
-// import PenjadwalanKelas from "@components/PenjadwalanKelas";
+import { Utils} from "@/components";
+import {default as EntriPengajarKelasView} from "@views/penjadwalan-kelas/entri-pengajar"
+
 export async function generateMetadata(/*{params}*/){
     return {
         title: Utils.getDocumentTitle('Penjadwalan kelas > Entri pengajar kelas'),
