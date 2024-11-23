@@ -10,6 +10,7 @@ const BasicRoundedBar = ({
                              showXGridLines = false, showYGridLines = false,
                              // showLegend = true,
                              tooltipFormatter,
+                             marginYAxis = 15,
                              barWidth = 50,
                              height = 400, width = '100%',
                          }) => {
@@ -27,15 +28,16 @@ const BasicRoundedBar = ({
         //     data: datasets.map((dataset) => dataset[indexForLabel]), // Extract legend labels
         // },
         grid: {
-            left: '3%',
-            right: '3%',
-            bottom: '3%',
+            left: '0',
+            right: '0',
+            bottom: '25px',
             top: '3%',
             containLabel,
         },
         xAxis: {
             type: 'category',
             data: labelSeries, // X-axis labels
+            boundaryGap: true,
             splitLine: {show: showXGridLines},
             axisTick: {show: false},
             axisLine: {show: showXAxisLine},
@@ -43,7 +45,7 @@ const BasicRoundedBar = ({
         yAxis: {
             type: 'value',
             show: showYAxisLabel,
-            axisLabel: {margin: 15},
+            axisLabel: {margin: marginYAxis},
             splitLine: {show: showYGridLines},
             axisTick: {show: false},
             axisLine: {show: showYAxisLine},

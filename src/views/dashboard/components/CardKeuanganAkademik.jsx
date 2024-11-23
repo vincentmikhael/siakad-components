@@ -1,9 +1,7 @@
 'use client'
 import {Button, Card, ChartDynamicLine, Text, TextWithRef, Utils} from "@/components";
 import {useEffect, useRef, useState} from "react";
-import dummyData from './dummy.json'
-// import fs from 'fs';
-// import path from 'path';
+import dummyData from './dummyKeuanganAkademik.json'
 
 const DEFAULT = [
     {
@@ -31,7 +29,9 @@ const generateDates = (start, end) => {
     return dates;
 };
 
-
+const chartCanvasHeight = {
+    desktop: 400, mobile: 200
+};
 export default function CardKeuanganAkademik({
                                                  className,
                                                  monetaryIncomeList = DEFAULT[0],
@@ -43,12 +43,12 @@ export default function CardKeuanganAkademik({
                                                  selected = 1,
                                                  indexName = 'name'
                                              }) {
+    const [dynamicChartHeight, setDynamicChartHeight] = useState(chartCanvasHeight.desktop);
     const countUpIncomeRef = useRef(null);
     const countUpDebtRef = useRef(null);
     const [countIncome, setCountIncome] = useState(0);
     const [countDebt, setCountDebt] = useState(0);
 
-    // console.log(dummyData);
     // Dummy data implementation
     monetaryIncomeList.data = dummyData[0];
     monetaryDebtList.data = dummyData[1];
@@ -79,6 +79,18 @@ export default function CardKeuanganAkademik({
                 timeout,
             );
         }
+        const updateChartContentSize = () => {
+            const screenWidth = window.innerWidth;
+            if (screenWidth <= 640) {// Mobile
+                setDynamicChartHeight(chartCanvasHeight.mobile);
+            } else if (screenWidth >= 1024) {// Tablet and Desktop
+                setDynamicChartHeight(chartCanvasHeight.desktop);
+            }
+        };
+        updateChartContentSize();
+        window.addEventListener("resize", updateChartContentSize);
+
+        return () => window.removeEventListener("resize", updateChartContentSize);
     }, [totalPendapatan, totalPiutang]);
     return <Card className={className}>
         <div className="flex flex-col lg:flex-row w-full justify-between mb-8">
@@ -93,7 +105,8 @@ export default function CardKeuanganAkademik({
             <Button className="self-end lg:self-start" variant="primary" filled>Download report</Button>
         </div>
         <div className="flex w-full mb-4">
-            <ChartDynamicLine datasets={datasets} labelSeries={dates} showLegend={false}/>
+            <ChartDynamicLine height={dynamicChartHeight}
+                datasets={datasets} labelSeries={dates} showLegend={false}/>
         </div>
         <div className="flex flex-wrap gap-4">
             <div>

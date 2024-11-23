@@ -1,6 +1,7 @@
 'use client'
 import {Button, Card, ChartBasicRoundedBar, Hr, Text, Utils} from "@/components";
 import {Minus, TrendDown, TrendUp} from "@phosphor-icons/react";
+import {useEffect, useState} from "react";
 
 const DEFAULT = [
     {
@@ -120,10 +121,18 @@ const DEFAULT_PRODI = [
 const mahasiswaBaruProdiStats = [
     {quantity: 130}, {quantity: 120}, {quantity: 100}, {quantity: 80}, {quantity: 74}, {quantity: 43},
 ];
+const barWidth = {
+    desktop: 50, mobile: 30
+};
+const chartCanvasHeight = {
+    desktop: 400, mobile: 200
+};
 export default function CardPenerimaanMahasiswaBaru({
                                                         className, faculties = DEFAULT,
                                                         prodiList = DEFAULT_PRODI,
                                                     }) {
+    const [dynamicBarWidth, setDynamicBarWidth] = useState(barWidth.desktop);
+    const [dynamicChartHeight, setDynamicChartHeight] = useState(chartCanvasHeight.desktop);
     faculties = faculties.map((faculty, index) => {
         return {...facultiesStats[index], ...faculty};
     })
@@ -143,14 +152,31 @@ export default function CardPenerimaanMahasiswaBaru({
         const total = target.data;
         const abbr = target.axisValueLabel;
         const name = prodiList[index][indexForLabel];
-        console.log({total, abbr, name}, t);
+        // console.log({total, abbr, name}, t);
         return `
-            <div class="p-2 bg-white rounded-lg shadow-md text-gray-900">
+<!--            <div class="p-2 bg-white rounded-lg shadow-md text-gray-900">-->
                 <div><b>[${abbr}]</b> ${name}</div>
                 <div><strong>Total:</strong> ${total}</div>
-            </div>
+<!--            </div>-->
         `;
     }
+    useEffect(() => {
+        const updateChartContentSize = () => {
+            const screenWidth = window.innerWidth;
+            if (screenWidth <= 640) {// Mobile
+                setDynamicBarWidth(barWidth.mobile);
+                setDynamicChartHeight(chartCanvasHeight.mobile);
+            } else if (screenWidth >= 1024) {// Tablet and Desktop
+                setDynamicBarWidth(barWidth.desktop);
+                setDynamicChartHeight(chartCanvasHeight.desktop);
+            }
+        };
+
+        updateChartContentSize();
+        window.addEventListener("resize", updateChartContentSize);
+
+        return () => window.removeEventListener("resize", updateChartContentSize);
+    }, []);
     return <Card className={className}>
         <div className="flex flex-col lg:flex-row gap-3 w-full justify-between">
             <div className="">
@@ -193,10 +219,11 @@ export default function CardPenerimaanMahasiswaBaru({
             })}
         </div>
         <div className="flex w-full">
-            <ChartBasicRoundedBar datasets={prodiList} labelSeries={labelSeries}
+            <ChartBasicRoundedBar datasets={prodiList} labelSeries={labelSeries} height={dynamicChartHeight}
                                   title={'Total mahasiswa baru per prodi'} tooltipFormatter={tooltipFormatter}
-                                  showLegend={false} showYAxisLabel={false} showYGridLine={false}
-                                  showXAxisLine={false} showYAxisLine={false}
+                                  showLegend={false} showYAxisLabel={false} showYGridLine={false} marginYAxis={0}
+                                  showXAxisLine={false} showYAxisLine={false} containLabel={false}
+                                  barWidth={dynamicBarWidth}
                                   indexForLabel={indexForLabel} indexForValue={'value'}/>
         </div>
     </Card>

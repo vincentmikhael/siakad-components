@@ -40,6 +40,13 @@ const RoundedDoughnut = ({data, colors, title = 'Rounded Doughnut Chart', height
                 })),
             },
         ],
+        grid: {
+            left: '0',
+            right: '0',
+            bottom: '0',
+            top: '0',
+            containLabel: false,
+        },
     };
 
     return (
