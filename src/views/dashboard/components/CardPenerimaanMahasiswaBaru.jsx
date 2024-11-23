@@ -1,5 +1,5 @@
 'use client'
-import {Button, Card, Hr, Text, Utils} from "@/components";
+import {Button, Card, ChartBasicRoundedBar, Hr, Text, Utils} from "@/components";
 import {Minus, TrendDown, TrendUp} from "@phosphor-icons/react";
 
 const DEFAULT = [
@@ -55,10 +55,102 @@ const facultiesStats = [
     {quantity: 7006, percent_growth: 12.32, date_retrieved: '02/11/2024'},
     {quantity: 2009, percent_growth: 12.32, date_retrieved: '02/11/2024'},
 ];
-export default function CardPenerimaanMahasiswaBaru({className, faculties = DEFAULT}) {
+const DEFAULT_PRODI = [
+    {
+        "id": "0101",
+        "singkatan": "MS",
+        "nama": "Teknik Mesin S-1",
+        "nama_en": "Mechanical Engineering",
+        "jenjang": "S-1",
+        "kaprodi": null,
+        "sekprodi": null,
+        "status": "1"
+    },
+    {
+        "id": "0102",
+        "singkatan": "EL",
+        "nama": "Teknik Elektro S-1",
+        "nama_en": "Electrical  Engineering",
+        "jenjang": "S-1",
+        "kaprodi": null,
+        "sekprodi": null,
+        "status": "1"
+    },
+    {
+        "id": "0105",
+        "singkatan": "MD",
+        "nama": "Teknik Mesin D-III",
+        "nama_en": "Mechanical Engineering",
+        "jenjang": "D-III",
+        "kaprodi": null,
+        "sekprodi": null,
+        "status": "1"
+    },
+    {
+        "id": "0107",
+        "singkatan": "TD",
+        "nama": "Teknik Industri D-III",
+        "nama_en": "Industrial Engineering",
+        "jenjang": "D-III",
+        "kaprodi": null,
+        "sekprodi": null,
+        "status": "1"
+    },
+    {
+        "id": "0110",
+        "singkatan": "TI",
+        "nama": "Teknik Informatika S1",
+        "nama_en": "Informatics Eng",
+        "jenjang": "S1",
+        "kaprodi": null,
+        "sekprodi": null,
+        "status": "1"
+    },
+    {
+        "id": "0206",
+        "singkatan": "TL",
+        "nama": "Teknik Lingkungan S-1",
+        "nama_en": "Environmental Engineering",
+        "jenjang": "S-1",
+        "kaprodi": null,
+        "sekprodi": null,
+        "status": "1"
+    },
+]
+const mahasiswaBaruProdiStats = [
+    {quantity: 130}, {quantity: 120}, {quantity: 100}, {quantity: 80}, {quantity: 74}, {quantity: 43},
+];
+export default function CardPenerimaanMahasiswaBaru({
+                                                        className, faculties = DEFAULT,
+                                                        prodiList = DEFAULT_PRODI,
+                                                    }) {
     faculties = faculties.map((faculty, index) => {
         return {...facultiesStats[index], ...faculty};
     })
+    const labelSeries = [];
+    prodiList = prodiList.map((prodi, index) => {
+        labelSeries.push(prodi.singkatan);
+        // return {...mahasiswaBaruProdiStats[index], ...prodi};
+        return {
+            name: prodi.nama,
+            value: mahasiswaBaruProdiStats[index].quantity,
+        }
+    })
+    const indexForLabel = 'name'
+    const tooltipFormatter = function (t) {
+        const target = t[0];
+        const index = target.dataIndex;
+        const total = target.data;
+        const abbr = target.axisValueLabel;
+        const name = prodiList[index][indexForLabel];
+        console.log({total, abbr, name}, t);
+        return `
+            <div class="p-2 bg-white rounded-lg shadow-md text-gray-900">
+                <div><b>[${abbr}]</b> ${name}</div>
+                <div><strong>Total:</strong> ${total}</div>
+            </div>
+        `;
+    }
     return <Card className={className}>
         <div className="flex flex-col lg:flex-row gap-3 w-full justify-between">
             <div className="">
@@ -80,7 +172,8 @@ export default function CardPenerimaanMahasiswaBaru({className, faculties = DEFA
                     <Text className="mb-3" tag="p" color="text-gray-90" weight="600" size="sm">
                         {faculty.nama}
                     </Text>
-                    <Text className="mb-2" tag="p" size="lg" weight={1000} color="text-black"><b>{Utils.thousandth(faculty.quantity)}</b></Text>
+                    <Text className="mb-2" tag="p" size="lg" weight={1000}
+                          color="text-black"><b>{Utils.thousandth(faculty.quantity)}</b></Text>
                     <div className="flex flex-row mb-3 items-center gap-2">
                         {isPercentGrowthValid ? (faculty.percent_growth > 0 ? <><TrendUp className="text-success-100"/>
                             <Text tag="p" color="text-success-100" weight="600" size="sm">
@@ -98,6 +191,13 @@ export default function CardPenerimaanMahasiswaBaru({className, faculties = DEFA
                     </Text>
                 </div>
             })}
+        </div>
+        <div className="flex w-full">
+            <ChartBasicRoundedBar datasets={prodiList} labelSeries={labelSeries}
+                                  title={'Total mahasiswa baru per prodi'} tooltipFormatter={tooltipFormatter}
+                                  showLegend={false} showYAxisLabel={false} showYGridLine={false}
+                                  showXAxisLine={false} showYAxisLine={false}
+                                  indexForLabel={indexForLabel} indexForValue={'value'}/>
         </div>
     </Card>
 }

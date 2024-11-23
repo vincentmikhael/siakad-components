@@ -23,7 +23,7 @@ const Table = ({columns = [], data = [], pinned = [], children, loading = false,
             pinned: pinned.includes(index),
         }));
         setHeadCellsData(data);
-    }, [JSON.stringify(columns), JSON.stringify(pinned)]);
+    }, [columns, pinned]/*[JSON.stringify(columns), JSON.stringify(pinned)]*/);
 
     const getStickyOffset = (index) => {
         let offset = 0;

@@ -33,7 +33,7 @@ const CardDataLegends = ({defaultList, namePrefix, className}) => {
                     </Text></>)) : '-'}
             </div>
             <div className="w-3 h-3 rounded-full mb-3" style={{backgroundColor: value.color}}></div>
-            <Text className="mb-3" tag="p" color="text-gray-90" weight="600" size="sm">
+            <Text className="" tag="p" color="text-gray-90" weight="600" size="sm">
                 {`${namePrefix} ${value.status}`}
             </Text>
         </div>
