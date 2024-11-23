@@ -6,7 +6,7 @@ import {twMerge} from "tailwind-merge";
 
 export const TableContext = createContext();
 
-const Table = ({columns = [], data = [], pinned = [], children, loading = false, className, ...props}) => {
+const Table = ({columns = [], data = [], pinned, children, loading = false, className, ...props}) => {
     const columnRefs = useRef([]);
     const tableRef = useRef(null);
     const [columnWidths, setColumnWidths] = useState([]);
@@ -18,11 +18,14 @@ const Table = ({columns = [], data = [], pinned = [], children, loading = false,
     }, []);
 
     useEffect(() => {
-        const data = columns.map((col, index) => ({
-            ...col,
-            pinned: pinned.includes(index),
-        }));
-        setHeadCellsData(data);
+        if (pinned) {
+            const data = columns.map((col, index) => ({
+                ...col,
+                pinned: pinned.includes(index),
+            }));
+            setHeadCellsData(data);
+        }
+
     }, [columns, pinned]/*[JSON.stringify(columns), JSON.stringify(pinned)]*/);
 
     const getStickyOffset = (index) => {
