@@ -8,6 +8,8 @@ const Select = ({
                     options,
                     label = "Label",
                     showLabel = false,
+                    showHint = false,
+                    hint = "This is a hint text to help user.",
                     placeholder = "Select option",
                     onChange,
                     error,
@@ -83,6 +85,8 @@ const Select = ({
         setIsOpen(false);
     };
 
+    const hintColorClasses = error ? "text-danger-90" : "text-gray-50";
+    
     return (
         <div className="flex flex-col gap-1.5 w-full">
             {showLabel && (
@@ -137,6 +141,11 @@ const Select = ({
                     </div>
                 )}
             </div>
+            {showHint && (
+                <Text tag="label" size="sm" weight="400" color={hintColorClasses}>
+                    {error}
+                </Text>
+            )}
         </div>
     );
 };
