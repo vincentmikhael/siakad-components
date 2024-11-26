@@ -51,6 +51,8 @@ import TextWithRef from "./TextWithRef";
 import Textarea from "./Textarea";
 import Toast from "./Toast";
 import Toggle from "./Toggle";
+import TabItem from "./Tabs/TabItem";
+import Tabs from "./Tabs";
 import ProfileDropdown from "./ProfileDropdown";
 import NotificationDropdown from "./NotificationDropdown";
 
@@ -110,5 +112,7 @@ export {
     TextWithRef,
     Toast,
     Toggle,
+    Tabs,
+    TabItem,
     Utils,
 };
