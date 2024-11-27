@@ -85,5 +85,6 @@ export const config = {
         "/dashboard",
         "/data-utama/:path*",
         '/penjadwalan-kelas/:path*',
+        '/management-user/:path*',
     ],
 };
