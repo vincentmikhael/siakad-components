@@ -1,5 +1,10 @@
 'use client'
-import ReactECharts from "echarts-for-react";
+import dynamic from 'next/dynamic';
+// import ReactECharts from "echarts-for-react";
+
+const ReactECharts = dynamic(()=> import('echarts-for-react'),{
+    ssr: false,
+})
 
 const BasicRoundedBar = ({
                              title = 'Total',

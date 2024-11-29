@@ -1,7 +1,10 @@
 'use client'; // Ensure this runs on the client side
+import dynamic from 'next/dynamic';
+// import ReactECharts from 'echarts-for-react';
 
-import React from 'react';
-import ReactECharts from 'echarts-for-react';
+const ReactECharts = dynamic(()=> import('echarts-for-react'),{
+    ssr: false,
+})
 
 const DynamicLine = ({
                          datasets, labelSeries, containLabel = true,
