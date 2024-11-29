@@ -17,6 +17,8 @@ const Select = ({
                     size = "sm",
                     className,
                     value,
+                    labelKey = "label",
+                    valueKey = "value",
                     ...props
                 }) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -25,7 +27,7 @@ const Select = ({
 
     useEffect(() => {
         if (value) {
-            const initialOption = options.find(option => option.value === value);
+            const initialOption = options.find(option => option[valueKey] === value);
             setSelectedOption(initialOption || null);
         }
     }, [value, options]);
@@ -86,7 +88,7 @@ const Select = ({
     };
 
     const hintColorClasses = error ? "text-danger-90" : "text-gray-50";
-    
+
     return (
         <div className="flex flex-col gap-1.5 w-full">
             {showLabel && (
@@ -112,7 +114,7 @@ const Select = ({
                         color={selectedOption ? "text-gray-100" : "text-gray-30"}
                         className="truncate w-full overflow-hidden whitespace-nowrap"
                     >
-                        {selectedOption ? selectedOption.label : placeholder}
+                        {selectedOption ? selectedOption[labelKey] : placeholder}
                     </Text>
                     <div className="text-gray-40">
                         <CaretDown size={16} weight="bold"/>
@@ -121,7 +123,7 @@ const Select = ({
                 {isOpen && (
                     <div className={menuClasses}>
                         {options.map((option, index) => {
-                            const isSelected = selectedOption?.value === option.value;
+                            const isSelected = selectedOption?.[valueKey] === option[valueKey];
                             return (
                                 <div
                                     key={index}
@@ -133,7 +135,7 @@ const Select = ({
                                     )}
                                     onClick={() => handleOptionClick(option)}
                                 >
-                                    <Text tag="p">{option.label}</Text>
+                                    <Text tag="p">{option[labelKey]}</Text>
                                     {isSelected && <Check weight="bold"/>}
                                 </div>
                             );
