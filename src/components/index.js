@@ -31,6 +31,7 @@ import NavUl from "./NavUl";
 import Pagination from "./Pagination"
 import {ProgressBar, ProgressBarRadian, ProgressBarRadianHalf} from "./ProgressBar";
 import Select from "./Select";
+import SearchInput from "./SearchInput";
 import Spinner from "./Spinner";
 import Stepper from './Stepper'
 import StepperContainer from './StepperContainer'
@@ -89,6 +90,7 @@ export {
     ProfileDropdown,
     ProgressBar, ProgressBarRadian, ProgressBarRadianHalf,
     Select,
+    SearchInput,
     Spinner,
     Stepper,
     StepperContainer,
