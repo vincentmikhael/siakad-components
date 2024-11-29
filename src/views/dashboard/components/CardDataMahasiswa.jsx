@@ -1,7 +1,16 @@
 'use client'
-import {Button, Card, ChartRoundedDoughnut, Hr, Text} from "@/components";
+import dynamic from 'next/dynamic';
+import {Button, Card, Hr, Text} from "@/components";
 import {CaretRight} from "@phosphor-icons/react/dist/ssr";
 import {CardDataLegends} from "./index";
+
+const ChartRoundedDoughnut = dynamic(() => import('@/components/Charts/RoundedDoughnut')
+.then(m =>{
+    // console.log(m); 
+    return m.RoundedDoughnut})
+, {
+    ssr: false, // Disable server-side rendering for this component
+});
 
 const DEFAULT = [
     {status: 'aktif', quantity: 10006, percent_growth: 12.32, date_retrieved: '02/11/2024', color: '#2660ff'},

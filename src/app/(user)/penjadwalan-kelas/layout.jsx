@@ -25,13 +25,13 @@ export default function DataUtamaLayout({children}) {
     ];
     return (
         <>
-            <Breadcrumb>
+            <Breadcrumb className="mb-8 md:mb-12">
                 <BreadcrumbItem home href="/dashboard">
                     Dashboard
                 </BreadcrumbItem>
                 <BreadcrumbItem>Penjadwalan kelas</BreadcrumbItem>
             </Breadcrumb>
-            <Card className={"my-8 md:my-12"}>
+            <Card>
                 <CardHeader>
                     <Text size="xl" color="text-gray-100" weight={600}>
                         Penjadwalan kelas

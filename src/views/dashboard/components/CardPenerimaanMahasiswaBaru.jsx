@@ -1,7 +1,16 @@
 'use client'
-import {Button, Card, ChartBasicRoundedBar, Hr, Text, Utils} from "@/components";
+import dynamic from 'next/dynamic';
+import {Button, Card, Hr, Text, Utils} from "@/components";
 import {Minus, TrendDown, TrendUp} from "@phosphor-icons/react";
 import {useEffect, useState} from "react";
+
+const ChartBasicRoundedBar = dynamic(() => import('@/components/Charts/RoundedBar')
+.then(m =>{
+    // console.log(m);  
+    return m.BasicRoundedBar
+}), {
+    ssr: false, // Disable server-side rendering for this component
+});
 
 const DEFAULT = [
     {

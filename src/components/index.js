@@ -6,11 +6,11 @@ import Button from "./Button";
 import ButtonRedirectBack from "./ButtonRedirectBack";
 import Card from "./Card";
 import CardHeader from "./CardHeader";
-import {
-    BasicRoundedBar as ChartBasicRoundedBar,
-    DynamicLine as ChartDynamicLine,
-    RoundedDoughnut as ChartRoundedDoughnut
-} from "./Charts";
+// import {
+//     BasicRoundedBar as ChartBasicRoundedBar,
+//     DynamicLine as ChartDynamicLine,
+//     RoundedDoughnut as ChartRoundedDoughnut
+// } from "./Charts";
 import Checkbox from "./Checkbox";
 import DateInput from "./DateInput";
 import FileIcon from "./FileIcon";
@@ -65,9 +65,9 @@ export {
     ButtonRedirectBack,
     Card,
     CardHeader,
-    ChartBasicRoundedBar,
-    ChartDynamicLine,
-    ChartRoundedDoughnut,
+    // ChartBasicRoundedBar,
+    // ChartDynamicLine,
+    // ChartRoundedDoughnut,
     Checkbox,
     DateInput,
     daysOfWeek, monthsOfYear,

@@ -23,15 +23,15 @@ export default function Index({listPengajarKelas}) {
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
     const openModal = () => setOpenAddModal(true);
     return <>
-        <div className="flex justify-end items-center gap-4">
-            <Select label="Fakultas" showLabel/>
-            <Select label="Program Studi" showLabel/>
-            <Select label="Konsentrasi" showLabel/>
-            <Select label="Semester" showLabel/>
-            <Select label="Tahun Akademik" showLabel/>
+        <div className="flex flex-wrap xl:flex-nowrap xl:overflow-x-auto justify-end items-center gap-4">
+            <Select label="Fakultas" options={[]} showLabel/>
+            <Select label="Program Studi" options={[]} showLabel/>
+            <Select label="Konsentrasi" options={[]} showLabel/>
+            <Select label="Semester" options={[]} showLabel/>
+            <Select label="Tahun Akademik" options={[]} showLabel/>
             <Input
                 size="xs"
-                className="max-w-[156px] min-w-[156px] self-end"
+                className="min-w-[156px] self-end"
                 placeholder={"Cari data disini"}
                 leftIcon={<MagnifyingGlass weight="bold"/>}
             />

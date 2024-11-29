@@ -1,7 +1,14 @@
 'use client'
-import {Button, Card, ChartDynamicLine, Text, TextWithRef, Utils} from "@/components";
+import dynamic from 'next/dynamic';
+import {Button, Card, Text, TextWithRef, Utils} from "@/components";
 import {useEffect, useRef, useState} from "react";
 import dummyData from './dummyKeuanganAkademik.json'
+
+const ChartDynamicLine = dynamic(() => import('@/components/Charts/DynamicLine')
+.then(m => m.DynamicLine)
+, {
+    ssr: false, // Disable server-side rendering for this component
+});
 
 const DEFAULT = [
     {
