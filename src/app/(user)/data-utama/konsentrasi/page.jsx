@@ -44,35 +44,21 @@ export default function Konsentrasi() {
         try {
             const res = await AxiosInstance.get('/konsentrasi/list/init')
             if (res.status == 200) {
-                setDataProdi(res.data.data.prodi.map((item, idx) => {
-                    return {
-                        value: item.id,
-                        label: item.nama
-                    }
-                }))
-
-                setFakultas(res.data.data.fakultas.map((item, idx) => {
-                    if (idx == 0) {
-                        setSelectedFakultas(item.id)
-                    }
-                    return {
-                        value: item.id,
-                        label: item.nama
-                    }
-                }))
-                
+                setDataProdi(res.data.data.prodi)
+                setFakultas(res.data.data.fakultas)
+                if(res.data.data.fakultas.length > 0){
+                    setSelectedFakultas(res.data.data.fakultas[0].id)
+                } 
             }
         } catch (err) {
             console.log(err)
         }
-
     }
 
     async function fetchKonsentrasi(){
         try{
             const res = await AxiosInstance.get(`/konsentrasi/${selectedProdi}`)
             if(res.status == 200){
-                console.log("konsentrasi",res.data.data)
                 setDataTable(res.data.data)
                 setAllDataTable(res.data.data)
                 setLoading(false)
@@ -83,15 +69,15 @@ export default function Konsentrasi() {
     }
     
     useEffect(()=>{
-        setProdi(dataProdi.filter((prodi) => prodi.value.startsWith(selectedFakultas)).map((item,index)=>{
-            if(index == 0){
-                setSelectedProdi(item.value)
-            }
-            return {
-                value: item.value,
-                label: item.label
-            }
-        }))
+        let setData = dataProdi.filter((prodi) => prodi.id.startsWith(selectedFakultas))
+        setProdi(setData)
+        if(setData.length > 0){
+            setSelectedProdi(formData.prodi ?? setData[0].id)
+        }
+        console.log('jalan 1',formData)
+        return () =>{
+            resetForm()
+        }
     },[selectedFakultas])
 
     useEffect(()=>{
@@ -104,22 +90,18 @@ export default function Konsentrasi() {
     }, [])
 
     const handleChange = (e) => (item) =>{
+        console.log(item)
         if(e == 'fakultas'){
-            setSelectedFakultas(item.value)
+            setSelectedFakultas(item.id)
         }else if(e == 'prodi'){
-            setSelectedProdi(item.value)
+            setSelectedProdi(item.id)
         }else if(e == 'fakultasInput'){
-            setFormData((prevData) => ({
-                ...prevData,
-                [item.name]: item.value,
-              }));
+            // setFormData((prevData) => ({
+            //     ...prevData,
+            //     [item.name]: item.id,
+            //   }));
 
-              setProdiInput(dataProdi.filter((prodi) => prodi.value.startsWith(item.value)).map((item,index)=>{
-                return {
-                    value: item.value,
-                    label: item.label
-                }
-            }))
+              setProdiInput(dataProdi.filter((prodi) => prodi.id.startsWith(item.id)))
         }
     }
 
@@ -133,7 +115,8 @@ export default function Konsentrasi() {
     ]
 
     const handleForm = (field) => (e) =>{
-        let value = e?.target?.value ?? e.value
+        let value = e?.target?.value ?? e.id
+ 
         setFormData((prev) => ({
           ...prev,
           [field]: value,
@@ -165,7 +148,6 @@ export default function Konsentrasi() {
         e.preventDefault();
         setLoadingSubmit(true)
         try{
-            
             const res = await AxiosInstance.post('/konsentrasi',{
                 nama: formData.nama,
                 nama_en: formData.nama_en,
@@ -173,19 +155,22 @@ export default function Konsentrasi() {
                 prodi: formData.prodi
               })
               if(res.status == 200){
-                     resetForm()
                      setSelectedFakultas(formData.prodi.substring(0, 2))
-                     setSelectedProdi(formData.prodi)
                      fetchKonsentrasi()
                      setModalAdd(false)
+                     setSelectedProdi(formData.prodi)
+                     console.log('jalan 2')
                }
         }catch(err){
             if(err.status == 422){
                     setErrors(err.response.data.errors)
             }
             
+        }finally{
+            console.log('aoaii')
+            setLoadingSubmit(false)
         }
-        setLoadingSubmit(false)
+        
     }
 
     const handleEdit = async (e) => {
@@ -248,6 +233,8 @@ export default function Konsentrasi() {
                             label="Fakultas"
                             size="xs"
                             value={selectedFakultas}
+                            labelKey="nama"
+                            valueKey="id"
                             showLabel
                             onChange={handleChange('fakultas')}
                             className={"w-full md:w-40"}
@@ -258,6 +245,8 @@ export default function Konsentrasi() {
                         <Select
                             label="Prodi"
                             size="xs"
+                            labelKey="nama"
+                            valueKey="id"
                             value={selectedProdi}
                             onChange={handleChange('prodi')}
                             showLabel
@@ -364,6 +353,8 @@ export default function Konsentrasi() {
                                 size="xs"
                                 value={formData.fakultas}
                                 showLabel
+                                labelKey="nama"
+                                valueKey="id"
                                 onChange={handleChange('fakultasInput')}
                                 options={fakultas}
                             />
@@ -374,6 +365,8 @@ export default function Konsentrasi() {
                                 label="Prodi"
                                 size="xs"
                                 value={formData.prodi}
+                                labelKey="nama"
+                                valueKey="id"
                                 showLabel
                                 error={errors.prodi && <Text size="xs" style={{ color: 'red' }}>{errors.prodi}</Text>}
                                 showHint

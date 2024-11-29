@@ -1,10 +1,24 @@
 "use client"
-import { Button, Input, Modal, Select } from "@/components";
+import { Button, Input, Modal, Select, Table, TableBody, TableBodyCell, TableBodyRow, TableHead, TableHeadCell, TableHeadRow, Text } from "@/components";
 import { MagnifyingGlass, Plus } from "@phosphor-icons/react/dist/ssr";
 import { useState } from "react";
 
 export default function MataKuliah(){
     const [modalAdd,setModalAdd] = useState(false)
+    const data = [
+        { id: 1, name: 'John Doe', email: 'john@example.com',},
+        { id: 2, name: 'Jane Smith', email: 'jane@example.com',},
+        { id: 3, name: 'Sam Green', email: 'sam@example.com',},
+
+      ]
+      const columns = [
+        { name: 'kode mk',pinned: true },
+        { name: 'nama mk',pinned: true },
+        { name: 'jenis mk',pinned: false},
+        { name: 'tahun kurikulum',pinned: false},
+        { name: 'user entri',pinned: false},
+        { name: 'actions',pinned: false},
+      ]
     return (
         <div>
             <div className="md:flex justify-between items-end">
@@ -41,6 +55,36 @@ export default function MataKuliah(){
                 </div>
                 
             </div>
+
+            <Table loading={false} columns={columns} data={data}>
+                <TableHead>
+                    <TableHeadRow>
+                        {columns.map((e,index)=>{
+                            return (
+                            <TableHeadCell pinned={e.pinned ?? false} key={index}>{e.name}</TableHeadCell>
+                            )
+                        })}
+                    </TableHeadRow>
+                    
+                </TableHead>
+
+                <TableBody>
+                    
+                        {data.map((e,index)=>{
+                        return (
+                            <TableBodyRow key={index}>
+                                <TableBodyCell><Text size="xs">{e.id}</Text></TableBodyCell>
+                                <TableBodyCell><Text size="xs" >{e.name}</Text></TableBodyCell>
+                                <TableBodyCell><Text size="xs">{e.email}</Text></TableBodyCell>
+                                <TableBodyCell><Text size="xs">{e.email}</Text></TableBodyCell>
+                                <TableBodyCell><Text size="xs">{e.email}</Text></TableBodyCell>
+                                <TableBodyCell></TableBodyCell>
+                            </TableBodyRow>
+                        )
+                        })}
+                </TableBody>
+                
+                </Table>
 
             <Modal size="lg" open={modalAdd} onClose={()=>setModalAdd(false)} title="Tambah data mata kuliah">
                 <Modal.Body>
