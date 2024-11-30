@@ -37,9 +37,10 @@ const Table = ({columns = [], data = [], pinned, children, loading = false, clas
         }
         return offset;
     };
+    console.log(columns)
 
     return loading ? (
-        <TableLazyLoad/>
+        <TableLazyLoad columns={columns}/>
     ) : (
         <TableContext.Provider value={{getStickyOffset, columnRefs, headCellsData, tableRef}}>
             <div
