@@ -12,6 +12,7 @@ const Select = ({
                     hint = "This is a hint text to help user.",
                     placeholder = "Select option",
                     onChange,
+                    name,
                     error,
                     disabled = false,
                     size = "sm",
@@ -83,7 +84,12 @@ const Select = ({
 
     const handleOptionClick = (option) => {
         setSelectedOption(option);
-        onChange(option);
+        onChange({
+            target: {
+                name,
+                value: option[valueKey],
+            },
+        });
         setIsOpen(false);
     };
 
@@ -121,11 +127,11 @@ const Select = ({
                     </div>
                 </div>
                 {isOpen && (
-                    <div className={menuClasses}>
+                    <ul className={menuClasses}>
                         {options.map((option, index) => {
                             const isSelected = selectedOption?.[valueKey] === option[valueKey];
                             return (
-                                <div
+                                <li
                                     key={index}
                                     className={twMerge(
                                         optionClasses,
@@ -137,10 +143,10 @@ const Select = ({
                                 >
                                     <Text tag="p">{option[labelKey]}</Text>
                                     {isSelected && <Check weight="bold"/>}
-                                </div>
+                                </li>
                             );
                         })}
-                    </div>
+                    </ul>
                 )}
             </div>
             {showHint && (
