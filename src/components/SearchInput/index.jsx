@@ -1,8 +1,8 @@
 "use client";
-import {useState, useEffect, useRef, useCallback} from "react";
+import {useState, useEffect, useRef, useMemo} from "react";
 import {twMerge} from "tailwind-merge";
 import {Check, MagnifyingGlass} from "@phosphor-icons/react";
-import {Text} from "..";
+import {Spinner, Text} from "..";
 
 const SearchInput = ({
                          options = [],
@@ -19,6 +19,9 @@ const SearchInput = ({
                          value,
                          labelKey = "label",
                          valueKey = "value",
+                         keywordKey = "label",
+                         name,
+                         loading,
                          ...props
                      }) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -27,12 +30,12 @@ const SearchInput = ({
     const [selectedOption, setSelectedOption] = useState(null);
     const selectRef = useRef(null);
 
-    const filteredOptions = options?.filter((item) => {
-        if (searchTerm) {
-            return item[labelKey].toLowerCase().includes(searchTerm.toLowerCase());
-        }
-        return true;
-    });
+    const filteredOptions = useMemo(() => {
+        if (!searchTerm) return options;
+        return options.filter((item) =>
+            item[keywordKey].toLowerCase().includes(searchTerm.toLowerCase())
+        );
+    }, [searchTerm, options]);
 
     const handleSelectItem = (item) => {
         const newValue = item[valueKey];
@@ -40,7 +43,7 @@ const SearchInput = ({
         setSelectedOption(item);
         setSearchTerm("");
         setIsOpen(false);
-        onChange?.(newValue);
+        onChange?.({target: {name, value: newValue}});
     };
 
     const handleSearchChange = (e) => {
@@ -49,7 +52,7 @@ const SearchInput = ({
         setInputValue(targetValue);
 
         if (targetValue === "") {
-            onChange?.("");
+            onChange?.({target: {name, value: ""}});
         }
         setIsOpen(true);
     };
@@ -151,7 +154,13 @@ const SearchInput = ({
                 </div>
                 {isOpen && (
                     <ul className={menuClasses}>
-                        {filteredOptions.length > 0 ? (
+                        {loading ? (
+                            <li
+                                className="p-2.5 rounded-md flex items-center justify-center text-gray-30"
+                            >
+                                <Spinner/>
+                            </li>
+                        ) : filteredOptions.length > 0 ? (
                             filteredOptions.map((option, index) => {
                                 const isSelected = selectedOption?.[valueKey] === option[valueKey];
                                 return (
