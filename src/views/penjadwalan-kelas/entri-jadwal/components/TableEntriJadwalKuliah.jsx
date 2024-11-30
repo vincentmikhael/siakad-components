@@ -10,7 +10,7 @@ import {
 } from "@/components";
 import {PencilSimpleLine, Trash} from "@phosphor-icons/react";
 
-export default function TableEntriPengajarKelas({data, columns, pinnedColumns}) {
+export default function TableEntriJadwalKuliah({data, columns, pinnedColumns}) {
     return <Table
         loading={false}
         columns={columns}
@@ -51,16 +51,15 @@ export default function TableEntriPengajarKelas({data, columns, pinnedColumns}) 
                                     </IconButton>
                                 </div>
                             </TableBodyCell>
-                        case "posisi.nama":
-                        case "posisi.awal":
-                        case "posisi.akhir":
+                        case "jam":
                             return <TableBodyCell key={indexCol}><Text size="xs">
-                                {Utils.resolveNestedValue(e, col.colName) || '-'}
+                                {(Utils.resolveNestedValue(e, col.colName) && `KE-${e.jam?.urutan} (${e.jam?.awal}${e.jam?.akhir ? ` - ${e.jam?.akhir}` : 'selesai'})`) || '-'}
                             </Text></TableBodyCell>
                         default :
                             return <TableBodyCell key={indexCol}><Text size="xs">{e[col.colName]}</Text></TableBodyCell>
                     }
-                })}</></TableBodyRow>
+                })}</>
+                </TableBodyRow>
             })}
         </TableBody>
     </Table>

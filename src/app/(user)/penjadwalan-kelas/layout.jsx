@@ -14,7 +14,7 @@ export async function generateMetadata(/*{params}*/){
     }
 }
 export default function DataUtamaLayout({children}) {
-    const baseUrl = 'penjadwalan-kelas';
+    const baseUrl = '/penjadwalan-kelas';
     const menu = [
         {label: "Entri pengajar kelas", href: `${baseUrl}/entri-pengajar`},
         {label: "Entri jadwal kuliah", href: `${baseUrl}/entri-jadwal`},

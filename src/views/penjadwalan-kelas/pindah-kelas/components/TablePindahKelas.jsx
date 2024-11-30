@@ -1,16 +1,15 @@
 import {
-    Checkbox, IconButton,
+    Checkbox,
     Table,
     TableBody,
     TableBodyCell,
     TableBodyRow,
     TableHead,
     TableHeadCell,
-    TableHeadRow, Text, Utils
+    TableHeadRow, Text,
 } from "@/components";
-import {PencilSimpleLine, Trash} from "@phosphor-icons/react";
 
-export default function TableEntriPengajarKelas({data, columns, pinnedColumns}) {
+export default function TablePindahKelas({data, columns, pinnedColumns}){
     return <Table
         loading={false}
         columns={columns}
@@ -40,27 +39,11 @@ export default function TableEntriPengajarKelas({data, columns, pinnedColumns}) 
                             return <TableBodyCell key={indexCol}>
                                 <Checkbox defaultValue={e[col.colName]} size="xs">{index + 1}</Checkbox>
                             </TableBodyCell>
-                        case "actions":
-                            return <TableBodyCell key={indexCol}>
-                                <div className="flex flex-row gap-3">
-                                    <IconButton size="sm" variant="warning">
-                                        <PencilSimpleLine/>
-                                    </IconButton>
-                                    <IconButton size="sm" variant="danger">
-                                        <Trash/>
-                                    </IconButton>
-                                </div>
-                            </TableBodyCell>
-                        case "posisi.nama":
-                        case "posisi.awal":
-                        case "posisi.akhir":
-                            return <TableBodyCell key={indexCol}><Text size="xs">
-                                {Utils.resolveNestedValue(e, col.colName) || '-'}
-                            </Text></TableBodyCell>
                         default :
                             return <TableBodyCell key={indexCol}><Text size="xs">{e[col.colName]}</Text></TableBodyCell>
                     }
-                })}</></TableBodyRow>
+                })}</>
+                </TableBodyRow>
             })}
         </TableBody>
     </Table>

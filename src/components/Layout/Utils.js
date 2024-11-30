@@ -1,4 +1,4 @@
-import {NavLi} from "@/components";
+import {NavLi, Text} from "@/components";
 import {redirect} from "next/navigation";
 
 export default class Utils {
@@ -11,6 +11,7 @@ export default class Utils {
     }
     static getDocumentTitle = (title = 'Home') => `SIAKAD | ${title}`;
     static redirectLogin = () => redirect(`${process.env.NEXT_PUBLIC_MYITN_BASE_URL}/login`);
+    // static showTextDanger = ({children}) => (<Text size="xs" style={{color: 'red'}}>{children}</Text>)
     /**
      * Translate nested value that using '.' for delimiter
      * @param obj

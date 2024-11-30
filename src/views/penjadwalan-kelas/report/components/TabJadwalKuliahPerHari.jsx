@@ -1,0 +1,9 @@
+import {Text} from "@/components";
+
+export default function TabJadwalKuliahPerHari() {
+return <>
+    <Text size="xl" color="text-gray-100" weight={600}>
+        Cetak Laporan Jadwal Kuliah Per Hari
+    </Text>
+</>
+}
