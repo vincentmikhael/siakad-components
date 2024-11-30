@@ -47,7 +47,7 @@ const Toast = ({
 
     return (
         <div
-            className={twMerge("absolute z-50", positionClasses[position])}
+            className={twMerge("fixed z-50", positionClasses[position])}
             {...props}
         >
             <div
