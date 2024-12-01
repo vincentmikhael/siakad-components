@@ -8,6 +8,6 @@ export default async function Page() {
         label: data.nama,
     }));
     return (
-        <Prodi listFakultas={formattedDataList}/>
+        <Prodi listFakultas={prodiList}/>
     )
 }
