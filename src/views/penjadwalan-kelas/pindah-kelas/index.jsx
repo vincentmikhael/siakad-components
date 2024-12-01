@@ -118,22 +118,24 @@ export default function Index({}) {
         <Pagination/>
         <Hr className="w-full"/>
         <div className="flex w-full flex-wrap xl:flex-nowrap gap-3">
-            <div className="flex w-full xl:w-1/2 gap-3">
+            <div className="flex flex-col lg:flex-row w-full xl:w-1/2 gap-3">
                 <Text size="xl" color="text-gray-100" weight={600}>
                     Pindahkan ke kelas:
                 </Text>
-                <div className="w-full xl:w-[200px]">
-                    <Select options={[]} placeholder="Pilih kelas"/>
+                <div className="flex flex-row gap-3">
+                    <div className="w-full xl:w-[200px]">
+                        <Select options={[]} placeholder="Pilih kelas"/>
+                    </div>
+                    <Button
+                        type="button"
+                        variant="primary"
+                        size="md"
+                        fullWidth={false}
+                        filled
+                        disabled={/*()!password || !passwordNew || !passwordConfirmation) ||*/ false /*pending*/}
+                        onClick={onSubmit}
+                    >Simpan</Button>
                 </div>
-                <Button
-                    type="button"
-                    variant="primary"
-                    size="md"
-                    fullWidth={false}
-                    filled
-                    disabled={/*()!password || !passwordNew || !passwordConfirmation) ||*/ false /*pending*/}
-                    onClick={onSubmit}
-                >Simpan</Button>
             </div>
             <div className="flex flex-col w-full xl:w-1/2">
                 <Text size="xl" color="text-gray-100" weight={600}>

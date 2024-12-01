@@ -13,7 +13,7 @@ export default function ModalEntriJadwalKuliah({
                         <Select isRelative={false} label="Fakultas" options={[]} showLabel/>
                     </div>
                     <div className="w-full xl:w-1/2 px-2">
-                        <Select isRelative={false} label="Program atudi" options={[]} showLabel/>
+                        <Select isRelative={false} label="Program studi" options={[]} showLabel/>
                     </div>
                     <div className="w-full xl:w-1/2 px-2">
                         <Select isRelative={false} label="Konsentrasi" options={[]} showLabel/>

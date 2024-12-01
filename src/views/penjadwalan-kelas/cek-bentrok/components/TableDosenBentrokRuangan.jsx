@@ -1,3 +1,4 @@
+// import {TableDefaultDetail} from "./index";
 import {
     Button,
     Checkbox,
@@ -10,16 +11,7 @@ import {
     TableHeadRow, Text
 } from "@/components";
 
-export {default as TabDosenBentrokMataKuliah} from './TabDosenBentrokMataKuliah';
-export {default as TabDosenBentrokRuangan} from './TabDosenBentrokRuangan';
-export {default as TabMahasiswa} from './TabMahasiswa';
-export {default as TabRuangan} from './TabRuangan';
-export {default as TableDosenBentrokMataKuliah} from './TableDosenBentrokMataKuliah';
-export {default as TableDosenBentrokRuangan} from './TableDosenBentrokRuangan';
-export {default as TableMahasiswa} from './TableMahasiswa';
-export {default as TableRuangan} from './TableRuangan';
-
-export function TableDefaultDetail({data, columns, pinnedColumns}){
+export default function TableDosenBentrokRuangan({data, columns, pinnedColumns}) {
     return <Table
         loading={false}
         columns={columns}
@@ -55,10 +47,10 @@ export function TableDefaultDetail({data, columns, pinnedColumns}){
                                     <Button size="sm" variant="info">Detail</Button>
                                 </div>
                             </TableBodyCell>
-                        // case "date":
-                        //     return <TableBodyCell key={indexCol}><Text size="xs">
-                        //         {Utils.resolveNestedValue(e, col.colName) || '-'}
-                        //     </Text></TableBodyCell>
+                        case "detail_ruang":
+                            return <TableBodyCell key={indexCol}><Text size="xs">
+                                {typeof e[col.colName] === 'object' ? e[col.colName].join(', ') : '-'}
+                            </Text></TableBodyCell>
                         default :
                             return <TableBodyCell key={indexCol}><Text size="xs">{e[col.colName]}</Text></TableBodyCell>
                     }
