@@ -3,7 +3,7 @@ import {useContext, useState, useEffect} from "react";
 import {TableContext} from "./Table";
 import {twMerge} from "tailwind-merge";
 
-const TableBodyCell = ({children, index, className}) => {
+const TableBodyCell = ({children, index, className, ...props}) => {
     const {getStickyOffset, headCellsData, tableRef} = useContext(TableContext);
     const lastPinnedIndex = headCellsData.map((cell, i) => (cell.pinned ? i : -1)).filter(i => i !== -1).pop();
     const isLastPinned = index === lastPinnedIndex;
@@ -43,6 +43,7 @@ const TableBodyCell = ({children, index, className}) => {
             style={{
                 left: headCellsData[index]?.pinned ? `${getStickyOffset(index)}px` : "auto",
             }}
+            {...props}
         >
             {children}
             {isLastPinned && showDiv && (
