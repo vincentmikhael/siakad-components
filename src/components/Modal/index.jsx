@@ -9,7 +9,7 @@ const Modal = ({
                    title = "",
                    description = "",
                    size = "md",
-                   placement = "center",
+                   placement = "top-center",
                    autoClose = false,
                    dismissable = true,
                    backdropClass,
@@ -21,7 +21,7 @@ const Modal = ({
                }) => {
     const backdropClasses = "fixed inset-0 z-50 bg-gray-100 bg-opacity-50";
     const dialogClasses =
-        "fixed top-0 left-0 right-0 h-modal md:inset-0 md:h-full z-50 w-full p-4 flex";
+        "fixed top-0 start-0 end-0 h-modal md:inset-0 md:h-full z-50 w-full flex p-8 flex overflow-y-auto scrollbar-none";
     const sizes = {
         xs: "max-w-md",
         sm: "max-w-lg",
@@ -94,12 +94,12 @@ const Modal = ({
                 aria-modal="true"
                 role="dialog"
             >
-                <div className={`flex relative ${sizes[size]} w-full max-h-full`}>
+                <div className={`flex relative ${sizes[size]} w-full min-h-full`}>
                     {/* Modal Content */}
                     <div
                         className={twMerge(
                             defaultClass,
-                            "flex bg-white rounded-[20px] w-full flex-col mx-auto"
+                            "flex bg-white rounded-[20px] w-full flex-col mx-auto h-auto max-h-max"
                         )}
                         {...props}
                     >
@@ -130,7 +130,7 @@ const Modal = ({
                         {/* Modal Body */}
                         {body && (
                             <div
-                                className="space-y-6 flex-1 p-8 overflow-y-auto scrollbar-none overscroll-contain h-full"
+                                className="space-y-6 flex-1 p-8 scrollbar-none h-fit"
                                 onClick={onAutoClose}
                             >
                                 {dismissable && !header && !title && (
