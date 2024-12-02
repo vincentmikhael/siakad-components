@@ -241,7 +241,6 @@ const Prodi = ({listFakultas}) => {
             <Table
                 loading={loadingData}
                 columns={columns}
-                data={dataProdi}
             >
                 <TableHead>
                     <TableHeadRow>
@@ -325,7 +324,7 @@ const Prodi = ({listFakultas}) => {
                             <FormSkeleton count={8}/>
                         ) : (
 
-                            <div className="grid grid-cols-2 gap-6 flex-grow">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                 <Input
                                     placeholder="Tulis nama prodi"
                                     size="lg"
@@ -408,7 +407,7 @@ const Prodi = ({listFakultas}) => {
                                     error={errors?.kd_nim}
                                     value={formData.kd_nim}
                                 />
-                                <div className="col-span-2">
+                                <div className="sm:col-span-2">
                                     <SearchInput options={formInit.dosen} label="Nama ketua prodi"
                                                  placeholder="Tulis NIP ketua prodi" showLabel size="lg" name="kaprodi"
                                                  labelKey="nama_lengkap" valueKey="id" keywordKey="nip"
@@ -416,7 +415,7 @@ const Prodi = ({listFakultas}) => {
                                                  showHint
                                                  error={errors?.kaprodi} value={formData.kaprodi}/>
                                 </div>
-                                <div className="col-span-2">
+                                <div className="sm:col-span-2">
                                     <SearchInput options={formInit.dosen} label="Nama sekretaris prodi"
                                                  placeholder="Tulis NIP sekretaris prodi" showLabel size="lg"
                                                  name="sekprodi"
