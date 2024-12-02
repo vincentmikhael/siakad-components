@@ -112,7 +112,7 @@ const SearchInput = ({
     );
 
     const menuClasses =
-        "border-fade border-[1px] absolute z-10 mt-1 w-full bg-white rounded-lg p-1.5 max-h-80 overflow-y-auto space-y-1 custom-shadow-select scrollbar scrollbar-thumb-fade scrollbar-track-white scrollbar-thumb-rounded-full scrollbar-track-rounded-full";
+        "border-fade border-[1px] absolute z-10 mt-1 w-full bg-white rounded-lg p-1.5 max-h-44 overflow-y-auto space-y-1 custom-shadow-select scrollbar scrollbar-thumb-fade scrollbar-track-white scrollbar-thumb-rounded-full scrollbar-track-rounded-full";
 
     const optionClasses =
         "hover:bg-primary-10 p-2.5 cursor-pointer rounded-md flex items-center justify-between text-primary-100";
