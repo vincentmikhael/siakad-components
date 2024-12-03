@@ -35,12 +35,13 @@ export async function middleware(request) {
                                 body: JSON.stringify({refreshToken}),
                             });
                             const {accessToken: newAccessToken, refreshToken: newRefreshToken} = await newData.json();
-
+                            console.log('dapat rest nih ngab', newAccessToken, accessToken)
                             const setSession = await fetch(`${request.nextUrl.origin}/api/set-session?s_id=${sessionId}`, {
                                 method: "POST",
                                 headers: {"Content-Type": "application/json"},
                                 body: JSON.stringify({data, accessToken: newAccessToken, refreshToken: newRefreshToken})
                             })
+                            console.log('set session berhasil nih ngab', setSession)
                             if (setSession.ok) {
                                 isAuthenticated = true
                             }
