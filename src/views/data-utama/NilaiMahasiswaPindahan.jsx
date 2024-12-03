@@ -24,21 +24,19 @@ const NilaiMahasiswaPindahan = () => {
     const columns = [
         {name: "no", className: "min-w-14"},
         {name: "nim", className: "min-w-[76px]"},
-        {name: "nama"},
+        {name: "nama", className: "min-w-[280px]"},
         {name: "angkatan", className: "min-w-[100px] text-center"},
         {name: "program studi", className: "min-w-[148px]"},
         {name: "fakultas", className: "min-w-[100px] text-center"},
-        {name: "actions", className: "min-w-[120px] text-center"},
+        {name: "actions"},
     ];
     const data = [
         {
-            kode: '001',
-            mk: "pendidikan agama islam",
-            semester: 1,
-            sifat: 'Wajib',
-            sks: 2,
-            tahun: 2019,
-            user: 'SIM'
+            nim: '2118103',
+            nama: "Ahmad rahadian",
+            angkatan: 2021,
+            prodi: "Teknik Informatika",
+            fakultas: "FTI",
         }
     ]
     return (
@@ -103,24 +101,23 @@ const NilaiMahasiswaPindahan = () => {
                                     <Text size="xs">{index + 1}</Text>
                                 </TableBodyCell>
                                 <TableBodyCell>
-                                    <Text size="xs">{e?.kode}</Text>
+                                    <Text size="xs">{e?.nim}</Text>
                                 </TableBodyCell>
                                 <TableBodyCell>
-                                    <Text size="xs">{e?.mk}</Text>
+                                    <Text size="xs">{e?.nama}</Text>
                                 </TableBodyCell>
                                 <TableBodyCell>
-                                    <Text size="xs" className="text-center">{e?.semester}</Text>
+                                    <Text size="xs" className="text-center">{e?.angkatan}</Text>
                                 </TableBodyCell>
                                 <TableBodyCell>
-                                    <Text size="xs">{e?.sifat}</Text>
+                                    <Text size="xs">{e?.prodi}</Text>
                                 </TableBodyCell>
                                 <TableBodyCell>
-                                    <Text size="xs" className="text-center">{e?.sks}</Text>
+                                    <Text size="xs" className="text-center">{e?.fakultas}</Text>
                                 </TableBodyCell>
                                 <TableBodyCell className="flex justify-center">
                                     <IconButton size="sm" variant="primary"
-                                                onClick={() => {
-                                                }}>
+                                                href={`/data-utama/nilai-mahasiswa-pindahan/detail/1`}>
                                         <Eye/>
                                     </IconButton>
                                 </TableBodyCell>
