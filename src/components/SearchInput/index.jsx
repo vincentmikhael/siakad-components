@@ -9,7 +9,7 @@ const SearchInput = ({
                          label = "Label",
                          showLabel = false,
                          showHint = false,
-                         hint = "This is a hint text to help user.",
+                         hint,
                          placeholder = "Search option",
                          onChange,
                          error,
@@ -188,9 +188,9 @@ const SearchInput = ({
                     </ul>
                 )}
             </div>
-            {showHint && (
+            {showHint && (error || hint) && (
                 <Text tag="label" size="sm" weight="400" color={hintColorClasses}>
-                    {error}
+                    {error || hint}
                 </Text>
             )}
         </div>
