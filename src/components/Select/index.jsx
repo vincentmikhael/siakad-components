@@ -11,7 +11,7 @@ const Select = ({
                     label = "Label",
                     showLabel = false,
                     showHint = false,
-                    hint = "This is a hint text to help user.",
+                    hint,
                     placeholder = "Select option",
                     onChange,
                     name,
