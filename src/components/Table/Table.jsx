@@ -45,7 +45,7 @@ const Table = ({columns = [], data = [], pinned, children, loading = false, clas
             <div
                 ref={tableRef}
                 className="overflow-x-auto mt-8 rounded-xl border border-fade scrollbar scrollbar-thumb-fade scrollbar-track-white scrollbar-thumb-rounded-full scrollbar-track-rounded-full">
-                <table className={twMerge("table-auto w-full bg-white rounded-lg", className)} {...props}>
+                <table className={twMerge("table-auto w-full rounded-lg", className)} {...props}>
                     {children}
                 </table>
             </div>

@@ -1,10 +1,10 @@
-import { twMerge } from "tailwind-merge"
+import {twMerge} from "tailwind-merge"
 
-const TableBody = ({children,className}) =>{
+const TableBody = ({children, className}) => {
     return (
-            <tbody className={twMerge("text-sm text-black font-light",className)}>
-                {children}
-            </tbody>
+        <tbody className={twMerge("text-sm text-gray-90 font-medium", className)}>
+        {children}
+        </tbody>
     )
 }
 
