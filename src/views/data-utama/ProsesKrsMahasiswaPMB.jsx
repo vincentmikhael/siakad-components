@@ -1,9 +1,10 @@
 "use client"
 
-import {useState} from "react";
+import React, {useState} from "react";
 import {
-    Button, Checkbox, IconButton,
-    Input, Modal, Select,
+    Badge,
+    Button, Checkbox,
+    Modal, Select,
     Table,
     TableBody,
     TableBodyCell,
@@ -12,10 +13,20 @@ import {
     TableHeadCell,
     TableHeadRow, Text
 } from "@/components";
-import {MagnifyingGlass, Plus, PencilSimpleLine, Trash} from "@phosphor-icons/react";
 
 const ProsesKrsMahasiswaPMB = () => {
     const [activeModal, setActiveModal] = useState(null);
+    const [selectedItems, setSelectedItems] = useState([]);
+
+    const handleCheckboxChange = (id) => {
+        setSelectedItems((prev) =>
+            prev.includes(id)
+                ? prev.filter((item) => item !== id)
+                : [...prev, id]
+        );
+    };
+
+    const isChecked = (id) => selectedItems.includes(id);
 
     const handleOpenModal = (modal) => setActiveModal(modal);
 
@@ -24,14 +35,15 @@ const ProsesKrsMahasiswaPMB = () => {
     const columns = [
         {name: "", className: "min-w-14"},
         {name: "nim", className: "min-w-[76px]"},
-        {name: "nama", className: ""},
+        {name: "nama", className: "min-w-[208px]"},
         {name: "sks registrasi", className: "min-w-[132px] text-center"},
         {name: "program studi", className: "min-w-[148px]"},
-        {name: "fakultas", className: "min-w-[100px] text-center"},
-        {name: "status", className: "min-w-[200px] text-center"},
+        {name: "fakultas", className: "text-center"},
+        {name: "status", className: "text-center"},
     ];
     const data = [
         {
+            id: 1,
             nim: '2118103',
             nama: "Ahmad rahadian",
             sks: 20,
@@ -110,9 +122,10 @@ const ProsesKrsMahasiswaPMB = () => {
                 <TableBody>
                     {data?.map((e, index) => {
                         return (
-                            <TableBodyRow key={index}>
+                            <TableBodyRow key={index} selected={isChecked(e?.id)}>
                                 <TableBodyCell>
-                                    <Checkbox/>
+                                    <Checkbox checked={isChecked(e?.id)}
+                                              onClick={() => handleCheckboxChange(e?.id)}/>
                                 </TableBodyCell>
                                 <TableBodyCell>
                                     <Text size="xs" className="">{e?.nim}</Text>
@@ -130,7 +143,10 @@ const ProsesKrsMahasiswaPMB = () => {
                                     <Text size="xs" className="text-center">{e?.fakultas}</Text>
                                 </TableBodyCell>
                                 <TableBodyCell>
-                                    <Text size="xs" className="text-center">{e?.status}</Text>
+                                    <div className="flex justify-center items-center">
+                                        <Badge size="sm" variant={e?.status === 1 ? "success" : "default"}
+                                               filled>{e?.status === 1 ? "Sudah tervalidasi" : "Belum diproses"}</Badge>
+                                    </div>
                                 </TableBodyCell>
                             </TableBodyRow>
                         );
