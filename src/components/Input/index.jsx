@@ -1,4 +1,5 @@
 "use client";
+
 import {EnvelopeSimple, Eye, EyeSlash} from "@phosphor-icons/react";
 import {useState} from "react";
 import {twMerge} from "tailwind-merge";
@@ -116,9 +117,9 @@ const Input = ({
                     rightIcon && <span className="text-base">{rightIcon}</span>
                 )}
             </div>
-            {showHint && (
+            {showHint && (error || hint) && (
                 <Text tag="label" size="sm" weight="400" color={hintColorClasses}>
-                    {error}
+                    {error || hint}
                 </Text>
             )}
         </div>
