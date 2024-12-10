@@ -176,6 +176,32 @@ export default function Konsentrasi() {
 
     }
 
+    const handleEdit = async (e) => {
+        e.preventDefault();
+        setLoadingSubmit(true)
+        try{
+            const res = await AxiosInstance.put(`/konsentrasi/${editId}`,{
+                nama: formData.nama,
+                nama_en: formData.nama_en,
+                alias: formData.alias,
+              })
+              if(res.status == 200){
+                     resetForm()
+                     fetchKonsentrasi()
+                     setEditId(false)
+                     setModalAdd(false)
+                     
+               }
+        }catch(err){
+            if(err.status == 422){
+                    setErrors(err.response.data.errors)
+                    
+            }
+            
+        }
+        setLoadingSubmit(false)
+    }
+
     // const handleDelete = async (e) => {
     //     e.preventDefault();
     //     const res = await AxiosInstance.put(`/konsentrasi/status/${deleteId}`,{
@@ -325,7 +351,7 @@ export default function Konsentrasi() {
 
                             </div>
                             <div className={editId ? 'hidden' : ''}></div>
-                            <div>
+                            <div className={editId ? 'hidden' : ''}>
                                 <Select
                                     label="Fakultas"
                                     size="lg"
@@ -338,7 +364,7 @@ export default function Konsentrasi() {
                                 />
 
                             </div>
-                            <div>
+                            <div className={editId ? 'hidden' : ''}>
                                 <Select
                                     label="Prodi"
                                     size="lg"

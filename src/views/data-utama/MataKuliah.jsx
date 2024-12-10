@@ -32,6 +32,7 @@ export default function MataKuliah() {
     const [selectInputKonsentrasi, setSelectInputKonsentrasi] = useState([])
     const [selectInputTahun, setSelectInputTahun] = useState([])
     const [jenisMatkul,setJenisMatkul] = useState([])
+    const [dataForm, setDataForm] = useState([])
 
     const fetchInit = async () => {
         try {
@@ -47,7 +48,9 @@ export default function MataKuliah() {
             }
 
             const resForm = await AxiosInstance.get('/mata-kuliah/form/init')
+            console.log(resForm)
             if (resForm.status == 200) {
+                setDataForm(resForm.data.data.fakultas)
                 setJenisMatkul(resForm.data.data.jenis)
             }
         } catch (err) {
@@ -106,7 +109,7 @@ export default function MataKuliah() {
         
 
         if (field == 'fakultas') {
-            let data = dataSelect.find(d => d.id == value)['prodi']
+            let data = dataForm.find(d => d.id == value)['prodi']
             setSelectInputProdi(data)
             setSelectInputKonsentrasi(data[0]?.konsentrasi)
             setFormData((prev) => ({
@@ -116,6 +119,7 @@ export default function MataKuliah() {
             }));
         } else if (field == 'prodi') {
             let data = selectInputProdi.find(d => d.id == value)['konsentrasi']
+            console.log(data)
             setSelectInputKonsentrasi(data)
             setFormData((prev) => ({
                 ...prev,
@@ -133,7 +137,6 @@ export default function MataKuliah() {
                 resetForm()
                 setModalAdd(true)
                 setEditId(id)
-
                 setTahunEdit(data.th_kur)
                 setFormData({
                     nama: data.nama,
@@ -164,6 +167,9 @@ export default function MataKuliah() {
 
             if (res.status == 200) {
                 if(!editId){
+                    if(selectedProdi == formData.prodi && selectedKonsentrasi == (formData.konsentrasi == null ? 'all' : '') && selectedTahun == formData.th_kur){
+                        fetchMatkul()
+                    }
                     setSelectedFakultas(formData.prodi.substring(0, 2))
 
                     let data = dataSelect.find(d => d.id == formData.prodi.substring(0, 2))['prodi']
@@ -172,8 +178,9 @@ export default function MataKuliah() {
     
                     let kons = data.find(d => d.id == formData.prodi)['konsentrasi']
                     setSelectKonsentrasi(kons)
-                    setSelectedKonsentrasi(formData.konsentrasi)
+                    setSelectedKonsentrasi(formData.konsentrasi == null ? 'all' : formData.konsentrasi)
                     setSelectedTahun(formData.th_kur)
+                    
                 }
                 
                 setModalAdd(false)
@@ -353,7 +360,7 @@ export default function MataKuliah() {
                     <div style={{ width: '100%' }}>
                         <div className="grid grid-cols-12 gap-4">
                             <div className={`col-span-12 md:col-span-6 ${editId ? 'hidden' : ''}`}>
-                                <Select value={formData.fakultas} onChange={handleForm('fakultas')} label="Fakultas" showLabel placeholder="pilih fakultas" options={dataSelect} labelKey="nama" valueKey="id" />
+                                <Select value={formData.fakultas} onChange={handleForm('fakultas')} label="Fakultas" showLabel placeholder="pilih fakultas" options={dataForm} labelKey="nama" valueKey="id" />
                             </div>
                             <div className={`col-span-12 md:col-span-6 ${editId ? 'hidden' : ''}`}>
                                 <Select error={errors?.prodi} showHint value={formData.prodi} onChange={handleForm('prodi')} label="Program studi" showLabel placeholder="pilih program studi" options={selectInputProdi} labelKey="nama"

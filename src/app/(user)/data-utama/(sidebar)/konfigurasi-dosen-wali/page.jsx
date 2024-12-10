@@ -2,6 +2,7 @@
 import {
     Button,
     DateInput,
+    Hr,
     IconButton,
     Input,
     Label,
@@ -23,7 +24,7 @@ import { PencilSimpleLine } from "@phosphor-icons/react";
 import {Envelope, Eye, MagnifyingGlass, Phone, Plus, Trash} from "@phosphor-icons/react/dist/ssr";
 import {useState} from "react";
 
-export default function Mahasiswa() {
+export default function KonfigurasiDosenWali() {
     const [modalAdd, setModalAdd] = useState(false)
     const [currentStep, setCurrentStep] = useState(0);
     const [stepperLength, setStepperLength] = useState(0)
@@ -37,10 +38,9 @@ export default function Mahasiswa() {
     const columns = [
         {name: 'nim', pinned: true},
         {name: 'nama', pinned: true},
-        {name: 'angkatan', pinned: false},
-        {name: 'jurusan', pinned: false},
-        {name: 'fakultas', pinned: false},
-        {name: 'actions', pinned: false},
+        {name: 'program studi', pinned: false},
+        {name: 'kode dosen', pinned: false},
+        {name: 'nama dosen wali', pinned: false},
     ]
     const nextStep = () => {
         if (currentStep < stepperLength - 1) {
@@ -59,7 +59,6 @@ export default function Mahasiswa() {
     };
     return (
         <div>
-            <div className="md:flex justify-between items-end">
                 <div className="flex gap-3">
                     <div className="grow">
                         <Select
@@ -79,22 +78,38 @@ export default function Mahasiswa() {
                             options={[{value: "1", label: "Menu Item 1"}]}
                         />
                     </div>
+                    <div className="grow">
+                        <Select
+                            label="Angkatan"
+                            size="xs"
+                            showLabel
+                            className={"w-full md:w-40"}
+                            options={[{value: "1", label: "Menu Item 1"}]}
+                        />
+                    </div>
+                    <div className="grow">
+                        <Select
+                            label="Angkatan"
+                            size="xs"
+                            showLabel
+                            className={"w-full md:w-40"}
+                            options={[{value: "1", label: "Menu Item 1"}]}
+                        />
+                    </div>
                 </div>
-                <div className="flex gap-3 mt-4 md:mt-0">
-                    <div className="grow w-full">
-                        <Input size="xs" placeholder="Cari data disini" className="md:w-40"
+                <Hr/>
+                <div className="mt-6 flex gap-4">
+                    <div className="">
+                        <Input size="xs" placeholder="Cari data disini" className="md:w-50"
                                leftIcon={<MagnifyingGlass weight="bold"/>}/>
                     </div>
 
-                    <div className="grow w-full">
-                        <Button onClick={() => setModalAdd(true)} className="w-full" filled
-                                leftIcon={<Plus weight="bold"/>}>Tambah Data</Button>
+                    <div className="">
+                        <Button onClick={() => setModalAdd(true)} className="w-full" filled>Set dosen wali</Button>
                     </div>
 
 
                 </div>
-
-            </div>
 
             <Table loading={false} columns={columns} data={data}>
                 <TableHead>
@@ -118,20 +133,7 @@ export default function Mahasiswa() {
                                 <TableBodyCell><Text size="xs">{e.email}</Text></TableBodyCell>
                                 <TableBodyCell><Text size="xs">{e.email}</Text></TableBodyCell>
                                 <TableBodyCell><Text size="xs">{e.email}</Text></TableBodyCell>
-                                <TableBodyCell>
-                                    <div className="flex flex-row gap-3">
-                                    <IconButton size="sm" variant="primary">
-                                            <Eye />
-                                        </IconButton>
-                                        <IconButton size="sm" variant="warning">
-                                            <PencilSimpleLine />
-                                        </IconButton>
-                                        <IconButton size="sm" variant="danger">
-                                            <Trash />
-                                        </IconButton>
-                                        
-                                    </div>
-                                </TableBodyCell>
+           
                             </TableBodyRow>
                         )
                     })}

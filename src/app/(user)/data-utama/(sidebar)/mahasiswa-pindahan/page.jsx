@@ -1,5 +1,6 @@
 "use client"
 import {
+    Badge,
     Button,
     DateInput,
     IconButton,
@@ -23,23 +24,24 @@ import { PencilSimpleLine } from "@phosphor-icons/react";
 import {Envelope, Eye, MagnifyingGlass, Phone, Plus, Trash} from "@phosphor-icons/react/dist/ssr";
 import {useState} from "react";
 
-export default function Mahasiswa() {
+export default function MahasiswaPindahan() {
     const [modalAdd, setModalAdd] = useState(false)
     const [currentStep, setCurrentStep] = useState(0);
     const [stepperLength, setStepperLength] = useState(0)
 
     const data = [
-        {id: 1, name: 'John Doe', email: 'lorem ipsum',},
-        {id: 2, name: 'Jane Smith', email: 'tes',},
-        {id: 3, name: 'Sam Green', email: '123',},
+        {id: 1, name: 'John Doe', email: 'lorem ipsum',tes: 'lorem'},
+        {id: 2, name: 'Jane Smith', email: 'tes',tes: 'lorem'},
+        {id: 3, name: 'Sam Green', email: '123',tes: 'lorem'},
 
     ]
     const columns = [
         {name: 'nim', pinned: true},
         {name: 'nama', pinned: true},
         {name: 'angkatan', pinned: false},
-        {name: 'jurusan', pinned: false},
-        {name: 'fakultas', pinned: false},
+        {name: 'program studi', pinned: false},
+        {name: 'validasi', pinned: false},
+        {name: 'user entri', pinned: false},
         {name: 'actions', pinned: false},
     ]
     const nextStep = () => {
@@ -117,6 +119,7 @@ export default function Mahasiswa() {
                                 <TableBodyCell><Text size="xs">{e.name}</Text></TableBodyCell>
                                 <TableBodyCell><Text size="xs">{e.email}</Text></TableBodyCell>
                                 <TableBodyCell><Text size="xs">{e.email}</Text></TableBodyCell>
+                                <TableBodyCell><Badge variant="success" filled>Valid</Badge></TableBodyCell>
                                 <TableBodyCell><Text size="xs">{e.email}</Text></TableBodyCell>
                                 <TableBodyCell>
                                     <div className="flex flex-row gap-3">
