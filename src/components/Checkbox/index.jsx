@@ -5,12 +5,18 @@ import {twMerge} from "tailwind-merge";
 import {Text} from "..";
 
 const Checkbox = ({
+                      label = "Label",
+                      showLabel = false,
+                      showHint = false,
+                      hint,
+                      error,
                       onChange,
                       onClick,
                       checked = undefined,
                       children,
                       disabled = false,
                       className,
+                      classLabel = "",
                       ...props
                   }) => {
     const [isFocused, setIsFocused] = useState(false);
@@ -37,27 +43,49 @@ const Checkbox = ({
     } else {
         additionalClasses += "text-white ";
     }
+
+    const colorClasses = disabled ? "text-gray-50" : "text-gray-100";
+    const hintColorClasses = error ? "text-danger-90" : "text-gray-50";
     return (
-        <label className={`flex items-center cursor-pointer ${children ? "gap-2" : ""}`}>
-            <input
-                type="checkbox"
-                checked={checked}
-                onChange={onChange}
-                className="hidden"
-                disabled={disabled}
-                {...props}
-            />
-            <div
-                className={twMerge(baseClasses, additionalClasses, className)}
-                onFocus={() => !disabled && setIsFocused(true)}
-                onBlur={() => setIsFocused(false)}
-                onClick={onClick}
-                tabIndex={0}
-            >
-                {checked && <Check size={12} weight="bold"/>}
-            </div>
-            <Text tag="span" weight="500">{children}</Text>
-        </label>
+        <div className={twMerge("flex flex-col gap-1.5", className)}>
+            {showLabel && (
+                <label
+                    className={twMerge(
+                        "block text-sm font-medium",
+                        colorClasses,
+                        classLabel
+                    )}
+                >
+                    {label}
+                </label>
+            )}
+            <label className={`flex items-center cursor-pointer w-fit ${children ? "gap-2" : ""}`}>
+                <input
+                    type="checkbox"
+                    checked={checked}
+                    onChange={onChange}
+                    className="hidden"
+                    disabled={disabled}
+                    {...props}
+                />
+                <div
+                    className={twMerge(baseClasses, additionalClasses, className)}
+                    onFocus={() => !disabled && setIsFocused(true)}
+                    onBlur={() => setIsFocused(false)}
+                    onClick={onClick}
+                    tabIndex={0}
+                >
+                    {checked && <Check size={12} weight="bold"/>}
+                </div>
+                <Text tag="span" weight="500" size="sm"
+                      color={checked ? "text-gray-100" : "text-gray-50"}>{children}</Text>
+            </label>
+            {showHint && (error || hint) && (
+                <Text tag="label" size="sm" weight="400" color={hintColorClasses}>
+                    {error || hint}
+                </Text>
+            )}
+        </div>
     );
 };
 
