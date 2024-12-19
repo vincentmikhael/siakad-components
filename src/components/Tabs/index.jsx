@@ -17,28 +17,6 @@ const Tabs = ({defaultClass = 'flex flex-wrap gap-2 border-b border-fade w-fit',
                     })
                 )}
             </ul>
-            <div className="flex gap-4 w-full md:w-fit">
-                <Input
-                    size="xs"
-                    className="w-full lg:w-[156px]"
-                    placeholder={"Cari data disini"}
-                    leftIcon={<MagnifyingGlass weight="bold"/>}
-                />
-                <Button
-                    onClick={() => {
-                    }}
-                    leftIcon={<Plus weight="bold"/>}
-                    size="sm"
-                    filled
-                    className="w-full lg:w-fit"
-                >
-                    Tambah data
-                </Button>
-            </div>
-
-            <div className="pt-6">
-                {React.Children.toArray(children)[activeTab]?.props.children}
-            </div>
         </>
     );
 };

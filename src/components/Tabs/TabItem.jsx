@@ -1,14 +1,15 @@
 "use client"
 import {twMerge} from 'tailwind-merge';
+import {Link} from "@/components";
+import {usePathname} from "next/navigation";
 
 const TabItem = ({
-                     open,
-                     onClick,
-                     title = 'Tab title',
+                     href,
                      className,
                      children,
                      ...restProps
                  }) => {
+    const pathname = usePathname();
     const baseClasses = "inline-block text-sm leading-[22.4px] p-3 font-semibold text-center disabled:cursor-not-allowed";
     const activeClasses = "text-primary-100 border-b-2 border-primary-100";
     const inactiveClasses = "text-gray-50";
@@ -16,20 +17,19 @@ const TabItem = ({
     const buttonClass = twMerge(
         className,
         baseClasses,
-        open ? activeClasses : inactiveClasses,
+        pathname === href ? activeClasses : inactiveClasses,
     );
 
     return (
         <li>
-            <button
+            <Link
                 type="button"
-                onClick={onClick}
-                role="tab"
+                href={href}
                 {...restProps}
                 className={buttonClass}
             >
-                {title}
-            </button>
+                {children}
+            </Link>
         </li>
     );
 };
