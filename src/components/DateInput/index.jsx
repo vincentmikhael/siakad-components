@@ -23,6 +23,7 @@ function getDateSlots(currentMonth, currentYear) {
 
 const DateInput = ({
                        value,
+                       name,
                        onChange,
                        disabled,
                        actionButton = false,
@@ -86,7 +87,13 @@ const DateInput = ({
     }
 
     function selectDateHandler(date) {
-        onChange(new Date(date));
+        const value = new Date(date);
+        onChange({
+            target: {
+                name,
+                value
+            },
+        });
         setSelectedDate(formatDate(date));
         setShowPopup(false);
     }
