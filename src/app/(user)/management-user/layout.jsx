@@ -2,9 +2,10 @@ import {
     Breadcrumb,
     BreadcrumbItem,
     Card,
-    CardHeader,
+    CardHeader, TabItem, Tabs,
     Text, Utils
 } from "@/components";
+import React from "react";
 
 export async function generateMetadata(/*{params}*/) {
     return {
@@ -31,7 +32,14 @@ export default function ManagementUserLayout({children}) {
                     </Text>
                 </CardHeader>
 
-                <div className="flex-grow xl:overflow-hidden">{children}</div>
+                <div className="flex-grow xl:overflow-hidden relative">
+                    <Tabs>
+                        <TabItem href="/management-user/user">User</TabItem>
+                        <TabItem href="/management-user/role">Role</TabItem>
+                        <TabItem href="/management-user/konfigurasi-hak-akses">Konfigurasi hak akses user</TabItem>
+                    </Tabs>
+                    {children}
+                </div>
             </Card>
         </>
     );
