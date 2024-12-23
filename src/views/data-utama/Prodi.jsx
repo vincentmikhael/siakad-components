@@ -3,6 +3,7 @@
 import {useEffect, useState} from "react";
 import AxiosInstance from "@/libs/AxiosInstance";
 import {
+    BottomDrawer,
     Button, FormSkeleton, IconButton,
     Input, Modal, NotFoundRow, SearchInput, Select, Spinner,
     Table,
@@ -14,12 +15,16 @@ import {
     TableHeadRow, Text
 } from "@/components";
 import {useToast} from "@/context/ToastContext";
-import {MagnifyingGlass, Plus, PencilSimpleLine, Trash} from "@phosphor-icons/react";
+import {MagnifyingGlass, Plus, PencilSimpleLine, Trash, FadersHorizontal} from "@phosphor-icons/react";
 
 const Prodi = ({listFakultas}) => {
     const firstData = listFakultas[0]
     const [selectedFakultas, setSelectedFakultas] = useState(firstData?.id);
     const showToast = useToast();
+    //drawer
+    const [openDrawer, setOpenDrawer] = useState(false);
+    const [filterFakultas, setFilterFakultas] = useState(firstData?.id);
+    //
     const [dataProdi, setDataProdi] = useState(null);
     const [filteredData, setFilteredData] = useState(null);
     const [searchKeyword, setSearchKeyword] = useState("");
@@ -94,6 +99,19 @@ const Prodi = ({listFakultas}) => {
         setSelectedFakultas(e.target.value)
     };
 
+    //filter drawer
+    const handleApplyFilter = () => {
+        setSelectedFakultas(filterFakultas);
+        setOpenDrawer(false);
+    };
+
+    // clear filter
+    const handleClearFilter = () => {
+        setFilterFakultas(firstData?.id);
+        setSelectedFakultas(firstData?.id);
+        setOpenDrawer(false);
+    };
+
     const openAddModal = async () => {
         setEditMode(false);
         setEditId(null);
@@ -159,7 +177,7 @@ const Prodi = ({listFakultas}) => {
         {name: "nama prodi", className: "w-[160px]"},
         {name: "ketua prodi", className: "w-[200px]"},
         {name: "sekretaris prodi", className: "w-[200px]"},
-        {name: "actions"},
+        {name: "actions", className: "text-center"},
     ];
 
     const handleSubmit = async (e) => {
@@ -209,33 +227,53 @@ const Prodi = ({listFakultas}) => {
     };
 
     return (
-        <>
+        <section>
             <div className="flex flex-col md:flex-row justify-between items-end gap-4">
-                <div className="w-full md:w-fit">
+                <div className="w-full lg:w-fit hidden lg:flex">
                     <Select value={selectedFakultas} options={listFakultas} label="Fakultas" showLabel size="xs"
-                            className="md:w-52 w-full"
+                            className="lg:w-52 w-full"
                             labelKey="nama"
                             valueKey="id"
                             onChange={handleFakultasChange}/>
                 </div>
-                <div className="flex gap-4 w-full md:w-fit">
+                <div className="flex flex-col lg:flex-row gap-6 sm:gap-4 w-full lg:w-fit">
                     <Input
                         size="xs"
-                        className="w-full md:w-[156px]"
+                        className="w-full lg:w-[156px]"
                         placeholder={"Cari data disini"}
                         onChange={handleSearch}
                         value={searchKeyword}
                         leftIcon={<MagnifyingGlass weight="bold"/>}
                     />
-                    <Button
-                        onClick={openAddModal}
-                        leftIcon={<Plus weight="bold"/>}
-                        size="sm"
-                        filled
-                        className="w-full md:w-fit"
-                    >
-                        Tambah data
-                    </Button>
+                    <div className="flex flex-row justify-between">
+                        <Button
+                            onClick={() => setOpenDrawer(true)}
+                            leftIcon={<FadersHorizontal weight="bold"/>}
+                            size="sm"
+                            filled
+                            className="w-fit lg:hidden"
+                            variant="white"
+                        >
+                            Filter
+                        </Button>
+                        <BottomDrawer open={openDrawer} onClose={() => setOpenDrawer(false)} onApply={handleApplyFilter}
+                                      onClear={handleClearFilter}>
+                            <Select value={filterFakultas} options={listFakultas} label="Fakultas" showLabel size="lg"
+                                    labelKey="nama"
+                                    valueKey="id"
+                                    onChange={(e) => setFilterFakultas(e.target.value)}
+                                    menuClass="max-h-28"/>
+                        </BottomDrawer>
+                        <Button
+                            onClick={openAddModal}
+                            leftIcon={<Plus weight="bold"/>}
+                            size="sm"
+                            filled
+                            className="w-fit"
+                        >
+                            Tambah data
+                        </Button>
+                    </div>
                 </div>
             </div>
             <Table
@@ -293,7 +331,7 @@ const Prodi = ({listFakultas}) => {
                                         </div>
                                     </TableBodyCell>
                                     <TableBodyCell>
-                                        <div className="flex flex-row gap-3">
+                                        <div className="flex flex-row gap-3 justify-center">
                                             <IconButton size="sm" variant="warning"
                                                         onClick={() => openEditModal(prodi?.id)}>
                                                 <PencilSimpleLine/>
@@ -313,17 +351,15 @@ const Prodi = ({listFakultas}) => {
                 size="lg"
                 open={openModal}
                 onClose={closeModal}
-                title={editMode ? "Perbarui data prodi" : "Tambah data Prodi"}
+                title={editMode ? "Perbarui data prodi" : "Tambah data prodi"}
                 dismissable
                 autoClose
             >
                 <Modal.Body>
                     {
                         loadingDataForm ? (
-
                             <FormSkeleton count={8}/>
                         ) : (
-
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                 <Input
                                     placeholder="Tulis nama prodi"
@@ -358,7 +394,7 @@ const Prodi = ({listFakultas}) => {
                                     error={errors?.singkatan}
                                     value={formData.singkatan}
                                 />
-                                <Select showLabel label="Jenjang" options={formInit.jenjang} labelKey="nama"
+                                <Select showLabel label="Jenjang" options={formInit?.jenjang} labelKey="nama"
                                         valueKey="id"
                                         size="lg" placeholder="Pilih jenjang" name="jenjang" onChange={handleChange}
                                         showHint
@@ -408,7 +444,7 @@ const Prodi = ({listFakultas}) => {
                                     value={formData.kd_nim}
                                 />
                                 <div className="sm:col-span-2">
-                                    <SearchInput options={formInit.dosen} label="Nama ketua prodi"
+                                    <SearchInput options={formInit?.dosen} label="Nama ketua prodi"
                                                  placeholder="Tulis NIP ketua prodi" showLabel size="lg" name="kaprodi"
                                                  labelKey="nama_lengkap" valueKey="id" keywordKey="nip"
                                                  onChange={handleChange} loading={loadingInitForm}
@@ -416,7 +452,7 @@ const Prodi = ({listFakultas}) => {
                                                  error={errors?.kaprodi} value={formData.kaprodi}/>
                                 </div>
                                 <div className="sm:col-span-2">
-                                    <SearchInput options={formInit.dosen} label="Nama sekretaris prodi"
+                                    <SearchInput options={formInit?.dosen} label="Nama sekretaris prodi"
                                                  placeholder="Tulis NIP sekretaris prodi" showLabel size="lg"
                                                  name="sekprodi"
                                                  labelKey="nama_lengkap" valueKey="id" keywordKey="nip"
@@ -439,7 +475,7 @@ const Prodi = ({listFakultas}) => {
                     </div>
                 </Modal.Footer>
             </Modal>
-        </>
+        </section>
     );
 }
 export default Prodi
