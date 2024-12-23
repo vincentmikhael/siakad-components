@@ -19,6 +19,7 @@ const Select = ({
                     disabled = false,
                     size = "sm",
                     className,
+                    menuClass,
                     value,
                     labelKey = "label",
                     valueKey = "value",
@@ -75,7 +76,7 @@ const Select = ({
     );
 
     const menuClasses =
-        `border-fade border-[1px] absolute z-10 mt-1 ${isRelative ? 'w-full' : 'min-w-[200px]'} bg-white rounded-lg p-1.5 max-h-80 overflow-y-auto space-y-1 custom-shadow-select scrollbar scrollbar-thumb-fade scrollbar-track-white scrollbar-thumb-rounded-full scrollbar-track-rounded-full`;
+        twMerge(`border-fade border-[1px] absolute z-10 mt-1 ${isRelative ? 'w-full' : 'min-w-[200px]'} bg-white rounded-lg p-1.5 max-h-80 overflow-y-auto space-y-1 custom-shadow-select scrollbar scrollbar-thumb-fade scrollbar-track-white scrollbar-thumb-rounded-full scrollbar-track-rounded-full`, menuClass);
 
     const optionClasses =
         "hover:bg-primary-10 p-2.5 cursor-pointer rounded-md flex items-center justify-between text-primary-100";
