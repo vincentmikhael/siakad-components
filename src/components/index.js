@@ -53,11 +53,13 @@ import TabItem from "./Tabs/TabItem";
 import Tabs from "./Tabs";
 import ProfileDropdown from "./ProfileDropdown";
 import NotificationDropdown from "./NotificationDropdown";
+import BottomDrawer from "@components/BottomDrawer";
 
 export {
     Alert,
     Badge,
     Breadcrumb,
+    BottomDrawer,
     BreadcrumbItem,
     Button,
     ButtonRedirectBack,
