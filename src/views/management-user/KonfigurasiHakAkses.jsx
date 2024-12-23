@@ -1,7 +1,7 @@
 "use client"
 
 import {
-    Button, Checkbox, FormSkeleton,
+    Button, Checkbox, DateInput, FormSkeleton,
     IconButton, Input, Modal, Select, Spinner,
     Table,
     TableBody,
@@ -14,10 +14,9 @@ import {
 } from "@/components";
 import {MagnifyingGlass, PencilSimpleLine, Plus, Trash} from "@phosphor-icons/react";
 import {useEffect, useState} from "react";
-import AxiosInstance from "@libs/AxiosInstance";
 import {useToast} from "@context/ToastContext";
 
-const User = () => {
+const KonfigurasiHakAkses = () => {
     const showToast = useToast();
     const [dataUser, setDataUser] = useState(null);
     const [filteredData, setFilteredData] = useState(null);
@@ -32,23 +31,21 @@ const User = () => {
     const [editMode, setEditMode] = useState(false);
     const [editId, setEditId] = useState(null);
     const [formData, setFormData] = useState({
-        username: "",
-        name: "",
         role_id: "",
-        scope: "",
-        password: "",
-        confirm_password: "",
+        nama_aplikasi: "",
+        nama_halaman: "",
+        start_date: "",
+        end_date: "",
         status: 0,
     });
 
     const resetForm = () => {
         setFormData({
-            username: "",
-            name: "",
             role_id: "",
-            scope: "",
-            password: "",
-            confirm_password: "",
+            nama_aplikasi: "",
+            nama_halaman: "",
+            start_date: "",
+            end_date: "",
             status: 0,
         })
         setErrors({})
@@ -150,26 +147,25 @@ const User = () => {
 
     const columns = [
         {name: "no"},
-        {name: "user id", className: "min-w-[132px]"},
-        {name: "nama", className: "w-full"},
-        {name: "role id", className: "min-w-[148px]"},
-        {name: "info role", className: "min-w-[148px] text-center"},
+        {name: "nama halaman", className: "min-w-[240px]"},
         {name: "status", className: "min-w-[148px] text-center"},
-        {name: "actions", className: "min-w-[132px]  text-center"},
+        {name: "time start", className: "min-w-[200px]"},
+        {name: "time end", className: "min-w-[200px]"},
+        {name: "nm_files", className: "w-full text-center"},
+        {name: "action", className: "min-w-[132px] text-center"},
     ];
     const data = [
         {
-            user_id: "user1",
-            nama: "Example Name",
-            role_id: "Rektor",
-            info_role: "All",
-            status: "1"
+            nama_halaman: "Entri Data Mata Kuliah",
+            status: "Enabled",
+            time_start: "3/19/2024 1:56:04 AM",
+            time_end: "3/19/2034 1:56:04 AM",
+            nm_files: "entrimatakuliah.aspx",
         }
     ]
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(formData)
         // setLoadingSubmit(true)
         // try {
         //     const response = editMode
@@ -234,7 +230,6 @@ const User = () => {
                     Tambah data
                 </Button>
             </div>
-
             <Table
                 loading={false}
                 columns={columns}
@@ -262,19 +257,19 @@ const User = () => {
                                     <Text size="xs">{index + 1}</Text>
                                 </TableBodyCell>
                                 <TableBodyCell>
-                                    <Text size="xs">{e?.user_id}</Text>
-                                </TableBodyCell>
-                                <TableBodyCell>
-                                    <Text size="xs">{e?.nama}</Text>
-                                </TableBodyCell>
-                                <TableBodyCell>
-                                    <Text size="xs">{e?.role_id}</Text>
-                                </TableBodyCell>
-                                <TableBodyCell>
-                                    <Text size="xs" className="text-center">{e?.info_role}</Text>
+                                    <Text size="xs">{e?.nama_halaman}</Text>
                                 </TableBodyCell>
                                 <TableBodyCell>
                                     <Text size="xs" className="text-center">{e?.status}</Text>
+                                </TableBodyCell>
+                                <TableBodyCell>
+                                    <Text size="xs">{e?.time_start}</Text>
+                                </TableBodyCell>
+                                <TableBodyCell>
+                                    <Text size="xs">{e?.time_end}</Text>
+                                </TableBodyCell>
+                                <TableBodyCell>
+                                    <Text size="xs" className="text-center">{e?.nm_files}</Text>
                                 </TableBodyCell>
 
                                 <TableBodyCell>
@@ -296,11 +291,12 @@ const User = () => {
                 </TableBody>
             </Table>
 
+
             <Modal
                 size="lg"
                 open={openModal}
                 onClose={closeModal}
-                title={editMode ? "Perbarui user akademik baru" : "Tambah user akademik baru"}
+                title={editMode ? "Perbarui hak akses" : "Tambah hak akses"}
                 dismissable
                 autoClose
             >
@@ -309,64 +305,41 @@ const User = () => {
                         loadingDataForm ? (
                             <FormSkeleton count={6}/>
                         ) : (
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                                <Input
-                                    placeholder="Tulis username"
-                                    size="lg"
-                                    label="Username"
-                                    showLabel
-                                    name="username"
-                                    onChange={handleChange}
-                                    showHint
-                                    error={errors?.username}
-                                    value={formData.username}
-                                />
-                                <Input
-                                    placeholder="Tulis nama"
-                                    size="lg"
-                                    label="Nama"
-                                    showLabel
-                                    name="nama"
-                                    onChange={handleChange}
-                                    showHint
-                                    error={errors?.nama}
-                                    value={formData.nama}
-                                />
-                                <Select showLabel label="Role ID" options={formInit?.jenjang} labelKey="nama"
-                                        valueKey="id"
-                                        size="lg" placeholder="Pilih role" name="role_id" onChange={handleChange}
-                                        showHint
-                                        error={errors?.role_id} value={formData.role_id}/>
-                                <Select showLabel label="Info scope" options={formInit?.jenjang} labelKey="nama"
-                                        valueKey="id"
-                                        size="lg" placeholder="Pilih info scope" name="scope" onChange={handleChange}
-                                        showHint
-                                        error={errors?.scope} value={formData.scope}/>
-                                <Input
-                                    type="password"
-                                    placeholder="Tulis password"
-                                    size="lg"
-                                    label="Password"
-                                    showLabel
-                                    name="password"
-                                    onChange={handleChange}
-                                    showHint
-                                    error={errors?.password}
-                                    value={formData.password}
-                                />
-                                <Input
-                                    type="password"
-                                    placeholder="Konfirmasi password"
-                                    size="lg"
-                                    label="Konfirmasi password"
-                                    showLabel
-                                    name="confirm_password"
-                                    onChange={handleChange}
-                                    showHint
-                                    error={errors?.confirm_password}
-                                    value={formData.confirm_password}
-                                />
-                                <Checkbox label="Status" showLabel name="status" checked={formData.status === 1}
+                            <div className="grid grid-cols-1 sm:grid-cols-6 gap-6">
+                                <div className="col-span-2">
+                                    <Select showLabel label="Role ID" options={formInit?.jenjang} labelKey="nama"
+                                            valueKey="id"
+                                            size="lg" placeholder="Pilih role" name="role_id" onChange={handleChange}
+                                            showHint
+                                            error={errors?.role_id} value={formData.role_id}/>
+                                </div>
+                                <div className="col-span-2">
+                                    <Select showLabel label="Nama Aplikasi" options={formInit?.jenjang} labelKey="nama"
+                                            valueKey="id"
+                                            size="lg" placeholder="Pilih nama aplikasi" name="nama_aplikasi"
+                                            onChange={handleChange}
+                                            showHint
+                                            error={errors?.nama_aplikasi} value={formData.nama_aplikasi}/>
+                                </div>
+                                <div className="col-span-2">
+                                    <Select showLabel label="Nama halaman" options={formInit?.jenjang} labelKey="nama"
+                                            valueKey="id"
+                                            size="lg" placeholder="Pilih nama halaman" name="nama_halaman"
+                                            onChange={handleChange}
+                                            showHint
+                                            error={errors?.nama_halaman} value={formData.nama_halaman}/>
+                                </div>
+                                <div className="col-span-3">
+                                    <DateInput label="Start akses" size="lg" showLabel placeholder="Date"
+                                               name="start_date"
+                                               onChange={handleChange} value={formData.start_date}/>
+                                </div>
+                                <div className="col-span-3">
+                                    <DateInput label="End akses" size="lg" showLabel placeholder="Date" name="end_date"
+                                               onChange={handleChange} value={formData.end_date}/>
+                                </div>
+                                <Checkbox label="Status" showLabel name="status"
+                                          checked={formData.status === 1}
                                           onChange={handleCheckboxChange}>
                                     Active</Checkbox>
                             </div>
@@ -388,4 +361,4 @@ const User = () => {
     )
 }
 
-export default User
+export default KonfigurasiHakAkses
