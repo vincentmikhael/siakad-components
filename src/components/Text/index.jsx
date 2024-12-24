@@ -8,7 +8,7 @@ import {
 } from "./StandardClasses";
 
 const Text = ({
-                  weight = "400",
+                  weight = 400,
                   align = "left",
                   size = "base",
                   spaces = "normal",
