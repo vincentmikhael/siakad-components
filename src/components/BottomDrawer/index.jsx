@@ -22,12 +22,12 @@ const BottomDrawer = ({
         <>
             {open && (
                 <div
-                    className="fixed inset-0 bg-black bg-opacity-50 z-40"
+                    className="xl:hidden fixed inset-0 bg-black bg-opacity-50 z-40"
                     onClick={onClose}
                 ></div>
             )}
             <div
-                className={twMerge(`fixed bottom-0 left-0 right-0 bg-white p-8 shadow-lg flex flex-col gap-8 rounded-t-[20px] z-50 transform ${
+                className={twMerge(`xl:hidden fixed bottom-0 left-0 right-0 bg-white p-8 shadow-lg flex flex-col gap-8 rounded-t-[20px] z-50 transform ${
                     open ? "translate-y-0" : "translate-y-full"
                 } transition-transform duration-300`, className)}
             >
@@ -39,11 +39,11 @@ const BottomDrawer = ({
                                 <X weight="bold" size={16}/>
                             </IconButton>
                         )}
-                        <Text weight="600" size="xl">{title}</Text>
+                        <Text weight={600} size="xl">{title}</Text>
                     </div>
                     {clearable && (
                         <button type="button" onClick={onClear}>
-                            <Text color="text-gray-50" weight="600" size="sm">
+                            <Text color="text-gray-50" weight={600} size="sm">
                                 Clear
                             </Text>
                         </button>
