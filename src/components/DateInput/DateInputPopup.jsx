@@ -17,8 +17,8 @@ const DateInputPopup = ({
     const Week = ["Mo", "Tu", "We", "Th", "Fr", "Sat", "Su"];
 
     const positionClasses = {
-        "bottom-right": `${size === "sm" ? "top-[72px]" : "top-20"} right-0`,
-        "bottom-left": `${size === "sm" ? "top-[72px]" : "top-20"} left-0`,
+        "bottom-right": `${size === "sm" ? "top-[72px]" : "top-[70px]"} right-0`,
+        "bottom-left": `${size === "sm" ? "top-[72px]" : "top-[70px]"} left-0`,
         "top-right": `${size === "sm" ? "bottom-12" : "bottom-14"} right-0`,
         "top-left": `${size === "sm" ? "bottom-12" : "bottom-14"} left-0`,
     };
@@ -26,7 +26,7 @@ const DateInputPopup = ({
     return (
         <div
             className={twMerge(
-                "absolute z-30 block w-full max-w-[328px]",
+                "absolute z-30 block w-[328px]",
                 positionClasses[position]
             )}
         >
