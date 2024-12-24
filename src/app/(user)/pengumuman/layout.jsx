@@ -1,0 +1,41 @@
+import {
+    Breadcrumb,
+    BreadcrumbItem,
+    Card,
+    CardHeader,
+    Text, Utils
+} from "@/components";
+import React from "react";
+
+export async function generateMetadata(/*{params}*/) {
+    return {
+        title: Utils.getDocumentTitle('Pengumuman'),
+    }
+}
+
+export default function KalenderAkademikLayout({children}) {
+    return (
+        <>
+            <Breadcrumb>
+                <BreadcrumbItem home href="/dashboard">
+                    Dashboard
+                </BreadcrumbItem>
+                <BreadcrumbItem>Pengumuman</BreadcrumbItem>
+            </Breadcrumb>
+            <Card className="my-8 md:my-12">
+                <CardHeader className="border-0">
+                    <Text size="xl" color="text-gray-100" weight={600}>
+                        Management Pengumuman
+                    </Text>
+                    <Text size="sm" color="text-gray-60" weight={500}>
+                        Kelola pengumuman untuk baik dosen, mahasiswa, maupun staf administrasi.
+                    </Text>
+                </CardHeader>
+
+                <div className="flex-grow">
+                    {children}
+                </div>
+            </Card>
+        </>
+    );
+}

@@ -35,13 +35,11 @@ export async function middleware(request) {
                                 body: JSON.stringify({refreshToken}),
                             });
                             const {accessToken: newAccessToken, refreshToken: newRefreshToken} = await newData.json();
-                            console.log('dapat rest nih ngab', newAccessToken, accessToken)
                             const setSession = await fetch(`${request.nextUrl.origin}/api/set-session?s_id=${sessionId}`, {
                                 method: "POST",
                                 headers: {"Content-Type": "application/json"},
                                 body: JSON.stringify({data, accessToken: newAccessToken, refreshToken: newRefreshToken})
                             })
-                            console.log('set session berhasil nih ngab', setSession)
                             if (setSession.ok) {
                                 isAuthenticated = true
                             }
@@ -76,6 +74,14 @@ export async function middleware(request) {
     if (isAuthenticated && pathname === "/penjadwalan-kelas") {
         return NextResponse.redirect(new URL('/penjadwalan-kelas/entri-pengajar', request.url));
     }
+    //redirect jika akses "/manajemen-user"
+    if (isAuthenticated && pathname === "/manajemen-user") {
+        return NextResponse.redirect(new URL('/manajemen-user/user', request.url));
+    }
+    //redirect jika akses "/status-mahasiswa"
+    if (isAuthenticated && pathname === "/status-mahasiswa") {
+        return NextResponse.redirect(new URL('/status-mahasiswa/cuti', request.url));
+    }
 
     return NextResponse.next();
 }
@@ -86,6 +92,9 @@ export const config = {
         "/dashboard",
         "/data-utama/:path*",
         '/penjadwalan-kelas/:path*',
-        '/management-user/:path*',
+        '/manajemen-user/:path*',
+        '/penjadwalan-ujian/:path*',
+        '/status-mahasiswa/:path*',
+        '/pengumuman'
     ],
 };
