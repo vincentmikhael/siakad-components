@@ -229,7 +229,7 @@ const Prodi = ({listFakultas}) => {
     return (
         <section>
             <div className="flex flex-col md:flex-row justify-between items-end gap-4">
-                <div className="w-full lg:w-fit hidden lg:flex">
+                <div className="w-full lg:w-fit hidden lg:flex gap-4">
                     <Select value={selectedFakultas} options={listFakultas} label="Fakultas" showLabel size="xs"
                             className="lg:w-52 w-full"
                             labelKey="nama"
