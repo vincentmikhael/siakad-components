@@ -5,7 +5,7 @@ import AxiosInstance from "@/libs/AxiosInstance";
 import {
     Badge,
     BottomDrawer,
-    Button, DateInput, FormSkeleton, IconButton,
+    Button, DateInput, FileUpload, FormSkeleton, IconButton,
     Input, Modal, NotFoundRow, SearchInput, Select, Spinner,
     Table,
     TableBody,
@@ -36,32 +36,23 @@ const Pengumuman = () => {
     const [editMode, setEditMode] = useState(false);
     const [editId, setEditId] = useState(null);
     const [formData, setFormData] = useState({
-        nama: "",
-        nama_en: "",
-        singkatan: "",
-        jenjang: "",
-        fakultas: "",
-        kd_nim: "",
-        kd_mk: "",
-        uang_gedung: "",
-        ukt: "",
-        kaprodi: "",
-        sekprodi: ""
+        perihal: "",
+        no_pengumuman: "",
+        tanggal: "",
+        url: "",
+        keterangan: "",
+        status: "",
     });
+    const [file, setFile] = useState("");
 
     const resetForm = () => {
         setFormData({
-            nama: "",
-            nama_en: "",
-            singkatan: "",
-            jenjang: "",
-            fakultas: "",
-            kd_nim: "",
-            kd_mk: "",
-            uang_gedung: "",
-            ukt: "",
-            kaprodi: "",
-            sekprodi: ""
+            perihal: "",
+            no_pengumuman: "",
+            tanggal: "",
+            url: "",
+            keterangan: "",
+            status: "",
         })
         setErrors({})
     }
@@ -188,31 +179,32 @@ const Pengumuman = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoadingSubmit(true)
-        try {
-            const response = editMode
-                ? await AxiosInstance.put(`/prodi/${editId}`, (({
-                                                                    fakultas,
-                                                                    ...dataWithoutFakultas
-                                                                }) => dataWithoutFakultas)(formData))
-                : await AxiosInstance.post("/prodi", formData);
-
-            if (response.status === 200) {
-                fetchData()
-                setOpenModal(false);
-                showToast(`Data berhasil ${editMode ? "diperbarui" : "ditambahkan"}`, `Anda telah berhasil ${editMode ? "memperbarui" : "menambahkan"} data`, "success")
-                resetForm()
-            }
-        } catch (err) {
-            console.log(err)
-            if (err.status === 422) {
-                setErrors(err.response.data.errors)
-            } else {
-                showToast("Data gagal ditambahkan", "Data baru gagal untuk ditambahkan", "danger")
-                showToast(`Data gagal ${editMode ? "diperbarui" : "ditambahkan"}`, `Data baru gagal untuk ${editMode ? "diperbarui" : "ditambahkan"}`, "danger")
-            }
-        } finally {
-            setLoadingSubmit(false)
-        }
+        console.log(formData)
+        // try {
+        //     const response = editMode
+        //         ? await AxiosInstance.put(`/prodi/${editId}`, (({
+        //                                                             fakultas,
+        //                                                             ...dataWithoutFakultas
+        //                                                         }) => dataWithoutFakultas)(formData))
+        //         : await AxiosInstance.post("/prodi", formData);
+        //
+        //     if (response.status === 200) {
+        //         fetchData()
+        //         setOpenModal(false);
+        //         showToast(`Data berhasil ${editMode ? "diperbarui" : "ditambahkan"}`, `Anda telah berhasil ${editMode ? "memperbarui" : "menambahkan"} data`, "success")
+        //         resetForm()
+        //     }
+        // } catch (err) {
+        //     console.log(err)
+        //     if (err.status === 422) {
+        //         setErrors(err.response.data.errors)
+        //     } else {
+        //         showToast("Data gagal ditambahkan", "Data baru gagal untuk ditambahkan", "danger")
+        //         showToast(`Data gagal ${editMode ? "diperbarui" : "ditambahkan"}`, `Data baru gagal untuk ${editMode ? "diperbarui" : "ditambahkan"}`, "danger")
+        //     }
+        // } finally {
+        //     setLoadingSubmit(false)
+        // }
     }
     const handleSearch = e => {
         const keyword = e.target.value.toLowerCase();
@@ -382,7 +374,7 @@ const Pengumuman = () => {
                 size="lg"
                 open={openModal}
                 onClose={closeModal}
-                title={editMode ? "Perbarui data prodi" : "Tambah data prodi"}
+                title={editMode ? "Perbarui pengumuman" : "Tambah pengumuman"}
                 dismissable
                 autoClose
             >
@@ -392,105 +384,52 @@ const Pengumuman = () => {
                             <FormSkeleton count={8}/>
                         ) : (
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                                <Input
-                                    placeholder="Tulis nama prodi"
-                                    size="lg"
-                                    label="Nama prodi"
-                                    showLabel
-                                    name="nama"
-                                    onChange={handleChange}
-                                    showHint
-                                    error={errors?.nama}
-                                    value={formData.nama}
-                                />
-                                <Input
-                                    placeholder="Tulis nama prodi (EN)"
-                                    size="lg"
-                                    label="Nama prodi (EN)"
-                                    showLabel
-                                    name="nama_en"
-                                    onChange={handleChange}
-                                    showHint
-                                    error={errors?.nama_en}
-                                    value={formData.nama_en}
-                                />
-                                <Input
-                                    placeholder="Tulis singkatan prodi"
-                                    size="lg"
-                                    label="Singkatan prodi"
-                                    showLabel
-                                    name="singkatan"
-                                    onChange={handleChange}
-                                    showHint
-                                    error={errors?.singkatan}
-                                    value={formData.singkatan}
-                                />
-                                <Select showLabel label="Jenjang" options={formInit?.jenjang} labelKey="nama"
-                                        valueKey="id"
-                                        size="lg" placeholder="Pilih jenjang" name="jenjang" onChange={handleChange}
+                                <div className="sm:col-span-2">
+                                    <Input
+                                        placeholder="Tulis perihal"
+                                        size="lg"
+                                        label="Perihal"
+                                        showLabel
+                                        name="perihal"
+                                        onChange={handleChange}
                                         showHint
-                                        error={errors?.jenjang} value={formData.jenjang}/>
-                                <Input
-                                    placeholder="Tulis jumlah UKT"
-                                    size="lg"
-                                    label="Jumlah UKT"
-                                    showLabel
-                                    name="ukt"
-                                    onChange={handleChange}
-                                    showHint
-                                    error={errors?.ukt}
-                                    value={formData.ukt}
-                                />
-                                <Input
-                                    placeholder="Tulis uang gedung"
-                                    size="lg"
-                                    label="Jumlah uang gedung"
-                                    showLabel
-                                    name="uang_gedung"
-                                    onChange={handleChange}
-                                    showHint
-                                    error={errors?.uang_gedung}
-                                    value={formData.uang_gedung}
-                                />
-                                <Input
-                                    placeholder="Tulis kode mata kuliah"
-                                    size="lg"
-                                    label="Kode mata kuliah"
-                                    showLabel
-                                    name="kd_mk"
-                                    onChange={handleChange}
-                                    showHint
-                                    error={errors?.kd_mk}
-                                    value={formData.kd_mk}
-                                />
-                                <Input
-                                    placeholder="Tulis kode NIM"
-                                    size="lg"
-                                    label="Kode NIM"
-                                    showLabel
-                                    name="kd_nim"
-                                    onChange={handleChange}
-                                    showHint
-                                    error={errors?.kd_nim}
-                                    value={formData.kd_nim}
-                                />
-                                <div className="sm:col-span-2">
-                                    <SearchInput options={formInit?.dosen} label="Nama ketua prodi"
-                                                 placeholder="Tulis NIP ketua prodi" showLabel size="lg" name="kaprodi"
-                                                 labelKey="nama_lengkap" valueKey="id" keywordKey="nip"
-                                                 onChange={handleChange} loading={loadingInitForm}
-                                                 showHint
-                                                 error={errors?.kaprodi} value={formData.kaprodi}/>
+                                        error={errors?.perihal}
+                                        value={formData.perihal}
+                                    />
                                 </div>
+                                <Input
+                                    placeholder="Tulis nomor pengumuman"
+                                    size="lg"
+                                    label="Nomor pengumuman"
+                                    showLabel
+                                    name="no_pengumuman"
+                                    onChange={handleChange}
+                                    showHint
+                                    error={errors?.no_pengumuman}
+                                    value={formData.no_pengumuman}
+                                />
+                                <DateInput showLabel label="Tanggal pengumuman"
+                                           placeholder="Pilih tanggal pengumuman" value={formData.tanggal}
+                                           onChange={handleChange} showHint error={errors?.tanggal}/>
                                 <div className="sm:col-span-2">
-                                    <SearchInput options={formInit?.dosen} label="Nama sekretaris prodi"
-                                                 placeholder="Tulis NIP sekretaris prodi" showLabel size="lg"
-                                                 name="sekprodi"
-                                                 labelKey="nama_lengkap" valueKey="id" keywordKey="nip"
-                                                 onChange={handleChange} loading={loadingInitForm}
-                                                 showHint
-                                                 error={errors?.sekprodi} value={formData.sekprodi}/>
+                                    <FileUpload name="url"
+                                                onChange={handleChange}
+                                                allowDeleted type="pdf" label="Upload lampiran pengumuman"
+                                                showLabel
+                                                multiple
+                                                showHint/>
                                 </div>
+                                <Select showLabel label="Keterangan" options={formInit?.keterangan} labelKey="nama"
+                                        valueKey="id"
+                                        size="lg" placeholder="Pilih keterangan" name="keterangan"
+                                        onChange={handleChange}
+                                        showHint
+                                        error={errors?.keterangan} value={formData.keterangan}/>
+                                <Select showLabel label="Status" options={formInit?.status} labelKey="nama"
+                                        valueKey="id"
+                                        size="lg" placeholder="Pilih status" name="status" onChange={handleChange}
+                                        showHint
+                                        error={errors?.status} value={formData.status}/>
                             </div>
                         )
                     }
