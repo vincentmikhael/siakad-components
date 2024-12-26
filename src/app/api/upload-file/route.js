@@ -2,9 +2,14 @@
 import {writeFile} from 'fs/promises';
 import {NextResponse} from 'next/server';
 import {join, extname} from 'path';
+import {Buffer} from 'buffer';
 
 // Daftar MIME type yang diperbolehkan
-const allowedMimeTypes = ['image/jpeg', 'image/png', 'application/pdf', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'];
+const allowedMimeTypes = [
+    'image/jpeg',
+    'image/png',
+    'application/pdf',
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'];
 
 export async function POST(request) {
     try {
@@ -15,7 +20,7 @@ export async function POST(request) {
             return NextResponse.json({success: false, message: 'File not provided'}, {status: 400});
         }
 
-        // Validasi MIME type
+        // validasi MIME type
         if (!allowedMimeTypes.includes(file.type)) {
             return NextResponse.json({
                 success: false,
@@ -23,7 +28,7 @@ export async function POST(request) {
             }, {status: 400});
         }
 
-        // Validasi ekstensi file
+        // validasi ekstensi file
         const ext = extname(file.name).toLowerCase();
         const allowedExtensions = ['.jpg', '.jpeg', '.png', '.pdf', '.xlsx'];
 
@@ -37,11 +42,20 @@ export async function POST(request) {
         const bytes = await file.arrayBuffer();
         const buffer = Buffer.from(bytes);
 
-        const filePath = join(process.cwd(), 'public/uploads', file.name);
-        await writeFile(filePath, buffer);
-        console.log(`File uploaded to ${filePath}`);
+        // Generate nama file unik
+        const timestamp = Date.now();
+        const sanitizedFileName = file.name.replace(/\s+/g, '-');
+        const uniqueFileName = `${timestamp}-${sanitizedFileName}`;
+        const filePath = join(process.cwd(), 'public/uploads', uniqueFileName);
+        // const filePath = join(process.cwd(), 'public/uploads', file.name);
 
-        return NextResponse.json({success: true, message: 'File uploaded successfully'});
+        await writeFile(filePath, buffer);
+        // Buat URL absolut
+        const protocol = request.nextUrl.protocol;
+        const host = request.nextUrl.host;
+        const fileUrl = `${protocol}//${host}/uploads/${uniqueFileName}`;
+
+        return NextResponse.json({success: true, message: 'File uploaded successfully', url: fileUrl});
     } catch (error) {
         console.error('Error uploading file:', error);
         return NextResponse.json({success: false, message: 'Error uploading file'}, {status: 500});

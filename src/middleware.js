@@ -95,6 +95,8 @@ export const config = {
         '/manajemen-user/:path*',
         '/penjadwalan-ujian/:path*',
         '/status-mahasiswa/:path*',
-        '/pengumuman'
+        '/pengumuman',
+        '/api/upload-file',
+        '/api/delete-file'
     ],
 };

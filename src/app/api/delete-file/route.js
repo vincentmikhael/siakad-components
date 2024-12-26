@@ -1,27 +1,39 @@
 'use server';
-import {unlink} from 'fs/promises';
+import {unlink, access} from 'fs/promises';
+import constants from 'fs';
 import {NextResponse} from 'next/server';
-import {join} from 'path';
+import {join, normalize} from 'path';
 
 export async function DELETE(request) {
     try {
-        const data = await request.json();
-        const {fileName} = data;
+        const {fileName} = await request.json();
 
         if (!fileName) {
             return NextResponse.json({success: false, message: 'File name not provided'}, {status: 400});
         }
 
-        // Tentukan path file berdasarkan fileName yang diterima
-        const filePath = join(process.cwd(), 'public/uploads', fileName);
+        // Decode dan normalisasi fileName untuk mencegah path traversal
+        const safeFileName = decodeURIComponent(fileName).replace(/\.\.\//g, '');
+        const filePath = normalize(join(process.cwd(), 'public/uploads', safeFileName));
 
-        // Menghapus file
+        // Pastikan file berada dalam folder uploads
+        if (!filePath.startsWith(join(process.cwd(), 'public/uploads'))) {
+            return NextResponse.json({success: false, message: 'Invalid file path'}, {status: 400});
+        }
+        // cek file exist
+        try {
+            await access(filePath, constants.F_OK);
+        } catch {
+            return NextResponse.json({success: false, message: 'File not found'}, {status: 404});
+        }
+
+        // hapus file di directory
         await unlink(filePath);
         console.log(`File deleted: ${filePath}`);
 
         return NextResponse.json({success: true, message: 'File deleted successfully'});
     } catch (error) {
-        console.error('Error deleting file:', error);
-        return NextResponse.json({success: false, message: 'Error deleting file'}, {status: 500});
+        const message = error.code === 'ENOENT' ? 'File not found' : 'Error deleting file';
+        return NextResponse.json({success: false, message}, {status: 500});
     }
 }
