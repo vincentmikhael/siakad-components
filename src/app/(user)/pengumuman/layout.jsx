@@ -23,7 +23,7 @@ export default function KalenderAkademikLayout({children}) {
                 <BreadcrumbItem>Pengumuman</BreadcrumbItem>
             </Breadcrumb>
             <Card className="my-8 md:my-12">
-                <CardHeader className="border-0">
+                <CardHeader>
                     <Text size="xl" color="text-gray-100" weight={600}>
                         Management Pengumuman
                     </Text>
@@ -32,7 +32,7 @@ export default function KalenderAkademikLayout({children}) {
                     </Text>
                 </CardHeader>
 
-                <div className="flex-grow">
+                <div className="flex-grow pt-6 space-y-6">
                     {children}
                 </div>
             </Card>

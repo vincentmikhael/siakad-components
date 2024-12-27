@@ -1,4 +1,10 @@
-import {Breadcrumb, BreadcrumbItem, Card, CardHeader, Text} from "@/components";
+import {Breadcrumb, BreadcrumbItem, Card, CardHeader, Text, Utils} from "@/components";
+
+export async function generateMetadata() {
+    return {
+        title: Utils.getDocumentTitle('Penjadwalan Ujian'),
+    }
+}
 
 export default function PenjadwalanUjianLayout({children}) {
     return (
@@ -9,7 +15,7 @@ export default function PenjadwalanUjianLayout({children}) {
                 </BreadcrumbItem>
                 <BreadcrumbItem>Penjadwalan ujian</BreadcrumbItem>
             </Breadcrumb>
-            <Card className={"my-8 md:my-12"}>
+            <Card className="my-8 md:my-12">
                 <CardHeader>
                     <Text size="xl" color="text-gray-100" weight={600}>
                         Penjadwalan ujian
@@ -18,9 +24,7 @@ export default function PenjadwalanUjianLayout({children}) {
                         Lorem ipsum
                     </Text>
                 </CardHeader>
-                <div className="mt-6">
-                    {children}
-                </div>
+                <div className="flex-grow xl:overflow-hidden space-y-6 pt-6">{children}</div>
             </Card>
         </>
     )

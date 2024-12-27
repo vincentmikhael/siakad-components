@@ -70,7 +70,7 @@ const Fakultas = () => {
         {name: "pd 1", className: "min-w-[220px]"},
         {name: "pd 2", className: "min-w-[220px]"},
         {name: "pd 3", className: "min-w-[220px]"},
-        {name: "actions", className: "min-w-[132px]"},
+        {name: "actions", className: "min-w-[132px] text-center"},
     ];
     const pinnedColumns = [0, 1]
 
@@ -194,7 +194,7 @@ const Fakultas = () => {
                                         </div>
                                     </TableBodyCell>
                                     <TableBodyCell>
-                                        <div className="flex flex-row gap-3">
+                                        <div className="flex flex-row gap-3 justify-center">
                                             <IconButton size="sm" variant="warning">
                                                 <PencilSimpleLine/>
                                             </IconButton>

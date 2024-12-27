@@ -30,7 +30,7 @@ export default function WithSidebarLayout({children}) {
                     Lorem ipsum
                 </Text>
             </CardHeader>
-            <div className="flex flex-col xl:flex-row xl:gap-20 mt-6">
+            <div className="flex flex-col xl:flex-row xl:gap-20 pt-6">
                 <MenuUl>
                     {menu.map((item, index) => (
                         <MenuLi key={index} href={item.href}>
@@ -38,7 +38,7 @@ export default function WithSidebarLayout({children}) {
                         </MenuLi>
                     ))}
                 </MenuUl>
-                <div className="flex-grow xl:overflow-hidden">{children}</div>
+                <div className="flex-grow xl:overflow-hidden space-y-6">{children}</div>
             </div>
         </>
     )

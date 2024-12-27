@@ -17,10 +17,10 @@ import {
     Alert,
     Spinner,
 } from "@/components";
-import { useToast } from "@/context/ToastContext";
+import {useToast} from "@/context/ToastContext";
 import AxiosInstance from "@/libs/AxiosInstance";
-import { MagnifyingGlass, PencilSimpleLine, Plus, Trash } from "@phosphor-icons/react/dist/ssr";
-import { useEffect, useState } from "react";
+import {MagnifyingGlass, PencilSimpleLine, Plus, Trash} from "@phosphor-icons/react/dist/ssr";
+import {useEffect, useState} from "react";
 
 export default function Konsentrasi() {
     const showToast = useToast();
@@ -108,12 +108,12 @@ export default function Konsentrasi() {
     }
 
     const columns = [
-        { name: 'KODE' },
-        { name: 'ALIAS' },
-        { name: 'NAMA' },
-        { name: 'NAMA INGGRIS' },
-        { name: 'STATUS' },
-        { name: 'ACTIONS' },
+        {name: 'KODE'},
+        {name: 'ALIAS'},
+        {name: 'NAMA'},
+        {name: 'NAMA INGGRIS'},
+        {name: 'STATUS'},
+        {name: 'ACTIONS'},
     ]
 
     const handleForm = (field) => (e) => {
@@ -179,25 +179,25 @@ export default function Konsentrasi() {
     const handleEdit = async (e) => {
         e.preventDefault();
         setLoadingSubmit(true)
-        try{
-            const res = await AxiosInstance.put(`/konsentrasi/${editId}`,{
+        try {
+            const res = await AxiosInstance.put(`/konsentrasi/${editId}`, {
                 nama: formData.nama,
                 nama_en: formData.nama_en,
                 alias: formData.alias,
-              })
-              if(res.status == 200){
-                     resetForm()
-                     fetchKonsentrasi()
-                     setEditId(false)
-                     setModalAdd(false)
-                     
-               }
-        }catch(err){
-            if(err.status == 422){
-                    setErrors(err.response.data.errors)
-                    
+            })
+            if (res.status == 200) {
+                resetForm()
+                fetchKonsentrasi()
+                setEditId(false)
+                setModalAdd(false)
+
             }
-            
+        } catch (err) {
+            if (err.status == 422) {
+                setErrors(err.response.data.errors)
+
+            }
+
         }
         setLoadingSubmit(false)
     }
@@ -228,7 +228,7 @@ export default function Konsentrasi() {
     }
 
     return (
-        <div>
+        <>
             <div className="md:flex justify-between items-end">
                 <div className="md:flex gap-3">
                     <div className="grow">
@@ -260,7 +260,8 @@ export default function Konsentrasi() {
                 </div>
                 <div className="flex gap-3 mt-4 md:mt-0">
                     <div className="grow w-full">
-                        <Input size="xs" onChange={handleSearch} placeholder="Cari data disini" className="md:w-40" leftIcon={<MagnifyingGlass weight="bold" />} />
+                        <Input size="xs" onChange={handleSearch} placeholder="Cari data disini" className="md:w-40"
+                               leftIcon={<MagnifyingGlass weight="bold"/>}/>
                     </div>
 
                     <div className="grow w-full">
@@ -268,7 +269,7 @@ export default function Konsentrasi() {
                             resetForm()
                             setEditId(false)
                             setModalAdd(true)
-                        }} className="w-full" filled leftIcon={<Plus weight="bold" />} >Tambah Data</Button>
+                        }} className="w-full" filled leftIcon={<Plus weight="bold"/>}>Tambah Data</Button>
                     </div>
 
 
@@ -294,8 +295,8 @@ export default function Konsentrasi() {
                         return (
                             <TableBodyRow key={index}>
                                 <TableBodyCell><Text size="xs">{e.id}</Text></TableBodyCell>
-                                <TableBodyCell><Text size="xs" >{e.alias}</Text></TableBodyCell>
-                                <TableBodyCell><Text size="xs" >{e.nama}</Text></TableBodyCell>
+                                <TableBodyCell><Text size="xs">{e.alias}</Text></TableBodyCell>
+                                <TableBodyCell><Text size="xs">{e.nama}</Text></TableBodyCell>
                                 <TableBodyCell><Text size="xs">{e.nama_en}</Text></TableBodyCell>
                                 <TableBodyCell>{e.status == 1 ?
                                     <Button variant="success" onClick={() => changeStatus(e.id, 0)}>Aktif</Button>
@@ -305,7 +306,7 @@ export default function Konsentrasi() {
                                 <TableBodyCell>
                                     <div className="flex flex-row gap-3">
                                         <IconButton onClick={() => editInit(e.id)} size="sm" variant="warning">
-                                            <PencilSimpleLine />
+                                            <PencilSimpleLine/>
                                         </IconButton>
                                         {/* <IconButton onClick={()=>setDeleteId(e.id)} size="sm" variant="danger">
                                             <Trash />
@@ -335,19 +336,25 @@ export default function Konsentrasi() {
                 setEditId(false)
             }} title={editId ? 'Edit data konsentrasi' : 'Tambah data konsentrasi'}>
                 <Modal.Body>
-                    <div style={{ width: '100%' }}>
+                    <div style={{width: '100%'}}>
 
                         <form className="grid mt-2 grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
-                                <Input size="lg" error={errors?.nama} showHint value={formData.nama} onChange={handleForm('nama')} showLabel label="Nama konsentrasi" placeholder="Tulis nama konsentrasi" />
+                                <Input size="lg" error={errors?.nama} showHint value={formData.nama}
+                                       onChange={handleForm('nama')} showLabel label="Nama konsentrasi"
+                                       placeholder="Tulis nama konsentrasi"/>
 
                             </div>
                             <div>
-                                <Input size="lg" error={errors?.nama_en} showHint value={formData.nama_en} onChange={handleForm('nama_en')} showLabel label="Nama dalam inggris" placeholder="Tulis nama dalam bahasa inggris" />
+                                <Input size="lg" error={errors?.nama_en} showHint value={formData.nama_en}
+                                       onChange={handleForm('nama_en')} showLabel label="Nama dalam inggris"
+                                       placeholder="Tulis nama dalam bahasa inggris"/>
 
                             </div>
                             <div>
-                                <Input size="lg" error={errors?.alias} showHint value={formData.alias} onChange={handleForm('alias')} showLabel label="Nama alias" placeholder="Tulis nama alias" />
+                                <Input size="lg" error={errors?.alias} showHint value={formData.alias}
+                                       onChange={handleForm('alias')} showLabel label="Nama alias"
+                                       placeholder="Tulis nama alias"/>
 
                             </div>
                             <div className={editId ? 'hidden' : ''}></div>
@@ -389,16 +396,17 @@ export default function Konsentrasi() {
                     {
 
                         (editId ?
-                            <Button onClick={handleEdit} className={'mt-8'} filled >{loadingSubmit ? <Spinner size={12} /> : 'Perbarui'}</Button>
+                            <Button onClick={handleEdit} className={'mt-8'} filled>{loadingSubmit ?
+                                <Spinner size={12}/> : 'Perbarui'}</Button>
                             :
-                            <Button onClick={handleSubmit} className={'mt-8'} filled >{loadingSubmit ? <Spinner size={12} /> : 'Tambah'}</Button>)
+                            <Button onClick={handleSubmit} className={'mt-8'} filled>{loadingSubmit ?
+                                <Spinner size={12}/> : 'Tambah'}</Button>)
                     }
-                    <Button onClick={() => setModalAdd(false)} className={'mt-8 ml-4'} variant="white" >Batal</Button>
+                    <Button onClick={() => setModalAdd(false)} className={'mt-8 ml-4'} variant="white">Batal</Button>
                 </Modal.Footer>
 
 
-
             </Modal>
-        </div>
+        </>
     )
 }

@@ -20,7 +20,7 @@ import {
     Text
 } from "@/components";
 import Radio from "@components/Radio";
-import { PencilSimpleLine } from "@phosphor-icons/react";
+import {PencilSimpleLine} from "@phosphor-icons/react";
 import {Envelope, Eye, MagnifyingGlass, Phone, Plus, Trash} from "@phosphor-icons/react/dist/ssr";
 import {useState} from "react";
 
@@ -58,58 +58,58 @@ export default function KonfigurasiDosenWali() {
         setStepperLength(data);
     };
     return (
-        <div>
-                <div className="flex gap-3">
-                    <div className="grow">
-                        <Select
-                            label="Prodi"
-                            size="xs"
-                            showLabel
-                            className={"w-full md:w-40"}
-                            options={[{value: "1", label: "Menu Item 1"}]}
-                        />
-                    </div>
-                    <div className="grow">
-                        <Select
-                            label="Angkatan"
-                            size="xs"
-                            showLabel
-                            className={"w-full md:w-40"}
-                            options={[{value: "1", label: "Menu Item 1"}]}
-                        />
-                    </div>
-                    <div className="grow">
-                        <Select
-                            label="Angkatan"
-                            size="xs"
-                            showLabel
-                            className={"w-full md:w-40"}
-                            options={[{value: "1", label: "Menu Item 1"}]}
-                        />
-                    </div>
-                    <div className="grow">
-                        <Select
-                            label="Angkatan"
-                            size="xs"
-                            showLabel
-                            className={"w-full md:w-40"}
-                            options={[{value: "1", label: "Menu Item 1"}]}
-                        />
-                    </div>
+        <>
+            <div className="flex gap-3">
+                <div className="grow">
+                    <Select
+                        label="Prodi"
+                        size="xs"
+                        showLabel
+                        className={"w-full md:w-40"}
+                        options={[{value: "1", label: "Menu Item 1"}]}
+                    />
                 </div>
-                <Hr/>
-                <div className="mt-6 flex gap-4">
-                    <div className="">
-                        <Input size="xs" placeholder="Cari data disini" className="md:w-50"
-                               leftIcon={<MagnifyingGlass weight="bold"/>}/>
-                    </div>
-
-                    <div className="">
-                        <Button onClick={() => setModalAdd(true)} className="w-full" filled>Set dosen wali</Button>
-                    </div>
-
-
+                <div className="grow">
+                    <Select
+                        label="Angkatan"
+                        size="xs"
+                        showLabel
+                        className={"w-full md:w-40"}
+                        options={[{value: "1", label: "Menu Item 1"}]}
+                    />
                 </div>
+                <div className="grow">
+                    <Select
+                        label="Angkatan"
+                        size="xs"
+                        showLabel
+                        className={"w-full md:w-40"}
+                        options={[{value: "1", label: "Menu Item 1"}]}
+                    />
+                </div>
+                <div className="grow">
+                    <Select
+                        label="Angkatan"
+                        size="xs"
+                        showLabel
+                        className={"w-full md:w-40"}
+                        options={[{value: "1", label: "Menu Item 1"}]}
+                    />
+                </div>
+            </div>
+            <Hr/>
+            <div className="mt-6 flex gap-4">
+                <div className="">
+                    <Input size="xs" placeholder="Cari data disini" className="md:w-50"
+                           leftIcon={<MagnifyingGlass weight="bold"/>}/>
+                </div>
+
+                <div className="">
+                    <Button onClick={() => setModalAdd(true)} className="w-full" filled>Set dosen wali</Button>
+                </div>
+
+
+            </div>
 
             <Table loading={false} columns={columns} data={data}>
                 <TableHead>
@@ -133,7 +133,7 @@ export default function KonfigurasiDosenWali() {
                                 <TableBodyCell><Text size="xs">{e.email}</Text></TableBodyCell>
                                 <TableBodyCell><Text size="xs">{e.email}</Text></TableBodyCell>
                                 <TableBodyCell><Text size="xs">{e.email}</Text></TableBodyCell>
-           
+
                             </TableBodyRow>
                         )
                     })}
@@ -333,6 +333,6 @@ export default function KonfigurasiDosenWali() {
                 </Modal.Footer>
 
             </Modal>
-        </div>
+        </>
     )
 }

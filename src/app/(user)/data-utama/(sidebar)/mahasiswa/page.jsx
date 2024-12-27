@@ -19,7 +19,7 @@ import {
     Text
 } from "@/components";
 import Radio from "@components/Radio";
-import { PencilSimpleLine } from "@phosphor-icons/react";
+import {PencilSimpleLine} from "@phosphor-icons/react";
 import {Envelope, Eye, MagnifyingGlass, Phone, Plus, Trash} from "@phosphor-icons/react/dist/ssr";
 import {useState} from "react";
 
@@ -58,7 +58,7 @@ export default function Mahasiswa() {
         setStepperLength(data);
     };
     return (
-        <div>
+        <>
             <div className="md:flex justify-between items-end">
                 <div className="flex gap-3">
                     <div className="grow">
@@ -120,16 +120,16 @@ export default function Mahasiswa() {
                                 <TableBodyCell><Text size="xs">{e.email}</Text></TableBodyCell>
                                 <TableBodyCell>
                                     <div className="flex flex-row gap-3">
-                                    <IconButton size="sm" variant="primary">
-                                            <Eye />
+                                        <IconButton size="sm" variant="primary">
+                                            <Eye/>
                                         </IconButton>
                                         <IconButton size="sm" variant="warning">
-                                            <PencilSimpleLine />
+                                            <PencilSimpleLine/>
                                         </IconButton>
                                         <IconButton size="sm" variant="danger">
-                                            <Trash />
+                                            <Trash/>
                                         </IconButton>
-                                        
+
                                     </div>
                                 </TableBodyCell>
                             </TableBodyRow>
@@ -331,6 +331,6 @@ export default function Mahasiswa() {
                 </Modal.Footer>
 
             </Modal>
-        </div>
+        </>
     )
 }

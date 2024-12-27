@@ -224,7 +224,7 @@ const Pengumuman = () => {
     };
 
     return (
-        <section>
+        <>
             <div className="flex flex-col md:flex-row justify-between items-end gap-4">
                 <div className="w-full lg:w-fit hidden lg:flex gap-4">
                     <DateInput showLabel label="Tanggal" placeholder="Pilih tanggal"
@@ -445,7 +445,7 @@ const Pengumuman = () => {
                     </div>
                 </Modal.Footer>
             </Modal>
-        </section>
+        </>
     );
 }
 export default Pengumuman

@@ -20,7 +20,7 @@ export default function DataUtamaLayout({children}) {
                 </BreadcrumbItem>
                 <BreadcrumbItem>Data utama</BreadcrumbItem>
             </Breadcrumb>
-            <Card className={"my-8 md:my-12"}>
+            <Card className="my-8 md:my-12">
                 {children}
             </Card>
         </>

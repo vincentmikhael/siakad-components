@@ -125,7 +125,7 @@ export default function Dosen() {
     };
 
     return (
-        <div>
+        <>
             <div className="flex justify-end items-center gap-3">
                 <div className="grow md:flex-none w-full md:w-auto">
                     <Input size="xs" placeholder="Cari data disini" className="md:w-40"
@@ -363,6 +363,6 @@ export default function Dosen() {
                     </div>
                 </Modal.Footer>
             </Modal>
-        </div>
+        </>
     )
 }

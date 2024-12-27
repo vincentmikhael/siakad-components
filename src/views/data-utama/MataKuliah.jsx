@@ -1,10 +1,25 @@
 "use client"
-import { Button, IconButton, Input, Modal, Select, Spinner, Table, TableBody, TableBodyCell, TableBodyRow, TableHead, TableHeadCell, TableHeadRow, Text } from "@/components";
-import { useToast } from "@/context/ToastContext";
+import {
+    Button,
+    IconButton,
+    Input,
+    Modal,
+    Select,
+    Spinner,
+    Table,
+    TableBody,
+    TableBodyCell,
+    TableBodyRow,
+    TableHead,
+    TableHeadCell,
+    TableHeadRow,
+    Text
+} from "@/components";
+import {useToast} from "@/context/ToastContext";
 import AxiosInstance from "@/libs/AxiosInstance";
 import getYears from "@/utils/getYears";
-import { MagnifyingGlass, PencilSimpleLine, Plus, Trash } from "@phosphor-icons/react/dist/ssr";
-import { useEffect, useState } from "react";
+import {MagnifyingGlass, PencilSimpleLine, Plus, Trash} from "@phosphor-icons/react/dist/ssr";
+import {useEffect, useState} from "react";
 
 export default function MataKuliah() {
     const showToast = useToast();
@@ -31,7 +46,7 @@ export default function MataKuliah() {
     const [selectInputProdi, setSelectInputProdi] = useState([])
     const [selectInputKonsentrasi, setSelectInputKonsentrasi] = useState([])
     const [selectInputTahun, setSelectInputTahun] = useState([])
-    const [jenisMatkul,setJenisMatkul] = useState([])
+    const [jenisMatkul, setJenisMatkul] = useState([])
     const [dataForm, setDataForm] = useState([])
 
     const fetchInit = async () => {
@@ -100,13 +115,13 @@ export default function MataKuliah() {
     const handleForm = (field) => (e) => {
         let value = e?.target?.value ?? e.id
 
-        if(field != 'fakultas'){
+        if (field != 'fakultas') {
             setFormData((prev) => ({
                 ...prev,
                 [field]: value,
             }));
         }
-        
+
 
         if (field == 'fakultas') {
             let data = dataForm.find(d => d.id == value)['prodi']
@@ -126,13 +141,13 @@ export default function MataKuliah() {
                 ['konsentrasi']: data[0]?.konsentrasi?.[0]?.id
             }));
         }
-        
+
     }
 
     const editInit = async (id) => {
-        try{
+        try {
             const res = await AxiosInstance.get(`/mata-kuliah/${id}/${selectedTahun}`)
-            if(res.status = 200){
+            if (res.status = 200) {
                 let data = res.data.data
                 resetForm()
                 setModalAdd(true)
@@ -147,12 +162,12 @@ export default function MataKuliah() {
                     sks_seminar: data.sks_seminar,
                 })
             }
-            
-            
-        }catch(err){
+
+
+        } catch (err) {
 
         }
-        
+
     }
 
     const handleSubmit = async e => {
@@ -166,8 +181,8 @@ export default function MataKuliah() {
             const res = editId ? await AxiosInstance.put(`/mata-kuliah/${editId}/${tahunEdit}`, formdata) : await AxiosInstance.post('/mata-kuliah', formdata)
 
             if (res.status == 200) {
-                if(!editId){
-                    if(selectedProdi == formData.prodi && selectedKonsentrasi == (formData.konsentrasi == null ? 'all' : '') && selectedTahun == formData.th_kur){
+                if (!editId) {
+                    if (selectedProdi == formData.prodi && selectedKonsentrasi == (formData.konsentrasi == null ? 'all' : '') && selectedTahun == formData.th_kur) {
                         fetchMatkul()
                     }
                     setSelectedFakultas(formData.prodi.substring(0, 2))
@@ -175,18 +190,18 @@ export default function MataKuliah() {
                     let data = dataSelect.find(d => d.id == formData.prodi.substring(0, 2))['prodi']
                     setSelectProdi(data)
                     setSelectedProdi(formData.prodi)
-    
+
                     let kons = data.find(d => d.id == formData.prodi)['konsentrasi']
                     setSelectKonsentrasi(kons)
                     setSelectedKonsentrasi(formData.konsentrasi == null ? 'all' : formData.konsentrasi)
                     setSelectedTahun(formData.th_kur)
-                    
+
                 }
-                
+
                 setModalAdd(false)
                 showToast(`Data berhasil ${editId ? 'diubah' : 'ditambahkan'}`, `Anda telah berhasil ${editId ? 'mengubah' : 'menambahkan'} data`, "success")
                 resetForm()
-  
+
             }
         } catch (err) {
             if (err.status == 422) {
@@ -199,15 +214,15 @@ export default function MataKuliah() {
 
     const handleDelete = async (e) => {
         e.preventDefault();
-        try{
+        try {
             const res = await AxiosInstance.delete(`/mata-kuliah/${deleteId}/${selectedTahun}`)
             setDeleteId(false)
             setTahunEdit('')
             showToast(`Data berhasil dihapus`, `Anda telah berhasil menghapus data`, "success")
             fetchMatkul()
-        }catch(err){
+        } catch (err) {
         }
-        
+
     }
 
     const handleSearch = e => {
@@ -218,12 +233,12 @@ export default function MataKuliah() {
     }
 
     const columns = [
-        { name: 'kode mk', pinned: true },
-        { name: 'nama mk', pinned: true },
-        { name: 'nama mk (EN)', pinned: true },
-        { name: 'sks' },
-        { name: 'jenis mk', pinned: false },
-        { name: 'actions', pinned: false },
+        {name: 'kode mk', pinned: true},
+        {name: 'nama mk', pinned: true},
+        {name: 'nama mk (EN)', pinned: true},
+        {name: 'sks'},
+        {name: 'jenis mk', pinned: false},
+        {name: 'actions', pinned: false},
     ]
 
     const resetForm = () => {
@@ -234,7 +249,7 @@ export default function MataKuliah() {
     }
 
     return (
-        <div>
+        <>
 
             <div className="md:flex justify-between gap-3">
                 <div className="grow">
@@ -293,7 +308,8 @@ export default function MataKuliah() {
 
             <div className="flex gap-3 mt-4 mt-5">
                 <div className="grow w-full">
-                    <Input size="xs" onChange={handleSearch} placeholder="Cari data disini" className="w-full" leftIcon={<MagnifyingGlass weight="bold" />} />
+                    <Input size="xs" onChange={handleSearch} placeholder="Cari data disini" className="w-full"
+                           leftIcon={<MagnifyingGlass weight="bold"/>}/>
                 </div>
 
                 <div className="grow w-full">
@@ -301,7 +317,7 @@ export default function MataKuliah() {
                         resetForm()
                         setEditId(false)
                         setModalAdd(true)
-                    }} className="w-full" filled leftIcon={<Plus weight="bold" />} >Tambah Data</Button>
+                    }} className="w-full" filled leftIcon={<Plus weight="bold"/>}>Tambah Data</Button>
                 </div>
 
 
@@ -325,16 +341,16 @@ export default function MataKuliah() {
                         return (
                             <TableBodyRow key={index}>
                                 <TableBodyCell><Text size="xs">{e.id}</Text></TableBodyCell>
-                                <TableBodyCell><Text size="xs" >{e.nama}</Text></TableBodyCell>
+                                <TableBodyCell><Text size="xs">{e.nama}</Text></TableBodyCell>
                                 <TableBodyCell><Text size="xs">{e.nama_en}</Text></TableBodyCell>
                                 <TableBodyCell><Text size="xs">{e.sks_total}</Text></TableBodyCell>
                                 <TableBodyCell><Text size="xs">{e.jenis.nama}</Text></TableBodyCell>
                                 <TableBodyCell className="flex flex-row gap-3">
                                     <IconButton onClick={() => editInit(e.id)} size="sm" variant="warning">
-                                        <PencilSimpleLine />
+                                        <PencilSimpleLine/>
                                     </IconButton>
-                                    <IconButton onClick={()=>setDeleteId(e.id)} size="sm" variant="danger">
-                                        <Trash />
+                                    <IconButton onClick={() => setDeleteId(e.id)} size="sm" variant="danger">
+                                        <Trash/>
                                     </IconButton>
                                 </TableBodyCell>
                             </TableBodyRow>
@@ -345,56 +361,79 @@ export default function MataKuliah() {
             </Table>
 
             <Modal open={deleteId} onClose={() => setDeleteId(false)} title="Hapus data konsentrasi">
-                    <Modal.Body>
-                        <Text>Apakah Anda yakin ingin menghapus data ini? Tindakan ini tidak dapat dibatalkan.</Text>
-                    </Modal.Body>
+                <Modal.Body>
+                    <Text>Apakah Anda yakin ingin menghapus data ini? Tindakan ini tidak dapat dibatalkan.</Text>
+                </Modal.Body>
 
-                    <Modal.Footer>
+                <Modal.Footer>
                     <Button variant="danger" onClick={handleDelete} className={'mt-8'} filled>Hapus</Button>
-                    <Button onClick={() => setDeleteId(false)} className={'mt-8 ml-4'} variant="white" >Batal</Button>
+                    <Button onClick={() => setDeleteId(false)} className={'mt-8 ml-4'} variant="white">Batal</Button>
                 </Modal.Footer>
             </Modal>
 
-            <Modal size="lg" open={modalAdd} onClose={() => setModalAdd(false)} title={editId ? 'Edit data mata kuliah' : 'Tambah data mata kuliah'}>
+            <Modal size="lg" open={modalAdd} onClose={() => setModalAdd(false)}
+                   title={editId ? 'Edit data mata kuliah' : 'Tambah data mata kuliah'}>
                 <Modal.Body>
-                    <div style={{ width: '100%' }}>
+                    <div style={{width: '100%'}}>
                         <div className="grid grid-cols-12 gap-4">
                             <div className={`col-span-12 md:col-span-6 ${editId ? 'hidden' : ''}`}>
-                                <Select value={formData.fakultas} onChange={handleForm('fakultas')} label="Fakultas" showLabel placeholder="pilih fakultas" options={dataForm} labelKey="nama" valueKey="id" />
+                                <Select value={formData.fakultas} onChange={handleForm('fakultas')} label="Fakultas"
+                                        showLabel placeholder="pilih fakultas" options={dataForm} labelKey="nama"
+                                        valueKey="id"/>
                             </div>
                             <div className={`col-span-12 md:col-span-6 ${editId ? 'hidden' : ''}`}>
-                                <Select error={errors?.prodi} showHint value={formData.prodi} onChange={handleForm('prodi')} label="Program studi" showLabel placeholder="pilih program studi" options={selectInputProdi} labelKey="nama"
-                                valueKey="id" />
+                                <Select error={errors?.prodi} showHint value={formData.prodi}
+                                        onChange={handleForm('prodi')} label="Program studi" showLabel
+                                        placeholder="pilih program studi" options={selectInputProdi} labelKey="nama"
+                                        valueKey="id"/>
                             </div>
                             <div className={`col-span-12  md:col-span-6 ${editId ? 'hidden' : ''}`}>
-                                <Select error={errors?.konsentrasi} showHint value={formData.konsentrasi} onChange={handleForm('konsentrasi')} label="Konsentrasi" showLabel placeholder="Pilih konsentrasi" options={selectInputKonsentrasi} labelKey="nama"
-                                valueKey="id" />
+                                <Select error={errors?.konsentrasi} showHint value={formData.konsentrasi}
+                                        onChange={handleForm('konsentrasi')} label="Konsentrasi" showLabel
+                                        placeholder="Pilih konsentrasi" options={selectInputKonsentrasi} labelKey="nama"
+                                        valueKey="id"/>
                             </div>
                             <div className={`col-span-12  md:col-span-6 ${editId ? 'hidden' : ''}`}>
-                                <Select error={errors?.th_kur} showHint value={formData.th_kur} onChange={handleForm('th_kur')} label="Tahun kurikulum" showLabel placeholder="Pilih tahun kurikulum" options={tahun} labelKey="nama"
-                                valueKey="id" />
+                                <Select error={errors?.th_kur} showHint value={formData.th_kur}
+                                        onChange={handleForm('th_kur')} label="Tahun kurikulum" showLabel
+                                        placeholder="Pilih tahun kurikulum" options={tahun} labelKey="nama"
+                                        valueKey="id"/>
                             </div>
                             <div className={`col-span-12  md:col-span-6`}>
-                                <Input error={errors?.nama} showHint value={formData.nama} onChange={handleForm('nama')} label="Nama mata kuliah (Indonesia)" showLabel placeholder="Tulis nama mata kuliah" />
+                                <Input error={errors?.nama} showHint value={formData.nama} onChange={handleForm('nama')}
+                                       label="Nama mata kuliah (Indonesia)" showLabel
+                                       placeholder="Tulis nama mata kuliah"/>
                             </div>
                             <div className={`col-span-12  md:col-span-6`}>
-                                <Input error={errors?.nama_en} showHint value={formData.nama_en} onChange={handleForm('nama_en')} label="Nama mata kuliah (Inggris)" showLabel placeholder="Tulis nama mata kuliah" />
+                                <Input error={errors?.nama_en} showHint value={formData.nama_en}
+                                       onChange={handleForm('nama_en')} label="Nama mata kuliah (Inggris)" showLabel
+                                       placeholder="Tulis nama mata kuliah"/>
                             </div>
                             <div className={`col-span-12  md:col-span-6 ${editId ? 'hidden' : ''}`}>
-                                <Input error={errors?.kode} showHint value={formData.kode} onChange={handleForm('kode')} label="Kode mata kuliah" showLabel placeholder="Tulis kode mata kuliah" />
+                                <Input error={errors?.kode} showHint value={formData.kode} onChange={handleForm('kode')}
+                                       label="Kode mata kuliah" showLabel placeholder="Tulis kode mata kuliah"/>
                             </div>
                             <div className={`col-span-12 ${editId ? 'md:col-span12' : 'md:col-span-6'}`}>
-                                <Select error={errors?.jenis} showHint value={formData.jenis} onChange={handleForm('jenis')} label="Jenis mata kuliah" showLabel placeholder="Pilih jenis mata kuliah" options={jenisMatkul} valueKey="id" labelKey="nama" />
+                                <Select error={errors?.jenis} showHint value={formData.jenis}
+                                        onChange={handleForm('jenis')} label="Jenis mata kuliah" showLabel
+                                        placeholder="Pilih jenis mata kuliah" options={jenisMatkul} valueKey="id"
+                                        labelKey="nama"/>
                             </div>
 
                             <div className={`col-span-12  md:col-span-4`}>
-                                <Input error={errors?.sks_kuliah} showHint value={formData.sks_kuliah} onChange={handleForm('sks_kuliah')} type="number" label="SKS kuliah" showLabel placeholder="Tulis SKS kuliah" />
+                                <Input error={errors?.sks_kuliah} showHint value={formData.sks_kuliah}
+                                       onChange={handleForm('sks_kuliah')} type="number" label="SKS kuliah" showLabel
+                                       placeholder="Tulis SKS kuliah"/>
                             </div>
                             <div className={`col-span-12  md:col-span-4`}>
-                                <Input error={errors?.sks_praktik} showHint value={formData.sks_praktik} onChange={handleForm('sks_praktik')} type="number" label="SKS praktik" showLabel placeholder="Tulis SKS praktik" />
+                                <Input error={errors?.sks_praktik} showHint value={formData.sks_praktik}
+                                       onChange={handleForm('sks_praktik')} type="number" label="SKS praktik" showLabel
+                                       placeholder="Tulis SKS praktik"/>
                             </div>
                             <div className={`col-span-12  md:col-span-4`}>
-                                <Input error={errors?.sks_seminar} showHint value={formData.sks_seminar} onChange={handleForm('sks_seminar')} type="number" label="SKS seminar" showLabel placeholder="Tulis SKS seminar" />
+                                <Input error={errors?.sks_seminar} showHint value={formData.sks_seminar}
+                                       onChange={handleForm('sks_seminar')} type="number" label="SKS seminar" showLabel
+                                       placeholder="Tulis SKS seminar"/>
                             </div>
 
                         </div>
@@ -406,14 +445,16 @@ export default function MataKuliah() {
                     {
 
                         (editId ?
-                            <Button onClick={handleSubmit} className={'mt-8'} filled >{loadingSubmit ? <Spinner size={12} /> : 'Perbarui'}</Button>
+                            <Button onClick={handleSubmit} className={'mt-8'} filled>{loadingSubmit ?
+                                <Spinner size={12}/> : 'Perbarui'}</Button>
                             :
-                            <Button onClick={handleSubmit} className={'mt-8'} filled >{loadingSubmit ? <Spinner size={12} /> : 'Tambah'}</Button>)
+                            <Button onClick={handleSubmit} className={'mt-8'} filled>{loadingSubmit ?
+                                <Spinner size={12}/> : 'Tambah'}</Button>)
                     }
-                    <Button onClick={() => setModalAdd(false)} className={'mt-8 ml-4'} variant="white" >Batal</Button>
+                    <Button onClick={() => setModalAdd(false)} className={'mt-8 ml-4'} variant="white">Batal</Button>
                 </Modal.Footer>
 
             </Modal>
-        </div>
+        </>
     )
 }
