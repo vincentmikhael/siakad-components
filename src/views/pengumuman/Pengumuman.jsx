@@ -408,7 +408,7 @@ const Pengumuman = () => {
                                     error={errors?.no_pengumuman}
                                     value={formData.no_pengumuman}
                                 />
-                                <DateInput showLabel label="Tanggal pengumuman"
+                                <DateInput size="lg" showLabel label="Tanggal pengumuman"
                                            placeholder="Pilih tanggal pengumuman" value={formData.tanggal}
                                            onChange={handleChange} showHint error={errors?.tanggal}/>
                                 <div className="sm:col-span-2">
