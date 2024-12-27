@@ -205,7 +205,7 @@ const Role = () => {
         setFilteredData(filtered);
     };
     return (
-        <section>
+        <>
             <div className="flex sm:absolute right-0 top-0 gap-4 w-full md:w-fit">
                 <Input
                     size="xs"
@@ -225,118 +225,120 @@ const Role = () => {
                     Tambah data
                 </Button>
             </div>
-            <Table
-                loading={false}
-                columns={columns}
-            >
-                <TableHead>
-                    <TableHeadRow>
-                        {columns.map((e, index) => {
+            <div className="mt-6">
+                <Table
+                    loading={false}
+                    columns={columns}
+                >
+                    <TableHead>
+                        <TableHeadRow>
+                            {columns.map((e, index) => {
+                                return (
+                                    <TableHeadCell
+                                        className={e.className}
+                                        key={index}
+                                    >
+                                        {e.name}
+                                    </TableHeadCell>
+                                );
+                            })}
+                        </TableHeadRow>
+                    </TableHead>
+
+                    <TableBody>
+                        {data?.map((e, index) => {
                             return (
-                                <TableHeadCell
-                                    className={e.className}
-                                    key={index}
-                                >
-                                    {e.name}
-                                </TableHeadCell>
+                                <TableBodyRow key={index}>
+                                    <TableBodyCell>
+                                        <Text size="xs">{index + 1}</Text>
+                                    </TableBodyCell>
+                                    <TableBodyCell>
+                                        <Text size="xs">{e?.nama_role}</Text>
+                                    </TableBodyCell>
+                                    <TableBodyCell>
+                                        <Text size="xs">{e?.scope}</Text>
+                                    </TableBodyCell>
+                                    <TableBodyCell>
+                                        <Text size="xs" className="text-center">{e?.status}</Text>
+                                    </TableBodyCell>
+                                    <TableBodyCell>
+                                        <Text size="xs" className="text-center">{e?.keterangan}</Text>
+                                    </TableBodyCell>
+
+                                    <TableBodyCell>
+                                        <div className="flex flex-row gap-3 justify-center">
+                                            <IconButton size="sm" variant="warning" onClick={() => {
+                                            }}>
+                                                <PencilSimpleLine/>
+                                            </IconButton>
+                                            <IconButton size="sm" variant="danger"
+                                                        onClick={() => {
+                                                        }}>
+                                                <Trash/>
+                                            </IconButton>
+                                        </div>
+                                    </TableBodyCell>
+                                </TableBodyRow>
                             );
                         })}
-                    </TableHeadRow>
-                </TableHead>
+                    </TableBody>
+                </Table>
 
-                <TableBody>
-                    {data?.map((e, index) => {
-                        return (
-                            <TableBodyRow key={index}>
-                                <TableBodyCell>
-                                    <Text size="xs">{index + 1}</Text>
-                                </TableBodyCell>
-                                <TableBodyCell>
-                                    <Text size="xs">{e?.nama_role}</Text>
-                                </TableBodyCell>
-                                <TableBodyCell>
-                                    <Text size="xs">{e?.scope}</Text>
-                                </TableBodyCell>
-                                <TableBodyCell>
-                                    <Text size="xs" className="text-center">{e?.status}</Text>
-                                </TableBodyCell>
-                                <TableBodyCell>
-                                    <Text size="xs" className="text-center">{e?.keterangan}</Text>
-                                </TableBodyCell>
-
-                                <TableBodyCell>
-                                    <div className="flex flex-row gap-3 justify-center">
-                                        <IconButton size="sm" variant="warning" onClick={() => {
-                                        }}>
-                                            <PencilSimpleLine/>
-                                        </IconButton>
-                                        <IconButton size="sm" variant="danger"
-                                                    onClick={() => {
-                                                    }}>
-                                            <Trash/>
-                                        </IconButton>
-                                    </div>
-                                </TableBodyCell>
-                            </TableBodyRow>
-                        );
-                    })}
-                </TableBody>
-            </Table>
-
-            <Modal
-                size="lg"
-                open={openModal}
-                onClose={closeModal}
-                title={editMode ? "Perbarui Role ID" : "Tambah Role ID"}
-                dismissable
-                autoClose
-            >
-                <Modal.Body>
-                    {
-                        loadingDataForm ? (
-                            <FormSkeleton count={3}/>
-                        ) : (
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                                <Input
-                                    placeholder="Tulis nama role"
-                                    size="lg"
-                                    label="Nama role"
-                                    showLabel
-                                    name="nama"
-                                    onChange={handleChange}
-                                    showHint
-                                    error={errors?.nama}
-                                    value={formData.nama}
-                                />
-                                <Select showLabel label="Pilih scope" options={formInit?.jenjang} labelKey="nama"
-                                        valueKey="id"
-                                        size="lg" placeholder="Pilih scope" name="scope" onChange={handleChange}
+                <Modal
+                    size="lg"
+                    open={openModal}
+                    onClose={closeModal}
+                    title={editMode ? "Perbarui Role ID" : "Tambah Role ID"}
+                    dismissable
+                    autoClose
+                >
+                    <Modal.Body>
+                        {
+                            loadingDataForm ? (
+                                <FormSkeleton count={3}/>
+                            ) : (
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                    <Input
+                                        placeholder="Tulis nama role"
+                                        size="lg"
+                                        label="Nama role"
+                                        showLabel
+                                        name="nama"
+                                        onChange={handleChange}
                                         showHint
-                                        error={errors?.scope} value={formData.scope}/>
-                                <div className="col-span-2">
+                                        error={errors?.nama}
+                                        value={formData.nama}
+                                    />
+                                    <Select showLabel label="Pilih scope" options={formInit?.jenjang} labelKey="nama"
+                                            valueKey="id"
+                                            size="lg" placeholder="Pilih scope" name="scope" onChange={handleChange}
+                                            showHint
+                                            error={errors?.scope} value={formData.scope}/>
+                                    <div className="col-span-2">
 
-                                    <Textarea label="Keterangan" showLabel name="keterangan" onChange={handleChange}
-                                              placeholder="Tulis keterangan"/>
+                                        <Textarea label="Keterangan" showLabel name="keterangan" onChange={handleChange}
+                                                  placeholder="Tulis keterangan"/>
+                                    </div>
+                                    <Checkbox label="Status" showLabel name="status" checked={formData.status === 1}
+                                              onChange={handleCheckboxChange}>
+                                        Active</Checkbox>
                                 </div>
-                                <Checkbox label="Status" showLabel name="status" checked={formData.status === 1}
-                                          onChange={handleCheckboxChange}>
-                                    Active</Checkbox>
-                            </div>
-                        )
-                    }
-                </Modal.Body>
-                <Modal.Footer>
-                    <div className="gap-4 flex flex-row">
-                        <Button variant="primary" size="md" filled onClick={handleSubmit}>
-                            {loadingSubmit ? <Spinner size={16}/> : editMode ? "Perbarui" : "Tambah"}
-                        </Button>
-                        <Button variant="white" size="md" filled onClick={closeModal}>
-                            Batal
-                        </Button>
-                    </div>
-                </Modal.Footer>
-            </Modal>
-        </section>
+                            )
+                        }
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <div className="gap-4 flex flex-row">
+                            <Button variant="primary" size="md" filled onClick={handleSubmit}>
+                                {loadingSubmit ? <Spinner size={16}/> : editMode ? "Perbarui" : "Tambah"}
+                            </Button>
+                            <Button variant="white" size="md" filled onClick={closeModal}>
+                                Batal
+                            </Button>
+                        </div>
+                    </Modal.Footer>
+                </Modal>
+            </div>
+        </>
     )
 }
 

@@ -15,10 +15,10 @@ const navItems = [
     {href: "/dashboard", label: "Dashboard", icon: <Calendar/>},
     {href: "/konfigurasi", label: "Konfigurasi", icon: <Gear/>},
     {href: "/data-utama", label: "Data utama", icon: <Files/>},
-    {href: "/management-user", label: "Management user", icon: <Users/>},
+    {href: "/manajemen-user", label: "Manajemen user", icon: <Users/>},
     {href: "/krs", label: "KRS", icon: <PlusMinus/>},
     {href: "/penjadwalan-kelas", label: "Penjadwalan kelas", icon: <Timer/>},
-    {href: "/management-nilai", label: "Management nilai", icon: <NotePencil/>},
+    {href: "/manajemen-nilai", label: "Manajemen nilai", icon: <NotePencil/>},
     {href: "/penjadwalan-ujian", label: "Penjadwalan ujian", icon: <Timer/>},
 ];
 

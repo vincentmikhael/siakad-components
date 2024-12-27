@@ -214,7 +214,7 @@ const User = () => {
         setFilteredData(filtered);
     };
     return (
-        <section>
+        <>
             <div className="flex sm:absolute right-0 top-0 gap-4 w-full md:w-fit">
                 <Input
                     size="xs"
@@ -234,157 +234,159 @@ const User = () => {
                     Tambah data
                 </Button>
             </div>
+            <div className="mt-6">
+                <Table
+                    loading={false}
+                    columns={columns}
+                >
+                    <TableHead>
+                        <TableHeadRow>
+                            {columns.map((e, index) => {
+                                return (
+                                    <TableHeadCell
+                                        className={e.className}
+                                        key={index}
+                                    >
+                                        {e.name}
+                                    </TableHeadCell>
+                                );
+                            })}
+                        </TableHeadRow>
+                    </TableHead>
 
-            <Table
-                loading={false}
-                columns={columns}
-            >
-                <TableHead>
-                    <TableHeadRow>
-                        {columns.map((e, index) => {
+                    <TableBody>
+                        {data?.map((e, index) => {
                             return (
-                                <TableHeadCell
-                                    className={e.className}
-                                    key={index}
-                                >
-                                    {e.name}
-                                </TableHeadCell>
+                                <TableBodyRow key={index}>
+                                    <TableBodyCell>
+                                        <Text size="xs">{index + 1}</Text>
+                                    </TableBodyCell>
+                                    <TableBodyCell>
+                                        <Text size="xs">{e?.user_id}</Text>
+                                    </TableBodyCell>
+                                    <TableBodyCell>
+                                        <Text size="xs">{e?.nama}</Text>
+                                    </TableBodyCell>
+                                    <TableBodyCell>
+                                        <Text size="xs">{e?.role_id}</Text>
+                                    </TableBodyCell>
+                                    <TableBodyCell>
+                                        <Text size="xs" className="text-center">{e?.info_role}</Text>
+                                    </TableBodyCell>
+                                    <TableBodyCell>
+                                        <Text size="xs" className="text-center">{e?.status}</Text>
+                                    </TableBodyCell>
+
+                                    <TableBodyCell>
+                                        <div className="flex flex-row gap-3 justify-center">
+                                            <IconButton size="sm" variant="warning" onClick={() => {
+                                            }}>
+                                                <PencilSimpleLine/>
+                                            </IconButton>
+                                            <IconButton size="sm" variant="danger"
+                                                        onClick={() => {
+                                                        }}>
+                                                <Trash/>
+                                            </IconButton>
+                                        </div>
+                                    </TableBodyCell>
+                                </TableBodyRow>
                             );
                         })}
-                    </TableHeadRow>
-                </TableHead>
+                    </TableBody>
+                </Table>
 
-                <TableBody>
-                    {data?.map((e, index) => {
-                        return (
-                            <TableBodyRow key={index}>
-                                <TableBodyCell>
-                                    <Text size="xs">{index + 1}</Text>
-                                </TableBodyCell>
-                                <TableBodyCell>
-                                    <Text size="xs">{e?.user_id}</Text>
-                                </TableBodyCell>
-                                <TableBodyCell>
-                                    <Text size="xs">{e?.nama}</Text>
-                                </TableBodyCell>
-                                <TableBodyCell>
-                                    <Text size="xs">{e?.role_id}</Text>
-                                </TableBodyCell>
-                                <TableBodyCell>
-                                    <Text size="xs" className="text-center">{e?.info_role}</Text>
-                                </TableBodyCell>
-                                <TableBodyCell>
-                                    <Text size="xs" className="text-center">{e?.status}</Text>
-                                </TableBodyCell>
-
-                                <TableBodyCell>
-                                    <div className="flex flex-row gap-3 justify-center">
-                                        <IconButton size="sm" variant="warning" onClick={() => {
-                                        }}>
-                                            <PencilSimpleLine/>
-                                        </IconButton>
-                                        <IconButton size="sm" variant="danger"
-                                                    onClick={() => {
-                                                    }}>
-                                            <Trash/>
-                                        </IconButton>
-                                    </div>
-                                </TableBodyCell>
-                            </TableBodyRow>
-                        );
-                    })}
-                </TableBody>
-            </Table>
-
-            <Modal
-                size="lg"
-                open={openModal}
-                onClose={closeModal}
-                title={editMode ? "Perbarui user akademik baru" : "Tambah user akademik baru"}
-                dismissable
-                autoClose
-            >
-                <Modal.Body>
-                    {
-                        loadingDataForm ? (
-                            <FormSkeleton count={6}/>
-                        ) : (
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                                <Input
-                                    placeholder="Tulis username"
-                                    size="lg"
-                                    label="Username"
-                                    showLabel
-                                    name="username"
-                                    onChange={handleChange}
-                                    showHint
-                                    error={errors?.username}
-                                    value={formData.username}
-                                />
-                                <Input
-                                    placeholder="Tulis nama"
-                                    size="lg"
-                                    label="Nama"
-                                    showLabel
-                                    name="nama"
-                                    onChange={handleChange}
-                                    showHint
-                                    error={errors?.nama}
-                                    value={formData.nama}
-                                />
-                                <Select showLabel label="Role ID" options={formInit?.jenjang} labelKey="nama"
-                                        valueKey="id"
-                                        size="lg" placeholder="Pilih role" name="role_id" onChange={handleChange}
+                <Modal
+                    size="lg"
+                    open={openModal}
+                    onClose={closeModal}
+                    title={editMode ? "Perbarui user akademik baru" : "Tambah user akademik baru"}
+                    dismissable
+                    autoClose
+                >
+                    <Modal.Body>
+                        {
+                            loadingDataForm ? (
+                                <FormSkeleton count={6}/>
+                            ) : (
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                    <Input
+                                        placeholder="Tulis username"
+                                        size="lg"
+                                        label="Username"
+                                        showLabel
+                                        name="username"
+                                        onChange={handleChange}
                                         showHint
-                                        error={errors?.role_id} value={formData.role_id}/>
-                                <Select showLabel label="Info scope" options={formInit?.jenjang} labelKey="nama"
-                                        valueKey="id"
-                                        size="lg" placeholder="Pilih info scope" name="scope" onChange={handleChange}
+                                        error={errors?.username}
+                                        value={formData.username}
+                                    />
+                                    <Input
+                                        placeholder="Tulis nama"
+                                        size="lg"
+                                        label="Nama"
+                                        showLabel
+                                        name="nama"
+                                        onChange={handleChange}
                                         showHint
-                                        error={errors?.scope} value={formData.scope}/>
-                                <Input
-                                    type="password"
-                                    placeholder="Tulis password"
-                                    size="lg"
-                                    label="Password"
-                                    showLabel
-                                    name="password"
-                                    onChange={handleChange}
-                                    showHint
-                                    error={errors?.password}
-                                    value={formData.password}
-                                />
-                                <Input
-                                    type="password"
-                                    placeholder="Konfirmasi password"
-                                    size="lg"
-                                    label="Konfirmasi password"
-                                    showLabel
-                                    name="confirm_password"
-                                    onChange={handleChange}
-                                    showHint
-                                    error={errors?.confirm_password}
-                                    value={formData.confirm_password}
-                                />
-                                <Checkbox label="Status" showLabel name="status" checked={formData.status === 1}
-                                          onChange={handleCheckboxChange}>
-                                    Active</Checkbox>
-                            </div>
-                        )
-                    }
-                </Modal.Body>
-                <Modal.Footer>
-                    <div className="gap-4 flex flex-row">
-                        <Button variant="primary" size="md" filled onClick={handleSubmit}>
-                            {loadingSubmit ? <Spinner size={16}/> : editMode ? "Perbarui" : "Tambah"}
-                        </Button>
-                        <Button variant="white" size="md" filled onClick={closeModal}>
-                            Batal
-                        </Button>
-                    </div>
-                </Modal.Footer>
-            </Modal>
-        </section>
+                                        error={errors?.nama}
+                                        value={formData.nama}
+                                    />
+                                    <Select showLabel label="Role ID" options={formInit?.jenjang} labelKey="nama"
+                                            valueKey="id"
+                                            size="lg" placeholder="Pilih role" name="role_id" onChange={handleChange}
+                                            showHint
+                                            error={errors?.role_id} value={formData.role_id}/>
+                                    <Select showLabel label="Info scope" options={formInit?.jenjang} labelKey="nama"
+                                            valueKey="id"
+                                            size="lg" placeholder="Pilih info scope" name="scope"
+                                            onChange={handleChange}
+                                            showHint
+                                            error={errors?.scope} value={formData.scope}/>
+                                    <Input
+                                        type="password"
+                                        placeholder="Tulis password"
+                                        size="lg"
+                                        label="Password"
+                                        showLabel
+                                        name="password"
+                                        onChange={handleChange}
+                                        showHint
+                                        error={errors?.password}
+                                        value={formData.password}
+                                    />
+                                    <Input
+                                        type="password"
+                                        placeholder="Konfirmasi password"
+                                        size="lg"
+                                        label="Konfirmasi password"
+                                        showLabel
+                                        name="confirm_password"
+                                        onChange={handleChange}
+                                        showHint
+                                        error={errors?.confirm_password}
+                                        value={formData.confirm_password}
+                                    />
+                                    <Checkbox label="Status" showLabel name="status" checked={formData.status === 1}
+                                              onChange={handleCheckboxChange}>
+                                        Active</Checkbox>
+                                </div>
+                            )
+                        }
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <div className="gap-4 flex flex-row">
+                            <Button variant="primary" size="md" filled onClick={handleSubmit}>
+                                {loadingSubmit ? <Spinner size={16}/> : editMode ? "Perbarui" : "Tambah"}
+                            </Button>
+                            <Button variant="white" size="md" filled onClick={closeModal}>
+                                Batal
+                            </Button>
+                        </div>
+                    </Modal.Footer>
+                </Modal>
+            </div>
+        </>
     )
 }
 

@@ -9,18 +9,19 @@ import React from "react";
 
 export async function generateMetadata(/*{params}*/) {
     return {
-        title: Utils.getDocumentTitle('Management user'),
+        title: Utils.getDocumentTitle('Manajemen user'),
     }
 }
 
-export default function ManagementUserLayout({children}) {
+export default function ManajemenUserLayout({children}) {
+    const baseUrl = "/manajemen-user"
     return (
         <>
             <Breadcrumb>
                 <BreadcrumbItem home href="/dashboard">
                     Dashboard
                 </BreadcrumbItem>
-                <BreadcrumbItem>Management user</BreadcrumbItem>
+                <BreadcrumbItem>Manajemen user</BreadcrumbItem>
             </Breadcrumb>
             <Card className={"my-8 md:my-12"}>
                 <CardHeader className="border-0">
@@ -32,11 +33,11 @@ export default function ManagementUserLayout({children}) {
                     </Text>
                 </CardHeader>
 
-                <div className="flex-grow xl:overflow-hidden relative">
+                <div className="flex-col flex-grow xl:overflow-hidden relative">
                     <Tabs>
-                        <TabItem href="/management-user/user">User</TabItem>
-                        <TabItem href="/management-user/role">Role</TabItem>
-                        <TabItem href="/management-user/konfigurasi-hak-akses">Konfigurasi hak akses user</TabItem>
+                        <TabItem href={`${baseUrl}/user`}>User</TabItem>
+                        <TabItem href={`${baseUrl}/role`}>Role</TabItem>
+                        <TabItem href={`${baseUrl}/konfigurasi-hak-akses`}>Konfigurasi hak akses user</TabItem>
                     </Tabs>
                     {children}
                 </div>
