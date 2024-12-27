@@ -2,7 +2,7 @@ import {twMerge} from "tailwind-merge";
 
 const TableLazyLoad = ({columns}) => {
     return (
-        <div className="overflow-x-auto mt-8 rounded-xl">
+        <div className="overflow-x-auto rounded-xl">
             <table className="min-w-full bg-white">
                 <thead className="text-[13px] rounded-lg">
                 <tr className="bg-fade text-black text-left">

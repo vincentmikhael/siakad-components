@@ -44,7 +44,7 @@ const Table = ({columns = [], data = [], pinned, children, loading = false, clas
         <TableContext.Provider value={{getStickyOffset, columnRefs, headCellsData, tableRef}}>
             <div
                 ref={tableRef}
-                className="overflow-x-auto mt-8 rounded-xl border border-fade scrollbar scrollbar-thumb-fade scrollbar-track-white scrollbar-thumb-rounded-full scrollbar-track-rounded-full">
+                className="overflow-x-auto rounded-xl border border-fade scrollbar scrollbar-thumb-fade scrollbar-track-white scrollbar-thumb-rounded-full scrollbar-track-rounded-full">
                 <table className={twMerge("table-auto w-full rounded-lg", className)} {...props}>
                     {children}
                 </table>
