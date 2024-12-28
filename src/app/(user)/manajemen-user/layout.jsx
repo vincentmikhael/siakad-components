@@ -15,6 +15,16 @@ export async function generateMetadata(/*{params}*/) {
 
 export default function ManajemenUserLayout({children}) {
     const baseUrl = "/manajemen-user"
+    const tabItem = [{
+        href: `${baseUrl}/user`,
+        title: "User"
+    }, {
+        href: `${baseUrl}/role`,
+        title: "Role"
+    }, {
+        href: `${baseUrl}/konfigurasi-hak-akses`,
+        title: "Konfigurasi hak akses user"
+    }]
     return (
         <>
             <Breadcrumb>
@@ -35,9 +45,9 @@ export default function ManajemenUserLayout({children}) {
 
                 <div className="flex-col flex-grow xl:overflow-hidden relative">
                     <Tabs>
-                        <TabItem href={`${baseUrl}/user`}>User</TabItem>
-                        <TabItem href={`${baseUrl}/role`}>Role</TabItem>
-                        <TabItem href={`${baseUrl}/konfigurasi-hak-akses`}>Konfigurasi hak akses user</TabItem>
+                        {tabItem.map((item, index) => (
+                            <TabItem href={item.href} key={index} title={item.title}/>
+                        ))}
                     </Tabs>
                     {children}
                 </div>
