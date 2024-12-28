@@ -206,10 +206,10 @@ const Role = () => {
     };
     return (
         <>
-            <div className="flex sm:absolute right-0 top-0 gap-4 w-full md:w-fit">
+            <div className="flex lg:absolute right-0 top-2 gap-4 w-full lg:w-fit mt-6 lg:mt-0">
                 <Input
                     size="xs"
-                    className="w-full md:w-[156px]"
+                    className="w-full lg:w-[156px]"
                     placeholder={"Cari data disini"}
                     onChange={handleSearch}
                     value={searchKeyword}
@@ -220,7 +220,7 @@ const Role = () => {
                     leftIcon={<Plus weight="bold"/>}
                     size="sm"
                     filled
-                    className="w-full md:w-fit"
+                    className="w-full lg:w-fit"
                 >
                     Tambah data
                 </Button>
