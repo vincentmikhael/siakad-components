@@ -7,7 +7,7 @@ import {MagnifyingGlass, Plus} from "@phosphor-icons/react";
 const Tabs = ({defaultClass = 'flex flex-wrap gap-2 border-b border-fade w-fit', className, children}) => {
     const [activeTab, setActiveTab] = useState(0);
     return (
-        <>
+        <div className="flex flex-col gap-6">
             <ul className={twMerge(defaultClass, className)}>
                 {React.Children.map(children, (child, index) =>
                     React.cloneElement(child, {
@@ -17,7 +17,10 @@ const Tabs = ({defaultClass = 'flex flex-wrap gap-2 border-b border-fade w-fit',
                     })
                 )}
             </ul>
-        </>
+            {React.Children.map(children, (child, index) =>
+                activeTab === index ? child.props.children : null
+            )}
+        </div>
     );
 };
 
