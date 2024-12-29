@@ -16,17 +16,18 @@ export async function POST(req) {
     try {
         let sessionId = existingSessionId;
         const existingSession = await getSession(sessionId);
+        const ttl = 60 * 60 * 24; //1 hari ttl
         let cookieHeader = ""
 
         if (sessionId && existingSession) {
-            await setSession(sessionId, userData);
+            await setSession(sessionId, userData, ttl);
         } else {
             sessionId = uuidv7();
-            await setSession(sessionId, userData);
+            await setSession(sessionId, userData, ttl);
             cookieHeader = cookies().set("s_id", sessionId, {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === "production",
-                maxAge: 60 * 60 * 24, // 1 hari
+                maxAge: ttl, // 1 hari
                 path: "/",
             });
         }
