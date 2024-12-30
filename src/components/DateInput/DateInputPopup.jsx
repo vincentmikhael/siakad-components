@@ -17,10 +17,10 @@ const DateInputPopup = ({
     const Week = ["Mo", "Tu", "We", "Th", "Fr", "Sat", "Su"];
 
     const positionClasses = {
-        "bottom-right": `${size === "sm" ? "top-[72px]" : "top-[70px]"} right-0`,
-        "bottom-left": `${size === "sm" ? "top-[72px]" : "top-[70px]"} left-0`,
-        "top-right": `${size === "sm" ? "bottom-12" : "bottom-14"} right-0`,
-        "top-left": `${size === "sm" ? "bottom-12" : "bottom-14"} left-0`,
+        "bottom-right": `${size === "lg" ? "top-20" : "top-[72px]"} right-0`,
+        "bottom-left": `${size === "lg" ? "top-20" : "top-[72px]"} left-0`,
+        "top-right": `${size === "lg" ? "bottom-14" : "bottom-12"} right-0`,
+        "top-left": `${size === "lg" ? "bottom-14" : "bottom-12"} left-0`,
     };
 
     return (
