@@ -1,11 +1,11 @@
 import {twMerge} from "tailwind-merge"
 
-const CardHeader = ({className, children, ...restProps}) => {
-    const baseClasses = 'flex flex-col gap-1.5 pb-6 border-b border-fade'
+const CardFooter = ({className, children, ...restProps}) => {
+    const baseClasses = 'flex flex-col gap-1.5 pt-6 border-t border-fade'
     return (
         <div className={twMerge(baseClasses, className)} {...restProps}>
             {children}
         </div>
     )
 }
-export default CardHeader
+export default CardFooter
