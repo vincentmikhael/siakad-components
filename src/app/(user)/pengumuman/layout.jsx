@@ -25,7 +25,7 @@ export default function KalenderAkademikLayout({children}) {
             <Card className="my-8 md:my-12">
                 <CardHeader>
                     <Text size="xl" color="text-gray-100" weight={600}>
-                        Management Pengumuman
+                        Manajemen Pengumuman
                     </Text>
                     <Text size="sm" color="text-gray-60" weight={500}>
                         Kelola pengumuman untuk baik dosen, mahasiswa, maupun staf administrasi.

@@ -146,7 +146,7 @@ const Pengumuman = () => {
     const columns = [
         {name: "no"},
         {name: "kode id", className: "min-w-[85px] text-center"},
-        {name: "perihal", className: "min-w-[240px]"},
+        {name: "perihal", className: "max-w-[240px] w-full"},
         {name: "nomor", className: "min-w-[144px] text-center"},
         {name: "tanggal", className: "min-w-[144px] text-center"},
         {name: "lampiran", className: "min-w-[185px] text-center"},
