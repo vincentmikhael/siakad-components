@@ -11,24 +11,30 @@ import {
     Select,
     Input,
     Button,
-    Pagination,
     Modal,
     IconButton,
-    Alert,
     Spinner,
 } from "@/components";
 import {useToast} from "@/context/ToastContext";
 import AxiosInstance from "@/libs/AxiosInstance";
 import {MagnifyingGlass, PencilSimpleLine, Plus, Trash} from "@phosphor-icons/react/dist/ssr";
+import { QueryClient, QueryClientProvider, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {useEffect, useState} from "react";
 
-export default function Konsentrasi() {
+export default function Konsentrasi({dataInit}){
+        const queryClient = new QueryClient()
+            return (
+                <QueryClientProvider client={queryClient}>
+                    <KonsentrasiExport dataInit={dataInit}/>
+                </QueryClientProvider>
+            )
+}
+
+function KonsentrasiExport({dataInit}) {
     const showToast = useToast();
-    const [loading, setLoading] = useState(true)
-    const [loadingSubmit, setLoadingSubmit] = useState(false)
     const [modalAdd, setModalAdd] = useState(false)
-    const [fakultas, setFakultas] = useState([])
-    const [dataProdi, setDataProdi] = useState([])
+    const [fakultas, setFakultas] = useState(dataInit.fakultas)
+    const [dataProdi, setDataProdi] = useState(dataInit.prodi)
     const [prodi, setProdi] = useState([])
     const [selectedFakultas, setSelectedFakultas] = useState("")
     const [selectedProdi, setSelectedProdi] = useState("")
@@ -36,38 +42,86 @@ export default function Konsentrasi() {
     const [dataTable, setDataTable] = useState([])
     const [deleteId, setDeleteId] = useState(false)
     const [editId, setEditId] = useState(false)
-
+    const queryClient = useQueryClient()
     //for formdata
     const [prodiInput, setProdiInput] = useState([])
     const [formData, setFormData] = useState({});
     const [errors, setErrors] = useState({});
 
-    async function fetchInit() {
-        try {
-            const res = await AxiosInstance.get('/konsentrasi/list/init')
-            if (res.status == 200) {
-                setDataProdi(res.data.data.prodi)
-                setFakultas(res.data.data.fakultas)
-                if (res.data.data.fakultas.length > 0) {
-                    setSelectedFakultas(res.data.data.fakultas[0].id)
-                }
-            }
-        } catch (err) {
-            console.log(err)
-        }
-    }
+    //buat fetch data di tabel
+    const query = useQuery({ 
+        queryKey: ['konsentrasi'], 
+        queryFn: fetchKonsentrasi,
+     })
 
+    //buat tambah data
+    const createMutation = useMutation({
+        mutationFn: async (data)=>{
+            const res = await AxiosInstance.post('/konsentrasi', data)
+            return res
+        },
+        onSuccess: (res) => {
+            console.log('data berhasil ditambahkan',res)
+            if (res.status == 200) {
+                        setSelectedFakultas(formData.prodi.substring(0, 2))
+                        setModalAdd(false)
+                        setSelectedProdi(formData.prodi)
+                        showToast(`Data berhasil ditambahkan`, `Anda telah berhasil menambahkan data`, "success")
+            }
+            queryClient.invalidateQueries({ queryKey: ['konsentrasi'] })
+        },
+        onError: (err) =>{
+            if (err.status == 422) {
+                        setErrors(err.response.data.errors)
+            }
+        }
+      })
+
+      //buat edit data
+      const editMutation = useMutation({
+        mutationFn: async (data) =>{
+            const res = await AxiosInstance.put(`/konsentrasi/${editId}`, data)
+            return res
+        },
+        onSuccess: (res) => {
+            if (res.status == 200) {
+                resetForm()
+                query.refetch()
+                setEditId(false)
+                setModalAdd(false)
+
+            }
+            queryClient.invalidateQueries({ queryKey: ['konsentrasi'] })
+        },
+        onError: (err) => {
+            if (err.status == 422) {
+                setErrors(err.response.data.errors)
+
+            }
+        }
+      })
+
+      //buat edit status
+      const editStatusMutation = useMutation({
+        mutationFn: async (data) =>{
+            const res = await AxiosInstance.put(`/konsentrasi/status/${data.id}`, {
+                status: data.stat
+            })
+            return res
+        },
+        onSuccess: (res) => {
+            queryClient.invalidateQueries({ queryKey: ['konsentrasi'] })
+        },
+        onError: (err) => {
+        }
+      })
+    
+    
     async function fetchKonsentrasi() {
-        try {
             const res = await AxiosInstance.get(`/konsentrasi/${selectedProdi}`)
             if (res.status == 200) {
-                setDataTable(res.data.data)
-                setAllDataTable(res.data.data)
-                setLoading(false)
+                return res.data.data
             }
-        } catch (err) {
-            console.log(err)
-        }
     }
 
     useEffect(() => {
@@ -83,12 +137,14 @@ export default function Konsentrasi() {
     }, [selectedFakultas])
 
     useEffect(() => {
-        fetchKonsentrasi()
+        queryClient.invalidateQueries({ queryKey: ['konsentrasi'] })
     }, [selectedProdi])
 
 
     useEffect(() => {
-        fetchInit()
+        if (dataInit.fakultas.length > 0) {
+            setSelectedFakultas(dataInit.fakultas[0].id)
+        }
     }, [])
 
     const handleChange = (e) => (item) => {
@@ -98,11 +154,6 @@ export default function Konsentrasi() {
         } else if (e == 'prodi') {
             setSelectedProdi(item.target.value)
         } else if (e == 'fakultasInput') {
-            // setFormData((prevData) => ({
-            //     ...prevData,
-            //     ['fakultas']: item.id,
-            //   }));
-
             setProdiInput(dataProdi.filter((prodi) => prodi.id.startsWith(item.target.value)))
         }
     }
@@ -138,7 +189,7 @@ export default function Konsentrasi() {
         resetForm()
         setModalAdd(true)
         setEditId(id)
-        const data = dataTable.find(item => item.id === id);
+        const data = query.data.find(item => item.id === id);
         setProdiInput(dataProdi.filter((prodi) => prodi.id.startsWith(data.id.substring(0, 2))))
         setFormData({
             nama: data.nama,
@@ -151,74 +202,22 @@ export default function Konsentrasi() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setLoadingSubmit(true)
-        try {
-            const res = await AxiosInstance.post('/konsentrasi', {
-                nama: formData.nama,
-                nama_en: formData.nama_en,
-                alias: formData.alias,
-                prodi: formData.prodi
-            })
-            if (res.status == 200) {
-                setSelectedFakultas(formData.prodi.substring(0, 2))
-                fetchKonsentrasi()
-                setModalAdd(false)
-                setSelectedProdi(formData.prodi)
-                showToast(`Data berhasil ditambahkan`, `Anda telah berhasil menambahkan data`, "success")
-            }
-        } catch (err) {
-            if (err.status == 422) {
-                setErrors(err.response.data.errors)
-            }
-        } finally {
-            setLoadingSubmit(false)
-        }
-
+        createMutation.mutate(formData)
     }
 
     const handleEdit = async (e) => {
         e.preventDefault();
-        setLoadingSubmit(true)
-        try {
-            const res = await AxiosInstance.put(`/konsentrasi/${editId}`, {
-                nama: formData.nama,
-                nama_en: formData.nama_en,
-                alias: formData.alias,
-            })
-            if (res.status == 200) {
-                resetForm()
-                fetchKonsentrasi()
-                setEditId(false)
-                setModalAdd(false)
-
-            }
-        } catch (err) {
-            if (err.status == 422) {
-                setErrors(err.response.data.errors)
-
-            }
-
-        }
-        setLoadingSubmit(false)
+        editMutation.mutate({
+            nama: formData.nama,
+            nama_en: formData.nama_en,
+            alias: formData.alias,
+        })
     }
 
-    // const handleDelete = async (e) => {
-    //     e.preventDefault();
-    //     const res = await AxiosInstance.put(`/konsentrasi/status/${deleteId}`,{
-    //         status: 0
-    //     })
-    //     console.log(res)
-    // }
-
     const changeStatus = async (id, stat) => {
-        try {
-            const res = await AxiosInstance.put(`/konsentrasi/status/${id}`, {
-                status: stat
-            })
-            fetchKonsentrasi()
-        } catch (err) {
-            console.log(err)
-        }
+        editStatusMutation.mutate({
+            id,stat
+        })
     }
 
     const resetForm = () => {
@@ -277,7 +276,7 @@ export default function Konsentrasi() {
 
             </div>
 
-            <Table loading={loading} columns={columns} data={dataTable}>
+            <Table loading={query.isPending} columns={columns} data={query.data}>
                 <TableHead>
                     <TableHeadRow>
                         {columns.map((e, index) => {
@@ -291,7 +290,7 @@ export default function Konsentrasi() {
 
                 <TableBody>
 
-                    {dataTable.map((e, index) => {
+                    {query.data?.map((e, index) => {
                         return (
                             <TableBodyRow key={index}>
                                 <TableBodyCell><Text size="xs">{e.id}</Text></TableBodyCell>
@@ -320,24 +319,12 @@ export default function Konsentrasi() {
 
             </Table>
 
-            {/* <Modal open={deleteId} onClose={() => setDeleteId(false)} title="Hapus data konsentrasi">
-                    <Modal.Body>
-                        <Text>Apakah Anda yakin ingin menghapus data ini? Tindakan ini tidak dapat dibatalkan.</Text>
-                    </Modal.Body>
-
-                    <Modal.Footer>
-                    <Button variant="danger" onClick={handleDelete} className={'mt-8'} filled disabled={!validateForm}>Hapus</Button>
-                    <Button onClick={() => setDeleteId(false)} className={'mt-8 ml-4'} variant="white" >Batal</Button>
-                </Modal.Footer>
-            </Modal> */}
-
             <Modal size="lg" open={modalAdd} onClose={() => {
                 setModalAdd(false)
                 setEditId(false)
             }} title={editId ? 'Edit data konsentrasi' : 'Tambah data konsentrasi'}>
                 <Modal.Body>
                     <div style={{width: '100%'}}>
-
                         <form className="grid mt-2 grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                                 <Input size="lg" error={errors?.nama} showHint value={formData.nama}
@@ -396,10 +383,10 @@ export default function Konsentrasi() {
                     {
 
                         (editId ?
-                            <Button onClick={handleEdit} className={'mt-8'} filled>{loadingSubmit ?
+                            <Button onClick={handleEdit} className={'mt-8'} filled>{editMutation.isPending ?
                                 <Spinner size={12}/> : 'Perbarui'}</Button>
                             :
-                            <Button onClick={handleSubmit} className={'mt-8'} filled>{loadingSubmit ?
+                            <Button onClick={handleSubmit} className={'mt-8'} filled>{createMutation.isPending ?
                                 <Spinner size={12}/> : 'Tambah'}</Button>)
                     }
                     <Button onClick={() => setModalAdd(false)} className={'mt-8 ml-4'} variant="white">Batal</Button>
@@ -407,6 +394,7 @@ export default function Konsentrasi() {
 
 
             </Modal>
+
         </>
     )
 }
