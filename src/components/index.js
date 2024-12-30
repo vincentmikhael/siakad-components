@@ -6,6 +6,7 @@ import Button from "./Button";
 import ButtonRedirectBack from "./ButtonRedirectBack";
 import Card from "./Card";
 import CardHeader from "./CardHeader";
+import CardFooter from "./CardFooter";
 import Checkbox from "./Checkbox";
 import DateInput from "./DateInput";
 import FileIcon from "./FileIcon";
@@ -53,7 +54,12 @@ import TabItem from "./Tabs/TabItem";
 import Tabs from "./Tabs";
 import ProfileDropdown from "./ProfileDropdown";
 import NotificationDropdown from "./NotificationDropdown";
-import BottomDrawer from "@components/BottomDrawer";
+import BottomDrawer from "./BottomDrawer";
+import OptionInput from "./OptionInput";
+import Radio from "./Radio";
+import TableRespond from "./RespondKuisioner/TableRespond";
+import OptionsRespond from "./RespondKuisioner/OptionsRespond";
+import ChartData from "./RespondKuisioner/ChartData";
 
 export {
     Alert,
@@ -65,6 +71,7 @@ export {
     ButtonRedirectBack,
     Card,
     CardHeader,
+    CardFooter,
     Checkbox,
     DateInput,
     daysOfWeek,
@@ -76,6 +83,7 @@ export {
     Helper,
     Hr,
     IconButton,
+    OptionInput,
     Input,
     Label,
     Link,
@@ -98,6 +106,7 @@ export {
     ProgressBar,
     ProgressBarRadian,
     ProgressBarRadianHalf,
+    Radio,
     Select,
     SearchInput,
     Spinner,
@@ -110,6 +119,7 @@ export {
     TableHead,
     TableHeadCell,
     TableHeadRow,
+    TableRespond,
     NotFoundRow,
     Text,
     Textarea,
@@ -119,4 +129,6 @@ export {
     Tabs,
     TabItem,
     Utils,
+    OptionsRespond,
+    ChartData
 };
