@@ -5,17 +5,18 @@ import {CaretRight} from "@phosphor-icons/react/dist/ssr";
 import {CardDataLegends} from "./index";
 
 const ChartRoundedDoughnut = dynamic(() => import('@/components/Charts/RoundedDoughnut')
-.then(m =>{
-    // console.log(m); 
-    return m.RoundedDoughnut})
-, {
-    ssr: false, // Disable server-side rendering for this component
-});
+        .then(m => {
+            // console.log(m);
+            return m.RoundedDoughnut
+        })
+    , {
+        ssr: false, // Disable server-side rendering for this component
+    });
 
 const DEFAULT = [
-    {status: 'aktif', quantity: 10006, percent_growth: 12.32, date_retrieved: '02/11/2024', color: '#2660ff'},
+    {status: 'Aktif', quantity: 10006, percent_growth: 12.32, date_retrieved: '02/11/2024', color: '#2660ff'},
     {status: 'PKN', quantity: 2009, percent_growth: 12.32, date_retrieved: '02/11/2024', color: '#ff8d41'},
-    {status: 'cuti', quantity: 8006, percent_growth: 12.32, date_retrieved: '02/11/2024', color: '#ff4144'},
+    {status: 'Cuti', quantity: 8006, percent_growth: 12.32, date_retrieved: '02/11/2024', color: '#ff4144'},
 ]
 export default function CardDataMahasiswa({
                                               className,
@@ -24,8 +25,7 @@ export default function CardDataMahasiswa({
                                               selected = 1,
                                               indexName = 'name'
                                           }) {
-    const data = mahasiswaStatusCountList.map((item)=> (item.quantity));
-    const colors = mahasiswaStatusCountList.map((item)=> (item.color));
+    const data = mahasiswaStatusCountList.map((item) => ({value: item.quantity, name: item.status}));
     return <Card className={className}>
         <div className="flex flex-row gap-3 w-full justify-between items-start">
             <div>
@@ -42,11 +42,12 @@ export default function CardDataMahasiswa({
         <Hr className=""/>
         <div className="flex flex-wrap items-center">
             <div className="w-full xl:w-1/3">
-                <ChartRoundedDoughnut data={data} colors={colors} title={''} height={200}/>
+                <ChartRoundedDoughnut data={data} title={''} height={200}/>
             </div>
             <div className="w-full xl:w-2/3 flex gap-3">
                 {mahasiswaStatusCountList && <CardDataLegends className="w-1/3"
-                    defaultList={mahasiswaStatusCountList} namePrefix={'Mahasiswa'}
+                                                              defaultList={mahasiswaStatusCountList}
+                                                              namePrefix={'Mahasiswa'}
                 />}
             </div>
         </div>
