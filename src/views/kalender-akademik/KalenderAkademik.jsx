@@ -120,10 +120,10 @@ const KalenderAkademik = () => {
     const columns = [
         {name: "no", className: "text-center"},
         {name: "kegiatan", className: "min-w-[267px] text-center"},
-        {name: "semester ganjil 2023/2024", className: "min-w-[212px]"},
-        {name: "semester genap 2023/2024", className: "min-w-[212px] text-center"},
-        {name: "semester antara", className: "min-w-[212px] text-center"},
-        {name: "keterangan", className: "min-w-[182px] text-center"},
+        {name: "semester ganjil 2023/2024", className: "max-w-[212px]"},
+        {name: "semester genap 2023/2024", className: "max-w-[212px] text-center"},
+        {name: "semester antara", className: "max-w-[212px] text-center"},
+        {name: "keterangan", className: "max-w-[182px] text-center"},
         {name: "actions", className: "text-center"},
     ];
 
