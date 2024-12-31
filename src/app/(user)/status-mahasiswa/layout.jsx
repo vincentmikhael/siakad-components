@@ -43,7 +43,7 @@ export default function StatusMahasiswaLayout({children}) {
                             </MenuLi>
                         ))}
                     </MenuUl>
-                    <div className="flex-grow xl:overflow-hidden space-y-6">{children}</div>
+                    <div className="grow xl:overflow-hidden gap-6 flex flex-col">{children}</div>
                 </div>
             </Card>
         </>

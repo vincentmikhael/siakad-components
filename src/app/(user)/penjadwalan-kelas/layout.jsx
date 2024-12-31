@@ -8,11 +8,12 @@ import {
     MenuLi, Utils
 } from "@/components";
 
-export async function generateMetadata(/*{params}*/){
+export async function generateMetadata(/*{params}*/) {
     return {
         title: Utils.getDocumentTitle('Penjadwalan kelas'),
     }
 }
+
 export default function DataUtamaLayout({children}) {
     const baseUrl = '/penjadwalan-kelas';
     const menu = [
@@ -48,7 +49,7 @@ export default function DataUtamaLayout({children}) {
                             </MenuLi>
                         ))}
                     </MenuUl>
-                    <div className="flex-grow xl:overflow-hidden">{children}</div>
+                    <div className="grow xl:overflow-hidden gap-6 flex flex-col">{children}</div>
                 </div>
             </Card>
         </>

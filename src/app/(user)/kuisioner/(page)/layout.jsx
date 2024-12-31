@@ -32,7 +32,7 @@ export default function KalenderAkademikLayout({children}) {
                     </Text>
                 </CardHeader>
 
-                <div className="flex-grow pt-6 space-y-6">
+                <div className="grow xl:overflow-hidden gap-6 flex flex-col pt-6">
                     {children}
                 </div>
             </Card>

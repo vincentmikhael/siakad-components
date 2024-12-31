@@ -36,7 +36,7 @@ export default function KalenderAkademikLayout({children}) {
                     <FormKalenderAkademik/>
                 </CardHeader>
 
-                <div className="flex-grow xl:overflow-hidden">
+                <div className="grow xl:overflow-hidden pt-6">
                     {children}
                 </div>
             </Card>

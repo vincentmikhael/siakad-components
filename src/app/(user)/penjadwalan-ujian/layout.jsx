@@ -24,7 +24,7 @@ export default function PenjadwalanUjianLayout({children}) {
                         Lorem ipsum
                     </Text>
                 </CardHeader>
-                <div className="flex-grow xl:overflow-hidden space-y-6 pt-6">{children}</div>
+                <div className="grow xl:overflow-hidden gap-6 flex flex-col">{children}</div>
             </Card>
         </>
     )

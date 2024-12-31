@@ -197,7 +197,7 @@ const PenjadwalanUjian = () => {
     }
     return (
         <>
-            <div className="flex flex-col lg:flex-row justify-between items-end gap-4">
+            <div className="flex flex-col lg:flex-row justify-between items-end gap-4 pt-6">
                 <div className="w-full lg:w-fit gap-4 flex sm:flex-row flex-col">
                     <Select value={[]} options={[]} label="Fakultas" placeholder="Pilih fakultas" showLabel
                             size="xs"
