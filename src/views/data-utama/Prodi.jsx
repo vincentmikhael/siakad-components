@@ -1,6 +1,7 @@
 "use client"
 
-import {useEffect, useState} from "react";
+import {useState} from "react";
+import {useQuery, useMutation, useQueryClient} from "@tanstack/react-query";
 import AxiosInstance from "@/libs/AxiosInstance";
 import {
     BottomDrawer,
@@ -17,6 +18,18 @@ import {
 import {useToast} from "@/context/ToastContext";
 import {MagnifyingGlass, Plus, PencilSimpleLine, Trash, FadersHorizontal} from "@phosphor-icons/react";
 
+const fetchProdi = async (selectedFakultas) => {
+    const response = await AxiosInstance.get(`/prodi/${selectedFakultas}`);
+    if (response.status !== 200) throw new Error("Failed to fetch data");
+    return response.data.data;
+};
+
+const fetchFormInit = async () => {
+    const response = await AxiosInstance.get("/prodi/form/init");
+    if (response.status !== 200) throw new Error("Failed to fetch data");
+    return response.data.data;
+}
+
 const Prodi = ({listFakultas}) => {
     const firstData = listFakultas[0]
     const [selectedFakultas, setSelectedFakultas] = useState(firstData?.id);
@@ -25,15 +38,24 @@ const Prodi = ({listFakultas}) => {
     const [openDrawer, setOpenDrawer] = useState(false);
     const [filterFakultas, setFilterFakultas] = useState(firstData?.id);
     //
-    const [dataProdi, setDataProdi] = useState(null);
-    const [filteredData, setFilteredData] = useState(null);
+    const queryClient = useQueryClient();
+    const staleTime = 1000 * 60 * 5;
+    const {data: dataProdi, isLoading} = useQuery({
+        queryKey: ["prodi", selectedFakultas],
+        queryFn: () => fetchProdi(selectedFakultas),
+        staleTime
+    });
+
+    const {data: formInit, isLoading: loadingInitForm} = useQuery({
+        queryKey: ["prodi", "form-init"],
+        queryFn: fetchFormInit,
+        staleTime
+    })
+
     const [searchKeyword, setSearchKeyword] = useState("");
     const [openModal, setOpenModal] = useState(false);
-    const [loadingInitForm, setLoadingInitForm] = useState(false);
     const [loadingDataForm, setLoadingDataForm] = useState(false);
-    const [loadingData, setLoadingData] = useState(false);
     const [loadingSubmit, setLoadingSubmit] = useState(false);
-    const [formInit, setFormInit] = useState({});
     const [errors, setErrors] = useState();
     const [editMode, setEditMode] = useState(false);
     const [editId, setEditId] = useState(null);
@@ -76,24 +98,67 @@ const Prodi = ({listFakultas}) => {
         }));
     };
 
-    const fetchData = async () => {
-        setLoadingData(true)
-        try {
-            const response = await AxiosInstance.get(`/prodi/${selectedFakultas}`)
-            if (response.status === 200) {
-                setDataProdi(response.data.data);
-                setFilteredData(response.data.data);
+    // mutasi untuk menambah data
+    const addMutation = useMutation({
+        mutationFn: async (newProdi) => {
+            setLoadingSubmit(true)
+            const response = await AxiosInstance.post("/prodi", newProdi);
+            if (response.status !== 200) throw new Error("Gagal menambah data");
+            return response.data.data;
+        },
+        onSuccess: (newProdi) => {
+            setOpenModal(false);
+            queryClient.setQueryData(["prodi", selectedFakultas], (oldData) => {
+                return [...oldData, newProdi];
+            });
+            showToast("Data berhasil ditambahkan", "Anda telah berhasil menambahkan data", "success");
+        },
+        onError: (err) => {
+            if (err.response.data.errors) {
+                setErrors(err.response.data.errors)
+            } else {
+                showToast("Data gagal ditambahkan", "Data baru gagal untuk ditambahkan", "danger");
             }
-        } catch (error) {
-            console.error(error);
-        } finally {
-            setLoadingData(false)
-        }
-    }
+        },
+        onSettled: () => {
+            setLoadingSubmit(false)
+        },
+    });
 
-    useEffect(() => {
-        fetchData();
-    }, [selectedFakultas]);
+    // mutasi untuk mengedit data
+    const editMutation = useMutation({
+        mutationFn: async (updatedProdi) => {
+            setLoadingSubmit(true)
+            const response = await AxiosInstance.put(`/prodi/${editId}`, updatedProdi);
+            if (response.status !== 200) throw new Error("Gagal memperbarui data");
+            return response.data.data;
+        },
+        onSuccess: (updatedProdi) => {
+            setOpenModal(false);
+            queryClient.setQueryData(["prodi", selectedFakultas], (oldData) => {
+                return oldData.map((prodi) =>
+                    prodi.id === updatedProdi.id ? updatedProdi : prodi
+                );
+            });
+            showToast("Data berhasil diperbarui", "Anda telah berhasil memperbarui data", "success");
+        },
+        onError: (err) => {
+            if (err.response.data.errors) {
+                setErrors(err.response.data.errors)
+            } else {
+                showToast("Data gagal diperbarui", "Data gagal untuk diperbarui", "danger");
+            }
+        },
+        onSettled: () => {
+            setLoadingSubmit(false)
+        },
+    });
+
+    const filteredData = dataProdi?.filter(
+        (item) =>
+            item.nama.toLowerCase().includes(searchKeyword) ||
+            item.nama_en.toLowerCase().includes(searchKeyword)
+    );
 
     const handleFakultasChange = (e) => {
         setSelectedFakultas(e.target.value)
@@ -117,17 +182,6 @@ const Prodi = ({listFakultas}) => {
         setEditId(null);
         setOpenModal(true);
         resetForm();
-        try {
-            setLoadingInitForm(true);
-            const response = await AxiosInstance.get("/prodi/form/init");
-            if (response.status === 200) {
-                setFormInit(response.data.data);
-            }
-        } catch (err) {
-            setErrors(err.errors);
-        } finally {
-            setLoadingInitForm(false);
-        }
     };
 
     const openEditModal = async (id) => {
@@ -136,7 +190,6 @@ const Prodi = ({listFakultas}) => {
         setOpenModal(true);
         resetForm();
         setLoadingDataForm(true);
-        setLoadingInitForm(true);
         try {
             const detailResponse = await AxiosInstance.get(`/prodi/${selectedFakultas}?id=${id}`);
             if (detailResponse.status === 200) {
@@ -154,18 +207,12 @@ const Prodi = ({listFakultas}) => {
                     kaprodi: data.kaprodi?.id,
                     sekprodi: data.sekprodi?.id
                 })
-                console.log(data)
-            }
-            const response = await AxiosInstance.get("/prodi/form/init");
-            if (response.status === 200) {
-                setFormInit(response.data.data);
             }
         } catch (err) {
             console.error("Error fetching data:", err);
             setErrors(err.errors);
         } finally {
             setLoadingDataForm(false);
-            setLoadingInitForm(false);
         }
     };
 
@@ -180,50 +227,18 @@ const Prodi = ({listFakultas}) => {
         {name: "actions", className: "text-center"},
     ];
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
-        setLoadingSubmit(true)
-        try {
-            const response = editMode
-                ? await AxiosInstance.put(`/prodi/${editId}`, (({
-                                                                    fakultas,
-                                                                    ...dataWithoutFakultas
-                                                                }) => dataWithoutFakultas)(formData))
-                : await AxiosInstance.post("/prodi", formData);
-
-            if (response.status === 200) {
-                fetchData()
-                setOpenModal(false);
-                showToast(`Data berhasil ${editMode ? "diperbarui" : "ditambahkan"}`, `Anda telah berhasil ${editMode ? "memperbarui" : "menambahkan"} data`, "success")
-                resetForm()
-            }
-        } catch (err) {
-            console.log(err)
-            if (err.status === 422) {
-                setErrors(err.response.data.errors)
-            } else {
-                showToast("Data gagal ditambahkan", "Data baru gagal untuk ditambahkan", "danger")
-                showToast(`Data gagal ${editMode ? "diperbarui" : "ditambahkan"}`, `Data baru gagal untuk ${editMode ? "diperbarui" : "ditambahkan"}`, "danger")
-            }
-        } finally {
-            setLoadingSubmit(false)
+        if (editMode) {
+            const {fakultas, ...dataWithoutFakultas} = formData;
+            editMutation.mutate(dataWithoutFakultas);
+        } else {
+            addMutation.mutate(formData);
         }
-    }
-    const handleSearch = e => {
-        const keyword = e.target.value.toLowerCase();
-        setSearchKeyword(keyword);
+    };
 
-        if (!keyword) {
-            setFilteredData(dataProdi);
-            return;
-        }
-
-        const filtered = dataProdi.filter(
-            (item) =>
-                item.nama.toLowerCase().includes(keyword) || item.nama_en.toLowerCase().includes(keyword)
-        );
-
-        setFilteredData(filtered);
+    const handleSearch = (e) => {
+        setSearchKeyword(e.target.value.toLowerCase());
     };
 
     return (
@@ -277,7 +292,7 @@ const Prodi = ({listFakultas}) => {
                 </div>
             </div>
             <Table
-                loading={loadingData}
+                loading={isLoading}
                 columns={columns}
             >
                 <TableHead>
