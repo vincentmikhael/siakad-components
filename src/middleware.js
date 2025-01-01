@@ -99,6 +99,7 @@ export const config = {
         '/pengumuman',
         '/kuisioner/:path*',
         '/dosen-wali',
+        '/tagihan',
         '/api/upload-file',
         '/api/delete-file'
     ],
