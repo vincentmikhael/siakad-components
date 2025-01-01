@@ -74,6 +74,10 @@ export async function middleware(request) {
     if (isAuthenticated && pathname === "/penjadwalan-kelas") {
         return NextResponse.redirect(new URL('/penjadwalan-kelas/entri-pengajar', request.url));
     }
+    //redirect jika akses "/manajemen-nilai"
+    if (isAuthenticated && pathname === "/manajemen-nilai") {
+        return NextResponse.redirect(new URL('/manajemen-nilai/entri-nilai-prodi', request.url));
+    }
     //redirect jika akses "/manajemen-user"
     if (isAuthenticated && pathname === "/manajemen-user") {
         return NextResponse.redirect(new URL('/manajemen-user/user', request.url));
@@ -92,6 +96,7 @@ export const config = {
         "/dashboard",
         "/data-utama/:path*",
         '/penjadwalan-kelas/:path*',
+        '/manajemen-nilai/:path*',
         '/manajemen-user/:path*',
         '/penjadwalan-ujian/:path*',
         '/status-mahasiswa/:path*',
