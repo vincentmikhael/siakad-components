@@ -6,7 +6,16 @@ import {twMerge} from "tailwind-merge";
 
 export const TableContext = createContext();
 
-const Table = ({columns = [], data = [], pinned, children, loading = false, className, ...props}) => {
+const Table = ({
+                   columns = [],
+                   data = [],
+                   pinned,
+                   children,
+                   loading = false,
+                   className = "",
+                   containerClass = "",
+                   ...props
+               }) => {
     const columnRefs = useRef([]);
     const tableRef = useRef(null);
     const [columnWidths, setColumnWidths] = useState([]);
@@ -44,7 +53,7 @@ const Table = ({columns = [], data = [], pinned, children, loading = false, clas
         <TableContext.Provider value={{getStickyOffset, columnRefs, headCellsData, tableRef}}>
             <div
                 ref={tableRef}
-                className="overflow-x-auto rounded-xl border border-fade scrollbar scrollbar-thumb-fade scrollbar-track-white scrollbar-thumb-rounded-full scrollbar-track-rounded-full">
+                className={twMerge("overflow-x-auto rounded-xl border border-fade scrollbar scrollbar-thumb-fade scrollbar-track-white scrollbar-thumb-rounded-full scrollbar-track-rounded-full", containerClass)}>
                 <table className={twMerge("table-auto w-full rounded-lg", className)} {...props}>
                     {children}
                 </table>
