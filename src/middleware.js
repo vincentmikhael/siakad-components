@@ -98,6 +98,7 @@ export const config = {
         '/kalender-akademik',
         '/pengumuman',
         '/kuisioner/:path*',
+        '/dosen-wali',
         '/api/upload-file',
         '/api/delete-file'
     ],
