@@ -100,6 +100,7 @@ export const config = {
         '/kuisioner/:path*',
         '/dosen-wali',
         '/tagihan',
+        '/daftar-pengajuan',
         '/api/upload-file',
         '/api/delete-file'
     ],
