@@ -74,6 +74,9 @@ export async function middleware(request) {
     if (isAuthenticated && pathname === "/penjadwalan-kelas") {
         return NextResponse.redirect(new URL('/penjadwalan-kelas/entri-pengajar', request.url));
     }
+    if (isAuthenticated && pathname === "/presensi") {
+        return NextResponse.redirect(new URL('/presensi/perkuliahan-mahasiswa', request.url));
+    }
     //redirect jika akses "/manajemen-nilai"
     if (isAuthenticated && pathname === "/manajemen-nilai") {
         return NextResponse.redirect(new URL('/manajemen-nilai/entri-nilai-prodi', request.url));
@@ -90,6 +93,7 @@ export async function middleware(request) {
     if (isAuthenticated && pathname === "/status-mahasiswa") {
         return NextResponse.redirect(new URL('/status-mahasiswa/cuti', request.url));
     }
+    
 
     return NextResponse.next();
 }
@@ -105,6 +109,7 @@ export const config = {
         '/penjadwalan-ujian/:path*',
         '/status-mahasiswa/:path*',
         '/krs/:path*',
+        '/presensi/:path*',
         '/kalender-akademik',
         '/pengumuman',
         '/kuisioner/:path*',

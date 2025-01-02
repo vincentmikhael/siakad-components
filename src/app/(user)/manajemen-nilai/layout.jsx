@@ -10,7 +10,7 @@ import {
 
 export async function generateMetadata(/*{params}*/) {
     return {
-        title: Utils.getDocumentTitle('Management nilai'),
+        title: Utils.getDocumentTitle('Manajemen nilai'),
     }
 }
 
@@ -27,12 +27,12 @@ export default function ManajemenNilaiLayout({children}) {
                 <BreadcrumbItem home href="/dashboard">
                     Dashboard
                 </BreadcrumbItem>
-                <BreadcrumbItem>Management nilai</BreadcrumbItem>
+                <BreadcrumbItem>Manajemen nilai</BreadcrumbItem>
             </Breadcrumb>
             <Card>
                 <CardHeader>
                     <Text size="xl" color="text-gray-100" weight={600}>
-                        Management nilai
+                        Manajemen nilai
                     </Text>
                     <Text size="sm" color="text-gray-60" weight={500}>
                         Lorem ipsum
