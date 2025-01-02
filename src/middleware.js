@@ -77,6 +77,9 @@ export async function middleware(request) {
     if (isAuthenticated && pathname === "/presensi") {
         return NextResponse.redirect(new URL('/presensi/perkuliahan-mahasiswa', request.url));
     }
+    if (isAuthenticated && pathname === "/pkn-skripsi") {
+        return NextResponse.redirect(new URL('/pkn-skripsi/entri-skripsi', request.url));
+    }
     //redirect jika akses "/manajemen-nilai"
     if (isAuthenticated && pathname === "/manajemen-nilai") {
         return NextResponse.redirect(new URL('/manajemen-nilai/entri-nilai-prodi', request.url));
@@ -108,6 +111,7 @@ export const config = {
         '/manajemen-user/:path*',
         '/penjadwalan-ujian/:path*',
         '/status-mahasiswa/:path*',
+        '/pkn-skripsi/:path*',
         '/krs/:path*',
         '/presensi/:path*',
         '/kalender-akademik',
