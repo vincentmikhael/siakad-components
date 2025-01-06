@@ -74,15 +74,25 @@ export async function middleware(request) {
     if (isAuthenticated && pathname === "/penjadwalan-kelas") {
         return NextResponse.redirect(new URL('/penjadwalan-kelas/entri-pengajar', request.url));
     }
+    //redirect jika akses "/presensi"
     if (isAuthenticated && pathname === "/presensi") {
         return NextResponse.redirect(new URL('/presensi/perkuliahan-mahasiswa', request.url));
     }
+    //redirect jika akses "/pkn-skripsi"
     if (isAuthenticated && pathname === "/pkn-skripsi") {
         return NextResponse.redirect(new URL('/pkn-skripsi/entri-skripsi', request.url));
+    }
+    //redirect jika akses "/yudisium-wisuda"
+    if (isAuthenticated && pathname === "/yudisium-wisuda") {
+        return NextResponse.redirect(new URL('/yudisium-wisuda/entri-prayudisium', request.url));
     }
     //redirect jika akses "/manajemen-nilai"
     if (isAuthenticated && pathname === "/manajemen-nilai") {
         return NextResponse.redirect(new URL('/manajemen-nilai/entri-nilai-prodi', request.url));
+    }
+    //redirect jika akses "/yudisium-wisuda/report"
+    if (isAuthenticated && pathname === "/yudisium-wisuda/report") {
+        return NextResponse.redirect(new URL('/yudisium-wisuda/report/pra-yudisium', request.url));
     }
     //redirect jika akses "/krs"
     if (isAuthenticated && pathname === "/krs") {
@@ -108,6 +118,7 @@ export const config = {
         "/data-utama/:path*",
         '/penjadwalan-kelas/:path*',
         '/manajemen-nilai/:path*',
+        '/yudisium-wisuda/:path*',
         '/manajemen-user/:path*',
         '/penjadwalan-ujian/:path*',
         '/status-mahasiswa/:path*',
