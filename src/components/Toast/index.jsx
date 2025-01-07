@@ -44,7 +44,7 @@ const Toast = ({
         "bottom-right": "bottom-12 right-9",
         "bottom-left": "bottom-12 left-9",
     };
-
+    if (!isVisible && !isAnimating) return null;
     return (
         <div
             className={twMerge("fixed z-50", positionClasses[position])}
