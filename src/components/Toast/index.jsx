@@ -39,8 +39,8 @@ const Toast = ({
     };
 
     const positionClasses = {
-        "top-right": "top-44 right-9",
-        "top-left": "top-44 left-9",
+        "top-right": "top-24 xl:top-44 right-5 xl:right-9",
+        "top-left": "top-24 xl:top-44 left-5 xl:left-9",
         "bottom-right": "bottom-12 right-9",
         "bottom-left": "bottom-12 left-9",
     };
