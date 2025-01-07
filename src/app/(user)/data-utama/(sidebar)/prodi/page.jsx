@@ -1,4 +1,4 @@
-import getProdiListInit from "@libs/getProdiListInit";
+import getProdiListInit from "@libs/list-init/data-utama/Prodi";
 import Prodi from "@views/data-utama/Prodi";
 import {Utils} from "@/components";
 
@@ -9,8 +9,8 @@ export async function generateMetadata() {
 }
 
 export default async function ProdiPage() {
-    let prodiList = await getProdiListInit()
+    let listInit = await getProdiListInit()
     return (
-        <Prodi listFakultas={prodiList}/>
+        <Prodi listInit={listInit}/>
     )
 }
