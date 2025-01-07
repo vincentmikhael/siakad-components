@@ -37,7 +37,7 @@ const TableBodyCell = ({children, index, className, ...props}) => {
         <td
             className={twMerge(
                 "p-4",
-                headCellsData[index]?.pinned ? `sticky left-[${getStickyOffset(index)}px] bg-white z-10` : "",
+                headCellsData[index]?.pinned ? `md:sticky md:left-[${getStickyOffset(index)}px] bg-white z-10` : "",
                 className
             )}
             style={{

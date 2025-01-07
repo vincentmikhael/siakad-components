@@ -24,7 +24,7 @@ const Table = ({
     useEffect(() => {
         const widths = columnRefs.current.map((ref) => ref?.getBoundingClientRect().width || 0);
         setColumnWidths(widths);
-    }, []);
+    }, [columns]);
 
     useEffect(() => {
         if (pinned) {
@@ -35,7 +35,7 @@ const Table = ({
             setHeadCellsData(data);
         }
 
-    }, [columns, pinned]/*[JSON.stringify(columns), JSON.stringify(pinned)]*/);
+    }, [columns, pinned]);
 
     const getStickyOffset = (index) => {
         let offset = 0;
