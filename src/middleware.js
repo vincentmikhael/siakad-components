@@ -90,6 +90,10 @@ export async function middleware(request) {
     if (isAuthenticated && pathname === "/manajemen-nilai") {
         return NextResponse.redirect(new URL('/manajemen-nilai/entri-nilai-prodi', request.url));
     }
+    //redirect jika akses "/manajemen-nilai"
+    if (isAuthenticated && pathname === "/report") {
+        return NextResponse.redirect(new URL('/report/data-utama', request.url));
+    }
     //redirect jika akses "/yudisium-wisuda/report"
     if (isAuthenticated && pathname === "/yudisium-wisuda/report") {
         return NextResponse.redirect(new URL('/yudisium-wisuda/report/pra-yudisium', request.url));
@@ -123,6 +127,7 @@ export const config = {
         '/penjadwalan-ujian/:path*',
         '/status-mahasiswa/:path*',
         '/pkn-skripsi/:path*',
+        '/report/:path*',
         '/krs/:path*',
         '/presensi/:path*',
         '/kalender-akademik',
