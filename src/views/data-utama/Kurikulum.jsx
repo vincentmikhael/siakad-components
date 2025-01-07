@@ -21,9 +21,9 @@ import usePagination from "@hooks/usePagination";
 import useFormValidation from "@hooks/useFormValidation";
 import generateYears from "@utils/generateYears";
 
-const fetchKurikulum = async (prodi, tahun) => {
+const fetchKurikulum = async (prodi, tahun, konsentrasi) => {
     try {
-        const response = await AxiosInstance.get(`/kurikulum/${prodi}/${tahun}`);
+        const response = await AxiosInstance.get(`/kurikulum/${prodi}/${tahun}?konsentrasi=${konsentrasi}`);
         return response.data.data;
     } catch (error) {
         if (error.response && error.response.status === 404) {
@@ -112,9 +112,8 @@ const Kurikulum = ({listInit}) => {
     }, [listInit]);
 
     const {data: dataKurikulum, isLoading, isError, error} = useQuery({
-        queryKey: ["kurikulum", filters.selectedProdi, filters.selectedTahun],
-        enabled: !!(filters.selectedProdi && filters.selectedTahun),
-        queryFn: () => fetchKurikulum(filters.selectedProdi, filters.selectedTahun),
+        queryKey: ["kurikulum", filters.selectedProdi, filters.selectedTahun, filters.selectedKonsentrasi],
+        queryFn: () => fetchKurikulum(filters.selectedProdi, filters.selectedTahun, filters.selectedKonsentrasi),
         staleTime
     });
 
