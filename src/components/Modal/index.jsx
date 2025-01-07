@@ -105,26 +105,28 @@ const Modal = ({
                     >
                         {/* Modal Header */}
                         {(header || title) && (
-                            <div className="flex flex-row justify-between items-start p-8 border-b border-fade">
-                                {header ? (
-                                    header
-                                ) : (
-                                    <div className="w-full flex flex-col gap-1.5">
-                                        <Text tag="h3" size="xl" weight="600">
-                                            {title}
-                                        </Text>
-                                        {description && (
-                                            <Text color="text-gray-60" weight="500" size="sm">
-                                                {description}
+                            <div className="px-8 pt-8">
+                                <div className="flex flex-row justify-between items-start border-b pb-8 border-fade">
+                                    {header ? (
+                                        header
+                                    ) : (
+                                        <div className="w-full flex flex-col gap-1.5">
+                                            <Text tag="h3" size="xl" weight="600">
+                                                {title}
                                             </Text>
-                                        )}
-                                    </div>
-                                )}
-                                {dismissable && (
-                                    <IconButton onClick={hide}>
-                                        <X weight="bold" size={16}/>
-                                    </IconButton>
-                                )}
+                                            {description && (
+                                                <Text color="text-gray-60" weight="400" size="sm">
+                                                    {description}
+                                                </Text>
+                                            )}
+                                        </div>
+                                    )}
+                                    {dismissable && (
+                                        <IconButton onClick={hide}>
+                                            <X weight="bold" size={16}/>
+                                        </IconButton>
+                                    )}
+                                </div>
                             </div>
                         )}
                         {/* Modal Body */}
@@ -160,7 +162,9 @@ Modal.Body = ({children}) => children;
 
 // Footer component
 Modal.Footer = function ModalFooter({children}) {
-    return (<div className="border-t border-fade p-8">{children}</div>);
+    return (<div className="px-8 pb-8">
+        <div className="border-t border-fade pt-8">{children}</div>
+    </div>);
 };
 
 export default Modal;
