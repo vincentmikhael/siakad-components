@@ -1,5 +1,6 @@
 import Kurikulum from "@views/data-utama/Kurikulum";
 import {Utils} from "@/components";
+import getKurikulumListInit from "@libs/list-init/data-utama/Kurikulum";
 
 export async function generateMetadata() {
     return {
@@ -8,7 +9,8 @@ export async function generateMetadata() {
 }
 
 export default async function KurikulumPage() {
+    const listInit = await getKurikulumListInit()
     return (
-        <Kurikulum/>
+        <Kurikulum listInit={listInit.fakultas}/>
     )
 }
