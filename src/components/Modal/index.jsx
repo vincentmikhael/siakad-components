@@ -21,7 +21,7 @@ const Modal = ({
                }) => {
     const backdropClasses = "fixed inset-0 z-50 bg-gray-100 bg-opacity-50";
     const dialogClasses =
-        "fixed top-0 start-0 end-0 h-modal md:inset-0 md:h-full z-50 w-full flex p-8 flex overflow-y-auto scrollbar-none";
+        "fixed top-0 start-0 end-0 md:inset-0 h-full z-50 w-full flex p-8 flex overflow-y-auto scrollbar-none";
     const sizes = {
         xs: "max-w-md",
         sm: "max-w-lg",
