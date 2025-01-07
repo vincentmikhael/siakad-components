@@ -441,7 +441,7 @@ const Kurikulum = ({listInit}) => {
                     <Input
                         size="xs"
                         className="w-full md:w-2/5"
-                        placeholder={"Cari data disini"}
+                        placeholder="Cari data disini"
                         onChange={handleSearch}
                         value={searchKeyword}
                         leftIcon={<MagnifyingGlass weight="bold"/>}

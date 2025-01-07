@@ -8,7 +8,7 @@ const generateYears = (startYear = 2014, interval = 5) => {
         year += interval;
     }
 
-    return years;
+    return years.reverse();
 };
 
 export default generateYears;
