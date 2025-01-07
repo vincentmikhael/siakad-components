@@ -19,7 +19,7 @@ const Button = ({
                 }) => {
 
     const baseClasses = twMerge(
-        "inline-flex items-center rounded-xl gap-[6px] border focus:outline-none font-semibold justify-center",
+        "inline-flex items-center rounded-xl gap-[6px] border focus:outline-none font-medium justify-center",
         fullWidth ? "w-full" : "w-fit"
     );
 
