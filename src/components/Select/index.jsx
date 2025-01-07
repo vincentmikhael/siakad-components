@@ -14,13 +14,14 @@ const Select = ({
                     hint,
                     placeholder = "Select option",
                     onChange,
-                    name,
+                    name = "",
                     error,
                     disabled = false,
                     size = "sm",
-                    className,
-                    menuClass,
-                    value,
+                    className = "",
+                    menuClass = "",
+                    containerClass = "",
+                    value = null,
                     labelKey = "label",
                     valueKey = "value",
                     ...props
@@ -31,8 +32,15 @@ const Select = ({
 
     useEffect(() => {
         if (value) {
-            const initialOption = options.find(option => option[valueKey] === value);
+            const normalizedOptions = options?.map(option =>
+                typeof option === "string"
+                    ? {[valueKey]: option, [labelKey]: option}
+                    : option
+            );
+            const initialOption = normalizedOptions?.find(option => option[valueKey] === value);
             setSelectedOption(initialOption || null);
+        } else {
+            setSelectedOption(null); // pastikan selectedOption null jika value null
         }
     }, [value, options]);
 
@@ -76,7 +84,7 @@ const Select = ({
     );
 
     const menuClasses =
-        twMerge(`border-fade border-[1px] absolute z-10 mt-1 ${isRelative ? 'w-full' : 'min-w-[200px]'} bg-white rounded-lg p-1.5 max-h-80 overflow-y-auto space-y-1 custom-shadow-select scrollbar scrollbar-thumb-fade scrollbar-track-white scrollbar-thumb-rounded-full scrollbar-track-rounded-full`, menuClass);
+        twMerge(`border-fade border-[1px] absolute z-30 mt-1 ${isRelative ? 'w-full' : 'min-w-[200px]'} bg-white rounded-lg p-1.5 max-h-80 overflow-y-auto space-y-1 custom-shadow-select scrollbar scrollbar-thumb-fade scrollbar-track-white scrollbar-thumb-rounded-full scrollbar-track-rounded-full`, menuClass);
 
     const optionClasses =
         "hover:bg-primary-10 p-2.5 cursor-pointer rounded-md flex items-center justify-between text-primary-100";
@@ -99,7 +107,7 @@ const Select = ({
     const hintColorClasses = error ? "text-danger-90" : "text-gray-50";
 
     return (
-        <div className="flex flex-col gap-1.5 w-full">
+        <div className={twMerge("flex flex-col gap-1.5 w-full", containerClass)}>
             {showLabel && (
                 <label
                     className={twMerge(
@@ -129,10 +137,13 @@ const Select = ({
                         <CaretDown size={16} weight="bold"/>
                     </div>
                 </div>
-                {isOpen && (
+                {isOpen && !disabled && (
                     <ul className={menuClasses}>
-                        {options.map((option, index) => {
-                            const isSelected = selectedOption?.[valueKey] === option[valueKey];
+                        {options?.map((option, index) => {
+                            const normalizedOption = typeof option === "string"
+                                ? {[valueKey]: option, [labelKey]: option}
+                                : option;
+                            const isSelected = selectedOption?.[valueKey] === normalizedOption[valueKey];
                             return (
                                 <li
                                     key={index}
@@ -142,9 +153,9 @@ const Select = ({
                                             ? "bg-primary-10 text-primary-100"
                                             : "hover:bg-primary-10 hover:text-primary-100"
                                     )}
-                                    onClick={() => handleOptionClick(option)}
+                                    onClick={() => handleOptionClick(normalizedOption)}
                                 >
-                                    <Text tag="p">{option[labelKey]}</Text>
+                                    <Text tag="p">{normalizedOption[labelKey]}</Text>
                                     {isSelected && <Check weight="bold"/>}
                                 </li>
                             );
