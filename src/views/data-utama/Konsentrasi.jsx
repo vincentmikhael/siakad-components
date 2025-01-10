@@ -1,218 +1,382 @@
 "use client"
+
+import {useEffect, useState} from "react";
+import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {
-    Text,
+    BottomDrawer,
+    Button, FormSkeleton, Hr, IconButton,
+    Input, Modal, NotFoundRow, Pagination, Select, Spinner,
     Table,
-    TableBodyRow,
+    TableBody,
     TableBodyCell,
+    TableBodyRow,
     TableHead,
     TableHeadCell,
-    TableHeadRow,
-    TableBody,
-    Select,
-    Input,
-    Button,
-    Modal,
-    IconButton,
-    Spinner,
+    TableHeadRow, Text
 } from "@/components";
-import {useToast} from "@/context/ToastContext";
-import AxiosInstance from "@/libs/AxiosInstance";
-import {MagnifyingGlass, PencilSimpleLine, Plus, Trash} from "@phosphor-icons/react/dist/ssr";
-import { QueryClient, QueryClientProvider, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import {useEffect, useState} from "react";
+import {MagnifyingGlass, Plus, PencilSimpleLine, FadersHorizontal} from "@phosphor-icons/react";
+import AxiosInstance from "@libs/AxiosInstance";
+import {useToast} from "@context/ToastContext";
+import usePagination from "@hooks/usePagination";
+import useFormValidation from "@hooks/useFormValidation";
+import generateYears from "@utils/generateYears";
 
-export default function Konsentrasi({dataInit}){
-        const queryClient = new QueryClient()
-            return (
-                <QueryClientProvider client={queryClient}>
-                    <KonsentrasiExport dataInit={dataInit}/>
-                </QueryClientProvider>
-            )
-}
+const fetchKonsentrasi = async (selectedProdi) => {
+    try {
+        const response = await AxiosInstance.get(`/konsentrasi/${selectedProdi}`);
+        return response.data.data;
+    } catch (error) {
+        if (error.response && error.response.status === 404) {
+            return null;
+        }
+        throw error;
+    }
+};
 
-function KonsentrasiExport({dataInit}) {
+// const fetchFormInit = async (prodi, tahun) => {
+//     try {
+//         const response = await AxiosInstance.get(`/kurikulum/form/init?prodi=${prodi}&th_kur=${tahun}`);
+//         return response.data.data;
+//     } catch (error) {
+//         if (error.response && error.response.status === 404) {
+//             return null;
+//         }
+//         throw error;
+//     }
+// }
+
+const semesterOption = Array.from({length: 8}, (_, i) => ({
+    value: `${i + 1}`,
+    label: `Semester ${i + 1}`
+}))
+
+export default function Konsentrasi({listInit}) {
+
     const showToast = useToast();
-    const [modalAdd, setModalAdd] = useState(false)
-    const [fakultas, setFakultas] = useState(dataInit.fakultas)
-    const [dataProdi, setDataProdi] = useState(dataInit.prodi)
-    const [prodi, setProdi] = useState([])
-    const [selectedFakultas, setSelectedFakultas] = useState("")
-    const [selectedProdi, setSelectedProdi] = useState("")
-    const [allDataTable, setAllDataTable] = useState([])
-    const [dataTable, setDataTable] = useState([])
-    const [deleteId, setDeleteId] = useState(false)
-    const [editId, setEditId] = useState(false)
-    const queryClient = useQueryClient()
-    //for formdata
-    const [prodiInput, setProdiInput] = useState([])
-    const [formData, setFormData] = useState({});
-    const [errors, setErrors] = useState({});
+    const years = generateYears();
+    //drawer
+    const [openDrawer, setOpenDrawer] = useState(false);
+    //
+    //filter state
+    const [filters, setFilters] = useState({
+        selectedFakultas: null,
+        selectedProdi: null,
+    });
+    const [filterOptions, setFilterOptions] = useState({
+        listProdi: null,
+        listProdiInput: null,
+    })
 
-    //buat fetch data di tabel
-    const query = useQuery({ 
-        queryKey: ['konsentrasi'], 
-        queryFn: fetchKonsentrasi,
-     })
+    const [tempFilters, setTempFilters] = useState({...filters});
+    //
+    const [searchKeyword, setSearchKeyword] = useState("");
+    const [openModal, setOpenModal] = useState(false);
+    const [loadingDataForm, setLoadingDataForm] = useState(false);
+    const [loadingSubmit, setLoadingSubmit] = useState(false);
+    const [errors, setErrors] = useState();
+    const [editMode, setEditMode] = useState(false);
+    const [deleteModal, setDeleteModal] = useState(false);
+    //
+    const queryClient = useQueryClient();
+    const staleTime = 1000 * 60 * 5;
+    //set initial data for filter
+    const setInitFilter = () => {
+        const fakultas = listInit.fakultas[0];
+        const prodi = listInit.prodi.filter((prodi) => prodi.id.startsWith(fakultas.id));
+ 
+        const initialFilters = {
+            selectedFakultas: fakultas.id,
+            selectedProdi: prodi[0]?.id,
+        };
 
-    //buat tambah data
-    const createMutation = useMutation({
-        mutationFn: async (data)=>{
-            const res = await AxiosInstance.post('/konsentrasi', data)
-            return res
-        },
-        onSuccess: (res) => {
-            console.log('data berhasil ditambahkan',res)
-            if (res.status == 200) {
-                        setSelectedFakultas(formData.prodi.substring(0, 2))
-                        setModalAdd(false)
-                        setSelectedProdi(formData.prodi)
-                        showToast(`Data berhasil ditambahkan`, `Anda telah berhasil menambahkan data`, "success")
-            }
-            queryClient.invalidateQueries({ queryKey: ['konsentrasi'] })
-        },
-        onError: (err) =>{
-            if (err.status == 422) {
-                        setErrors(err.response.data.errors)
-            }
+        setFilterOptions((prevState) => ({
+            ...prevState,
+            listProdi: prodi,
+        }))
+
+        setFilters(initialFilters);
+        setTempFilters(initialFilters);
+    }
+
+    useEffect(() => {
+        if (listInit.fakultas.length > 0) {
+            setInitFilter()
         }
-      })
+    }, [listInit]);
 
-      //buat edit data
-      const editMutation = useMutation({
-        mutationFn: async (data) =>{
-            const res = await AxiosInstance.put(`/konsentrasi/${editId}`, data)
-            return res
-        },
-        onSuccess: (res) => {
-            if (res.status == 200) {
-                resetForm()
-                query.refetch()
-                setEditId(false)
-                setModalAdd(false)
+    const {data: dataKonsentrasi, isLoading, isError, error} = useQuery({
+        queryKey: ["konsentrasi", filters.selectedProdi],
+        queryFn: () => fetchKonsentrasi(filters.selectedProdi),
+        staleTime
+    });
 
-            }
-            queryClient.invalidateQueries({ queryKey: ['konsentrasi'] })
-        },
-        onError: (err) => {
-            if (err.status == 422) {
-                setErrors(err.response.data.errors)
+    // const {data: formInit, isLoading: loadingInitForm} = useQuery({
+    //     queryKey: ["kurikulum", "form-init", filters.selectedProdi, filters.selectedTahun],
+    //     enabled: !!(openModal && filters.selectedProdi && filters.selectedTahun),
+    //     queryFn: () => fetchFormInit(filters.selectedProdi, filters.selectedTahun),
+    //     staleTime
+    // })
 
-            }
+    //show error while fetching kurikulum
+    useEffect(() => {
+        if (isError && error?.status !== 404) {
+            showToast(
+                "Failed to fetch data",
+                "Failed to get data konsentrasi",
+                "danger"
+            );
         }
-      })
+    }, [isError])
 
-      //buat edit status
-      const editStatusMutation = useMutation({
-        mutationFn: async (data) =>{
+    //filterdata searching
+    const filteredData = dataKonsentrasi?.filter(
+        (item) =>
+            item.nama?.toLowerCase().includes(searchKeyword) ||
+            item.alias?.toLowerCase().includes(searchKeyword) ||
+            item.nama_en?.toLowerCase().includes(searchKeyword)
+    );
+
+    const handleSearch = (e) => {
+        setSearchKeyword(e.target.value.toLowerCase());
+    };
+    //
+    const {paginatedData, currentPage, totalPages, handlePageChange} = usePagination(filteredData, 10)
+
+    const [formData, setFormData] = useState({
+        nama: "",
+        nama_en: "",
+        alias: "",
+        prodi: ""
+    });
+    //disable button submit
+    const requiredFields = ["nama", "nama_en", "alias"];
+    const isFormIncomplete = useFormValidation(formData, requiredFields);
+    //
+    const resetForm = () => {
+        setFormData({
+            nama: "",
+            nama_en: "",
+            alias: "",
+            prodi: ""
+        })
+        setErrors({})
+    }
+
+    
+
+    const columns = [
+        {name: "no", className: "min-w-14"},
+        {name: "alias", className: "min-w-[100px] text-center"},
+        {name: "nama", className: "min-w-[260px]"},
+        {name: "nama_en", className: "min-w-[174px] text-center"},
+        {name: "status", className: "min-w-[120px] text-center"},
+        {name: "action", className: "min-w-[120px] text-center"},
+    ];
+
+    const pinnedColumns = [0, 1, 2]
+
+    //base filter
+    const handleFiltersChange = (e) => {
+        const {name, value} = e?.target
+        const updateState = openDrawer ? setTempFilters : setFilters
+
+        if (name === "fakultas") {
+            const fakultas = listInit.fakultas.find((d) => d.id === value);
+            const prodi = listInit.prodi.filter((prodi) => prodi.id.startsWith(value));
+
+            setFilterOptions((prevState) => ({
+                ...prevState,
+                listProdi: prodi,
+            }))
+
+            updateState((prevState) => ({
+                ...prevState,
+                selectedFakultas: value,
+                selectedProdi: prodi[0]?.id,
+            }))
+        } else if (name === "prodi") {
+            updateState((prevState) => ({
+                ...prevState,
+                selectedProdi: value,
+            }))
+        }
+        //reset ke halaman awal
+        handlePageChange(1)
+    };
+
+    const handleChange = (e) => {
+        const {name, value} = e.target;
+        setFormData((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+
+        if(name == 'fakultas'){
+            const updateState = openDrawer ? setTempFilters : setFilters
+            const prodi = listInit.prodi.filter((prodi) => prodi.id.startsWith(value))
+
+            setFilterOptions((prevState) => ({
+                ...prevState,
+                listProdi: prodi,
+                listProdiInput: prodi,
+            }))
+
+            updateState((prevState) => ({
+                ...prevState,
+                selectedFakultas: value,
+                selectedProdi: prodi[0]?.id,
+            }))
+
+            setFormData((prevData) => ({
+                ...prevData,
+                prodi: prodi[0]?.id,
+            }));
+        }
+        if(name == 'prodi'){
+            const updateState = openDrawer ? setTempFilters : setFilters
+            updateState((prevState) => ({
+                ...prevState,
+                selectedProdi: value,
+            }))
+        }
+    };
+
+    //filter drawer
+    const handleApplyFilter = () => {
+        setFilters({...tempFilters});
+        setOpenDrawer(false);
+    };
+
+    // clear filter
+    const handleClearFilter = () => {
+        setInitFilter()
+        setOpenDrawer(false);
+    };
+
+    //modal
+    const openAddModal = () => {
+        setEditMode(false);
+        setOpenModal(true);
+        resetForm();
+        setFilterOptions((prevState) => ({
+            ...prevState,
+            listProdiInput: listInit.prodi.filter((prodi) => prodi.id.startsWith(filters.selectedFakultas)),
+        }))
+        setFormData((prevData) => ({
+            ...prevData,
+            fakultas: filters.selectedFakultas,
+            prodi: filters.selectedProdi,
+        }));
+    };
+
+    const openEditModal = async (id) => {
+        setEditMode(true);
+        setOpenModal(true);
+        resetForm();
+        const data = filteredData.find(item => item.id === id);
+        setFormData(data)
+    };
+
+    const openDeleteModal = (data) => {
+        const {id: kd_mk, semester} = data
+        setFormData((prevState) => ({
+            ...prevState,
+            kd_mk,
+            th_kur: filters.selectedTahun,
+            prodi: filters.selectedProdi,
+            konsentrasi: filters.selectedKonsentrasi,
+            semester,
+        }))
+        setDeleteModal(true);
+    }
+
+    const closeDeleteModal = () => setDeleteModal(false);
+
+    const closeModal = () => setOpenModal(false);
+
+    const useDataMutation = ({method, url, successTitle, successMessage, errorTitle, errorMessage}) => {
+        return useMutation({
+            mutationFn: async (data) => {
+                setLoadingSubmit(true)
+                const response = await AxiosInstance[method](url, data);
+                if (response.status !== 200) throw new Error(errorTitle);
+                return response.data.data;
+            },
+            onSuccess: async () => {
+                await queryClient.invalidateQueries(["konsentrasi", filters.selectedProdi, filters.selectedTahun]);
+                setOpenModal(false);
+                showToast(successTitle, successMessage, "success");
+            },
+            onError: (err) => {
+                if (err.response.data.errors.message) {
+                    showToast(errorTitle, err.response.data.errors.message, "danger");
+                } else if (err.response.data.errors) {
+                    setErrors(err.response.data.errors)
+                } else {
+                    showToast(errorTitle, errorMessage, "danger");
+                }
+            },
+            onSettled: () => {
+                setLoadingSubmit(false)
+            },
+        })
+    }
+    // mutasi untuk menambah data
+    const addMutation = useDataMutation({
+        method: "post",
+        url: "/konsentrasi",
+        successTitle: "Data berhasil ditambahkan",
+        successMessage: "Anda telah berhasil menambahkan data baru",
+        errorTitle: "Data gagal ditambahkan",
+        errorMessage: "Data gagal untuk ditambahkan"
+    });
+
+    // mutasi untuk mengedit data
+    const editMutation = useDataMutation({
+        method: "put",
+        url: `/konsentrasi/${formData.id}`,
+        successTitle: "Data berhasil diperbarui",
+        successMessage: "Anda telah berhasil memperbarui data",
+        errorTitle: "Data gagal diperbarui",
+        errorMessage: "Data gagal untuk diperbarui"
+    });
+
+    // const deleteMutation = useMutation({
+    //     mutationFn: async () => {
+    //         setLoadingSubmit(true)
+    //         const response = await AxiosInstance.delete(`/kurikulum/${formData.kd_mk}/${formData.prodi}/${formData.konsentrasi}/${formData.th_kur}/${formData.semester}`)
+    //         if (response.status !== 200) throw new Error("Gagal menghapus data");
+    //         return formData.kd_mk;
+    //     },
+    //     onSuccess: async () => {
+    //         setDeleteModal(false);
+    //         showToast("Data berhasil dihapus", "Data telah dihapus dari kurikulum", "success");
+    //         await queryClient.invalidateQueries(["kurikulum", filters.selectedProdi, filters.selectedTahun]);
+    //     },
+    //     onError: (err) => {
+    //         showToast("Data gagal dihapus", err.response?.data?.errors?.message || "Data gagal untuk dihapus", "danger");
+    //     },
+    //     onSettled: () => {
+    //         setLoadingSubmit(false)
+    //     }
+    // })
+
+    const editStatusMutation = useMutation({
+        mutationFn: async (data) => {
             const res = await AxiosInstance.put(`/konsentrasi/status/${data.id}`, {
                 status: data.stat
             })
             return res
         },
-        onSuccess: (res) => {
-            queryClient.invalidateQueries({ queryKey: ['konsentrasi'] })
+        onSuccess: async () => {
+            setDeleteModal(false);
+            showToast("Berhasil!", "Status telah berhasil diubah", "success");
+            await queryClient.invalidateQueries(["konsentrasi", filters.selectedProdi, filters.selectedTahun]);
         },
         onError: (err) => {
-        }
-      })
-    
-    
-    async function fetchKonsentrasi() {
-            const res = await AxiosInstance.get(`/konsentrasi/${selectedProdi}`)
-            if (res.status == 200) {
-                return res.data.data
-            }
-    }
-
-    useEffect(() => {
-        let setData = dataProdi.filter((prodi) => prodi.id.startsWith(selectedFakultas))
-        setProdi(setData)
-        if (setData.length > 0) {
-            setSelectedProdi(formData.prodi ?? setData[0].id)
-        }
-
-        return () => {
-            resetForm()
-        }
-    }, [selectedFakultas])
-
-    useEffect(() => {
-        queryClient.invalidateQueries({ queryKey: ['konsentrasi'] })
-    }, [selectedProdi])
-
-
-    useEffect(() => {
-        if (dataInit.fakultas.length > 0) {
-            setSelectedFakultas(dataInit.fakultas[0].id)
-        }
-    }, [])
-
-    const handleChange = (e) => (item) => {
-        console.log(item)
-        if (e == 'fakultas') {
-            setSelectedFakultas(item.target.value)
-        } else if (e == 'prodi') {
-            setSelectedProdi(item.target.value)
-        } else if (e == 'fakultasInput') {
-            setProdiInput(dataProdi.filter((prodi) => prodi.id.startsWith(item.target.value)))
-        }
-    }
-
-    const columns = [
-        {name: 'KODE'},
-        {name: 'ALIAS'},
-        {name: 'NAMA'},
-        {name: 'NAMA INGGRIS'},
-        {name: 'STATUS'},
-        {name: 'ACTIONS'},
-    ]
-
-    const handleForm = (field) => (e) => {
-        let value = e?.target?.value ?? e.id
-
-        setFormData((prev) => ({
-            ...prev,
-            [field]: value,
-        }));
-    }
-
-    const handleSearch = e => {
-        let keyword = e.target.value
-        setDataTable(allDataTable.filter(item =>
-            item.nama.toLowerCase().includes(keyword.toLowerCase()) ||
-            item.nama_en.toLowerCase().includes(keyword.toLowerCase()) ||
-            item.alias.toLowerCase().includes(keyword.toLowerCase())
-        ))
-    }
-
-    const editInit = (id) => {
-        resetForm()
-        setModalAdd(true)
-        setEditId(id)
-        const data = query.data.find(item => item.id === id);
-        setProdiInput(dataProdi.filter((prodi) => prodi.id.startsWith(data.id.substring(0, 2))))
-        setFormData({
-            nama: data.nama,
-            nama_en: data.nama_en,
-            alias: data.alias,
-            prodi: data.id.substring(0, 4),
-            fakultas: data.id.substring(0, 2)
-        })
-    }
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        createMutation.mutate(formData)
-    }
-
-    const handleEdit = async (e) => {
-        e.preventDefault();
-        editMutation.mutate({
-            nama: formData.nama,
-            nama_en: formData.nama_en,
-            alias: formData.alias,
-        })
-    }
+            showToast("Data gagal diubah", err.response?.data?.errors?.message || "Data gagal untuk diubah", "danger");
+        },
+    })
 
     const changeStatus = async (id, stat) => {
         editStatusMutation.mutate({
@@ -220,132 +384,212 @@ function KonsentrasiExport({dataInit}) {
         })
     }
 
-    const resetForm = () => {
-        setFormData({})
-        setErrors({})
-        setProdiInput({})
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (editMode) {
+            editMutation.mutate({
+                nama: formData.nama,
+                nama_en: formData.nama_en,
+                alias: formData.alias
+            });
+        } else {
+            addMutation.mutate({
+                nama: formData.nama,
+                nama_en: formData.nama_en,
+                prodi: formData.prodi,
+                alias: formData.alias
+            });
+        }
+    }
+
+    const handleDelete = () => {
+        deleteMutation.mutate();
     }
 
     return (
         <>
-            <div className="md:flex justify-between items-end">
-                <div className="md:flex gap-3">
-                    <div className="grow">
-                        <Select
-                            label="Fakultas"
-                            size="xs"
-                            value={selectedFakultas}
-                            labelKey="nama"
-                            valueKey="id"
-                            showLabel
-                            onChange={handleChange('fakultas')}
-                            className={"w-full md:w-40"}
-                            options={fakultas}
-                        />
-                    </div>
-                    <div className="grow">
-                        <Select
-                            label="Prodi"
-                            size="xs"
-                            labelKey="nama"
-                            valueKey="id"
-                            value={selectedProdi}
-                            onChange={handleChange('prodi')}
-                            showLabel
-                            className={"w-full md:w-40"}
-                            options={prodi}
-                        />
+            <div className="flex flex-col justify-between gap-4">
+                <div className="md:grid grid-cols-2 hidden gap-4">
+                    <Select
+                        value={filters.selectedFakultas}
+                        options={listInit.fakultas}
+                        name="fakultas"
+                        label="Fakultas"
+                        placeholder="Pilih fakultas"
+                        labelKey="nama"
+                        valueKey="id"
+                        showLabel
+                        size="xs"
+                        onChange={handleFiltersChange}/>
+                    <Select
+                        value={filters.selectedProdi}
+                        options={filterOptions.listProdi}
+                        name="prodi"
+                        label="Prodi"
+                        placeholder="Pilih program studi"
+                        labelKey="nama"
+                        valueKey="id"
+                        showLabel
+                        size="xs"
+                        onChange={handleFiltersChange}/>
+    
+                </div>
+                <Hr className="hidden md:block"/>
+                <div className="flex flex-col md:flex-row gap-6 sm:gap-4 justify-between">
+                    <Input
+                        size="xs"
+                        className="w-full md:w-2/5"
+                        placeholder="Cari data disini"
+                        onChange={handleSearch}
+                        value={searchKeyword}
+                        leftIcon={<MagnifyingGlass weight="bold"/>}
+                    />
+                    <div className="flex flex-row justify-between">
+                        <Button
+                            onClick={() => setOpenDrawer(true)}
+                            leftIcon={<FadersHorizontal weight="bold"/>}
+                            size="sm"
+                            filled
+                            className="w-fit md:hidden"
+                            variant="white"
+                        >
+                            Filter
+                        </Button>
+                        <BottomDrawer open={openDrawer} onClose={() => setOpenDrawer(false)} onApply={handleApplyFilter}
+                                      onClear={handleClearFilter}>
+                            <Select value={tempFilters.selectedFakultas}
+                                    options={listInit.fakultas}
+                                    name="fakultas"
+                                    label="Fakultas"
+                                    placeholder="Pilih fakultas"
+                                    labelKey="nama"
+                                    valueKey="id"
+                                    showLabel
+                                    size="lg"
+                                    onChange={handleFiltersChange}
+                                    menuClass="max-h-28"/>
+                            <Select value={tempFilters.selectedProdi}
+                                    options={filterOptions.listProdi}
+                                    name="prodi"
+                                    label="Prodi"
+                                    placeholder="Pilih program studi"
+                                    labelKey="nama"
+                                    valueKey="id"
+                                    showLabel
+                                    size="lg"
+                                    onChange={handleFiltersChange}
+                                    menuClass="max-h-28"/>
+    
+                        </BottomDrawer>
+                        <Button
+                            onClick={openAddModal}
+                            leftIcon={<Plus weight="bold"/>}
+                            size="sm"
+                            filled
+                        >
+                            Tambah data
+                        </Button>
                     </div>
                 </div>
-                <div className="flex gap-3 mt-4 md:mt-0">
-                    <div className="grow w-full">
-                        <Input size="xs" onChange={handleSearch} placeholder="Cari data disini" className="md:w-40"
-                               leftIcon={<MagnifyingGlass weight="bold"/>}/>
-                    </div>
-
-                    <div className="grow w-full">
-                        <Button onClick={() => {
-                            resetForm()
-                            setEditId(false)
-                            setModalAdd(true)
-                        }} className="w-full" filled leftIcon={<Plus weight="bold"/>}>Tambah Data</Button>
-                    </div>
-
-
-                </div>
-
             </div>
-
-            <Table loading={query.isPending} columns={columns} data={query.data}>
+            <Table
+                loading={isLoading}
+                columns={columns}
+                pinned={pinnedColumns}
+            >
                 <TableHead>
                     <TableHeadRow>
                         {columns.map((e, index) => {
                             return (
-                                <TableHeadCell pinned={e.pinned ?? false} key={index}>{e.name}</TableHeadCell>
-                            )
+                                <TableHeadCell
+                                    className={e.className}
+                                    key={index}
+                                >
+                                    {e.name}
+                                </TableHeadCell>
+                            );
                         })}
                     </TableHeadRow>
-
                 </TableHead>
 
                 <TableBody>
-
-                    {query.data?.map((e, index) => {
-                        return (
+                    {paginatedData?.length > 0 ? (
+                        paginatedData?.map((data, index) => (
                             <TableBodyRow key={index}>
-                                <TableBodyCell><Text size="xs">{e.id}</Text></TableBodyCell>
-                                <TableBodyCell><Text size="xs">{e.alias}</Text></TableBodyCell>
-                                <TableBodyCell><Text size="xs">{e.nama}</Text></TableBodyCell>
-                                <TableBodyCell><Text size="xs">{e.nama_en}</Text></TableBodyCell>
-                                <TableBodyCell>{e.status == 1 ?
-                                    <Button variant="success" onClick={() => changeStatus(e.id, 0)}>Aktif</Button>
-                                    :
-                                    <Button variant="danger" onClick={() => changeStatus(e.id, 1)}>Tidak aktif</Button>
-                                }</TableBodyCell>
                                 <TableBodyCell>
-                                    <div className="flex flex-row gap-3">
-                                        <IconButton onClick={() => editInit(e.id)} size="sm" variant="warning">
+                                    <Text size="xs">
+                                        {index + 1 + (currentPage - 1) * 10}
+                                    </Text>
+                                </TableBodyCell>
+                                <TableBodyCell>
+                                    <Text size="xs" className="text-center">{data?.alias}</Text>
+                                </TableBodyCell>
+                                <TableBodyCell>
+                                    <Text size="xs" className="uppercase">{data?.nama}</Text>
+                                </TableBodyCell>
+                                <TableBodyCell>
+                                    <Text size="xs" className="text-center">{data?.nama_en}</Text>
+                                </TableBodyCell>
+                                <TableBodyCell>{data.status == 1 ?
+                                    <Button variant="success" onClick={() => changeStatus(data.id, 0)}>Aktif</Button>
+                                    :
+                                    <Button variant="danger" onClick={() => changeStatus(data.id, 1)}>Tidak aktif</Button>
+                                }</TableBodyCell>
+
+                                <TableBodyCell>
+                                    <div className="flex flex-row gap-3 justify-center">
+                                        <IconButton size="sm" variant="warning"
+                                                    onClick={() => openEditModal(data.id)}>
                                             <PencilSimpleLine/>
                                         </IconButton>
-                                        {/* <IconButton onClick={()=>setDeleteId(e.id)} size="sm" variant="danger">
-                                            <Trash />
-                                        </IconButton> */}
                                     </div>
                                 </TableBodyCell>
                             </TableBodyRow>
-                        )
-                    })}
+                        ))
+                    ) : (
+                        <NotFoundRow colSpan={columns.length}/>
+                    )}
                 </TableBody>
-
             </Table>
-
-            <Modal size="lg" open={modalAdd} onClose={() => {
-                setModalAdd(false)
-                setEditId(false)
-            }} title={editId ? 'Edit data konsentrasi' : 'Tambah data konsentrasi'}>
+            <Pagination currentPage={currentPage}
+                        totalPages={totalPages}
+                        onPageChange={handlePageChange}/>
+            {/*Modal*/}
+            <Modal
+                size="lg"
+                open={openModal}
+                onClose={closeModal}
+                title={editMode ? "Perbarui data konsentrasi" : "Tambah data konsentrasi"}
+                dismissable
+                autoClose
+            >
                 <Modal.Body>
-                    <div style={{width: '100%'}}>
-                        <form className="grid mt-2 grid-cols-1 md:grid-cols-2 gap-4">
+                    {
+                        loadingDataForm ? (
+                            <FormSkeleton count={3} cols={3}/>
+                        ) : (
+                            
+                            <div className="grid mt-2 grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
-                                <Input size="lg" error={errors?.nama} showHint value={formData.nama}
-                                       onChange={handleForm('nama')} showLabel label="Nama konsentrasi"
+                                <Input size="lg" name="nama" error={errors?.nama} showHint value={formData.nama}
+                                       onChange={handleChange} showLabel label="Nama konsentrasi"
                                        placeholder="Tulis nama konsentrasi"/>
 
                             </div>
                             <div>
-                                <Input size="lg" error={errors?.nama_en} showHint value={formData.nama_en}
-                                       onChange={handleForm('nama_en')} showLabel label="Nama dalam inggris"
+                                <Input size="lg" name="nama_en" error={errors?.nama_en} showHint value={formData.nama_en}
+                                       onChange={handleChange} showLabel label="Nama dalam inggris"
                                        placeholder="Tulis nama dalam bahasa inggris"/>
 
                             </div>
                             <div>
-                                <Input size="lg" error={errors?.alias} showHint value={formData.alias}
-                                       onChange={handleForm('alias')} showLabel label="Nama alias"
+                                <Input size="lg" name="alias" error={errors?.alias} showHint value={formData.alias}
+                                       onChange={handleChange} showLabel label="Nama alias"
                                        placeholder="Tulis nama alias"/>
 
                             </div>
-                            <div className={editId ? 'hidden' : ''}></div>
-                            <div className={editId ? 'hidden' : ''}>
+                            <div className={editMode ? 'hidden' : ''}></div>
+                            <div className={editMode ? 'hidden' : ''}>
                                 <Select
                                     label="Fakultas"
                                     size="lg"
@@ -353,12 +597,13 @@ function KonsentrasiExport({dataInit}) {
                                     showLabel
                                     labelKey="nama"
                                     valueKey="id"
-                                    onChange={handleChange('fakultasInput')}
-                                    options={fakultas}
+                                    name="fakultas"
+                                    onChange={handleChange}
+                                    options={listInit.fakultas}
                                 />
 
                             </div>
-                            <div className={editId ? 'hidden' : ''}>
+                            <div className={editMode ? 'hidden' : ''}>
                                 <Select
                                     label="Prodi"
                                     size="lg"
@@ -368,33 +613,46 @@ function KonsentrasiExport({dataInit}) {
                                     showLabel
                                     error={errors?.prodi}
                                     showHint
-                                    onChange={handleForm('prodi')}
-                                    options={prodiInput}
+                                    onChange={handleChange}
+                                    options={filterOptions.listProdiInput}
                                 />
                             </div>
-                        </form>
-
-
-                    </div>
+                        </div>
+                        )}
                 </Modal.Body>
-
                 <Modal.Footer>
-
-                    {
-
-                        (editId ?
-                            <Button onClick={handleEdit} className={'mt-8'} filled>{editMutation.isPending ?
-                                <Spinner size={12}/> : 'Perbarui'}</Button>
-                            :
-                            <Button onClick={handleSubmit} className={'mt-8'} filled>{createMutation.isPending ?
-                                <Spinner size={12}/> : 'Tambah'}</Button>)
-                    }
-                    <Button onClick={() => setModalAdd(false)} className={'mt-8 ml-4'} variant="white">Batal</Button>
+                    <div className="gap-4 flex flex-row">
+                        <Button variant="primary" size="md" filled disabled={isFormIncomplete} onClick={handleSubmit}>
+                            {loadingSubmit ? <Spinner size={16}/> : editMode ? "Perbarui" : "Tambah"}
+                        </Button>
+                        <Button variant="white" size="md" filled onClick={closeModal}>
+                            Batal
+                        </Button>
+                    </div>
                 </Modal.Footer>
-
-
             </Modal>
-
+            {/*Delete Modal*/}
+            {/* <Modal
+                open={deleteModal}
+                onClose={closeDeleteModal}
+                title="Hapus data konsentrasi"
+                description="Apakah Anda yakin ingin menghapus data ini? Tindakan ini tidak dapat dibatalkan."
+                dismissable
+                outsideClose
+                autoClose
+            >
+                <Modal.Footer>
+                    <div className="gap-4 flex flex-row">
+                        <Button variant="danger" size="md" filled onClick={handleDelete}>
+                            {loadingSubmit ? <Spinner size={16}/> :
+                                "Hapus"}
+                        </Button>
+                        <Button variant="white" size="md" filled onClick={closeModal}>
+                            Batal
+                        </Button>
+                    </div>
+                </Modal.Footer>
+            </Modal> */}
         </>
-    )
+    );
 }
