@@ -5,7 +5,7 @@ import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {
     BottomDrawer,
     Button, FormSkeleton, Hr, IconButton,
-    Input, Modal, NotFoundRow, Pagination, Select, Spinner,
+    Input, Modal, NotFoundRow, Pagination, SearchInput, Select, Spinner,
     Table,
     TableBody,
     TableBodyCell,
@@ -22,6 +22,9 @@ import useFormValidation from "@hooks/useFormValidation";
 import generateYears from "@utils/generateYears";
 
 const fetchKurikulum = async (prodi, tahun, konsentrasi) => {
+    if (!prodi || !tahun || !konsentrasi) {
+        return null;
+    }
     try {
         const response = await AxiosInstance.get(`/kurikulum/${prodi}/${tahun}?konsentrasi=${konsentrasi}`);
         return response.data.data;
@@ -57,16 +60,20 @@ const Kurikulum = ({listInit}) => {
     const [openDrawer, setOpenDrawer] = useState(false);
     //
     //filter state
+    const fakultas = listInit[0];
+    const prodi = fakultas?.prodi || [];
+    const konsentrasi = prodi[0]?.konsentrasi || [];
+
     const [filters, setFilters] = useState({
-        selectedFakultas: null,
-        selectedProdi: null,
-        selectedKonsentrasi: null,
-        selectedTahun: null,
+        selectedFakultas: fakultas?.id,
+        selectedProdi: prodi[0]?.id,
+        selectedKonsentrasi: konsentrasi[0]?.id,
+        selectedTahun: years[0]
     });
     const [filterOptions, setFilterOptions] = useState({
-        listProdi: null,
-        listKonsentrasi: null,
-        listTahun: null,
+        listProdi: prodi,
+        listKonsentrasi: konsentrasi,
+        listTahun: years,
     })
 
     const [tempFilters, setTempFilters] = useState({...filters});
@@ -83,10 +90,6 @@ const Kurikulum = ({listInit}) => {
     const staleTime = 1000 * 60 * 5;
     //set initial data for filter
     const setInitFilter = () => {
-        const fakultas = listInit[0];
-        const prodi = fakultas.prodi || [];
-        const konsentrasi = prodi[0]?.konsentrasi || [];
-
         const initialFilters = {
             selectedFakultas: fakultas.id,
             selectedProdi: prodi[0]?.id,
@@ -403,17 +406,27 @@ const Kurikulum = ({listInit}) => {
                         showLabel
                         size="xs"
                         onChange={handleFiltersChange}/>
-                    <Select
-                        value={filters.selectedProdi}
-                        options={filterOptions.listProdi}
-                        name="prodi"
-                        label="Prodi"
-                        placeholder="Pilih program studi"
-                        labelKey="nama"
-                        valueKey="id"
-                        showLabel
-                        size="xs"
-                        onChange={handleFiltersChange}/>
+
+                    <SearchInput
+                        value={filters.selectedProdi} options={filterOptions.listProdi} label="Prodi" icon={false}
+                        placeholder="Pilih program studi" showLabel size="xs" name="prodi"
+                        labelKey="nama" valueKey="id" keywordKey="id"
+                        secondKeywordKey="nama"
+                        onChange={handleFiltersChange}
+                        showHint
+                        disabled={editMode}
+                        error={errors?.kd_mk}/>
+                    {/*<Select*/}
+                    {/*    value={filters.selectedProdi}*/}
+                    {/*    options={filterOptions.listProdi}*/}
+                    {/*    name="prodi"*/}
+                    {/*    label="Prodi"*/}
+                    {/*    placeholder="Pilih program studi"*/}
+                    {/*    labelKey="nama"*/}
+                    {/*    valueKey="id"*/}
+                    {/*    showLabel*/}
+                    {/*    size="xs"*/}
+                    {/*    onChange={handleFiltersChange}/>*/}
                     <Select
                         value={filters.selectedKonsentrasi}
                         options={filterOptions.listKonsentrasi}
@@ -597,20 +610,14 @@ const Kurikulum = ({listInit}) => {
                             <FormSkeleton count={3} cols={3}/>
                         ) : (
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 flex-grow">
-                                <Select
-                                    value={formData.kd_mk}
-                                    options={formInit?.mata_kuliah}
-                                    labelKey="nama"
-                                    valueKey="id"
-                                    label="Kode mata kuliah"
-                                    placeholder="Pilih kode mata kuliah"
-                                    showLabel
-                                    size="lg"
-                                    onChange={handleChange}
-                                    showHint
-                                    name="kd_mk"
-                                    disabled={editMode}
-                                    error={errors?.kd_mk}/>
+                                <SearchInput options={formInit?.mata_kuliah} label="Mata kuliah" icon={false}
+                                             placeholder="Pilih kode mata kuliah" showLabel size="lg" name="kd_mk"
+                                             labelKey="nama" valueKey="id" keywordKey="id"
+                                             secondKeywordKey="nama"
+                                             onChange={handleChange}
+                                             showHint
+                                             disabled={editMode}
+                                             error={errors?.kd_mk} value={formData.kd_mk}/>
                                 <Select
                                     value={formData.sifat}
                                     options={formInit?.sifat}
