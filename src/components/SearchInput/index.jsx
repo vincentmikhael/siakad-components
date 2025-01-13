@@ -1,7 +1,7 @@
 "use client";
 import {useState, useEffect, useRef, useMemo} from "react";
 import {twMerge} from "tailwind-merge";
-import {Check, MagnifyingGlass} from "@phosphor-icons/react";
+import {CaretDown, Check, MagnifyingGlass} from "@phosphor-icons/react";
 import {Spinner, Text} from "..";
 
 const SearchInput = ({
@@ -24,6 +24,7 @@ const SearchInput = ({
                          name,
                          loading,
                          customLabel,
+                         icon = true,
                          ...props
                      }) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -129,7 +130,8 @@ const SearchInput = ({
 
     const hintColorClasses = error ? "text-danger-90" : "text-gray-50";
     const inputClasses =
-        "w-full block placeholder:text-gray-30 font-medium text-sm leading-[22.4px] outline-none text-gray-100";
+        `w-full block placeholder:text-gray-30 font-normal outline-none text-gray-100 ${size === "xs" ? "text-xs" : "text-sm"}`;
+    
     return (
         <div className="flex flex-col gap-1.5 w-full">
             {showLabel && (
@@ -147,7 +149,9 @@ const SearchInput = ({
                 ref={selectRef}
             >
                 <div className={twMerge(fieldClasses, iconClasses)}>
-                    <MagnifyingGlass size={16} weight="bold"/>
+                    {icon &&
+                        <MagnifyingGlass size={16} weight="bold"/>
+                    }
                     <input
                         className={inputClasses}
                         type="text"
@@ -159,6 +163,10 @@ const SearchInput = ({
                         autoComplete="off"
                         {...props}
                     />
+                    {!icon &&
+                        <div className="text-gray-40">
+                            <CaretDown size={16} weight="bold"/>
+                        </div>}
                 </div>
                 {isOpen && (
                     <ul className={menuClasses}>
