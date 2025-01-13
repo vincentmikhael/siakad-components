@@ -20,8 +20,10 @@ const SearchInput = ({
                          labelKey = "label",
                          valueKey = "value",
                          keywordKey = "label",
+                         secondKeywordKey = "",
                          name,
                          loading,
+                         customLabel,
                          ...props
                      }) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -32,10 +34,16 @@ const SearchInput = ({
 
     const filteredOptions = useMemo(() => {
         if (!searchTerm) return options;
-        return options.filter((item) =>
-            item[keywordKey].toLowerCase().includes(searchTerm.toLowerCase())
+        return options.filter((item) => {
+                const keywordValue = typeof item[keywordKey] === "string" ? item[keywordKey] : "";
+                const secondKeywordValue = typeof item[secondKeywordKey] === "string" ? item[secondKeywordKey] : "";
+                return (
+                    keywordValue?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    secondKeywordValue?.toLowerCase().includes(searchTerm.toLowerCase())
+                )
+            }
         );
-    }, [searchTerm, options]);
+    }, [searchTerm, options, keywordKey, secondKeywordKey]);
 
     const handleSelectItem = (item) => {
         const newValue = item[valueKey];
@@ -174,7 +182,7 @@ const SearchInput = ({
                                         )}
                                         onClick={() => handleSelectItem(option)}
                                     >
-                                        <Text tag="p">{option[labelKey]}</Text>
+                                        <Text tag="p">{customLabel ? customLabel(option) : option[labelKey]}</Text>
                                         {isSelected && <Check weight="bold"/>}
                                     </li>
                                 );
