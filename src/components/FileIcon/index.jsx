@@ -6,13 +6,19 @@ const FileIcon = ({width = 40, height = 40, type = "image"}) => {
         'pdf': '/images/pdf-icon.svg',
         'excel': '/images/xls-icon.svg',
     }
+    const fileAlt = {
+        'image': 'jpg-icon',
+        'pdf': 'pdf-icon',
+        'excel': 'xlsx-icon',
+    }
     return (
         <Image
             src={fileType[type]}
-            alt="google-logo"
-            width={width}
-            height={height}
+            alt={fileAlt[type]}
+            width={0}
+            height={0}
             priority
+            style={{width: `${width}px`, height: `${height}px`}}
         />
     );
 };
