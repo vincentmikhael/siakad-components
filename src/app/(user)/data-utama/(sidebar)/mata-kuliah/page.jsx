@@ -1,5 +1,6 @@
 import MataKuliah from "@/views/data-utama/MataKuliah";
 import {Utils} from "@/components";
+import getMatkulListInit from "@/libs/list-init/data-utama/MataKuliah";
 
 export async function generateMetadata() {
     return {
@@ -8,7 +9,9 @@ export async function generateMetadata() {
 }
 
 export default async function MataKuliahPage() {
+    const listInit = await getMatkulListInit();
+    console.log(listInit)
     return (
-        <MataKuliah/>
+        <MataKuliah listInit={listInit}/>
     )
 }
