@@ -1,13 +1,13 @@
 'use server';
-import {unlink, access} from 'fs/promises';
-import constants from 'fs';
+
+import {constants, promises as fs} from 'fs';
 import {NextResponse} from 'next/server';
 import {join, normalize} from 'path';
 
 export async function DELETE(request) {
     try {
-        const {fileName} = await request.json();
-
+        const url = new URL(request.url);
+        const fileName = url.searchParams.get('fileName');
         if (!fileName) {
             return NextResponse.json({success: false, message: 'File name not provided'}, {status: 400});
         }
@@ -22,14 +22,13 @@ export async function DELETE(request) {
         }
         // cek file exist
         try {
-            await access(filePath, constants.F_OK);
+            await fs.access(filePath, constants.F_OK);
         } catch {
             return NextResponse.json({success: false, message: 'File not found'}, {status: 404});
         }
 
         // hapus file di directory
-        await unlink(filePath);
-        console.log(`File deleted: ${filePath}`);
+        await fs.unlink(filePath);
 
         return NextResponse.json({success: true, message: 'File deleted successfully'});
     } catch (error) {
