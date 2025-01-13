@@ -23,8 +23,12 @@ import generateYears from "@utils/generateYears";
 
 const fetchKonsentrasi = async (selectedProdi) => {
     try {
-        const response = await AxiosInstance.get(`/konsentrasi/${selectedProdi}`);
-        return response.data.data;
+        if(selectedProdi){
+            const response = await AxiosInstance.get(`/konsentrasi/${selectedProdi}`);
+            return response.data.data;
+        }
+        return []
+        
     } catch (error) {
         if (error.response && error.response.status === 404) {
             return null;
