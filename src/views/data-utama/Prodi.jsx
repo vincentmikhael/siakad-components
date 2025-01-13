@@ -21,6 +21,9 @@ import usePagination from "@hooks/usePagination";
 import useFormValidation from "@hooks/useFormValidation";
 
 const fetchProdi = async (selectedFakultas) => {
+    if (!selectedFakultas) {
+        return null;
+    }
     try {
         const response = await AxiosInstance.get(`/prodi/${selectedFakultas}`);
         return response.data.data;
@@ -505,6 +508,8 @@ const Prodi = ({listInit}) => {
                                     <SearchInput options={formInit?.dosen} label="Nama ketua prodi"
                                                  placeholder="Tulis NIP ketua prodi" showLabel size="lg" name="kaprodi"
                                                  labelKey="nama_lengkap" valueKey="id" keywordKey="nip"
+                                                 customLabel={(option) => `${option.nip} - ${option.nama_lengkap}`}
+                                                 secondKeywordKey="nama_lengkap"
                                                  onChange={handleChange}
                                                  showHint
                                                  error={errors?.kaprodi} value={formData.kaprodi}/>
@@ -514,6 +519,8 @@ const Prodi = ({listInit}) => {
                                                  placeholder="Tulis NIP sekretaris prodi" showLabel size="lg"
                                                  name="sekprodi"
                                                  labelKey="nama_lengkap" valueKey="id" keywordKey="nip"
+                                                 customLabel={(option) => `${option.nip} - ${option.nama_lengkap}`}
+                                                 secondKeywordKey="nama_lengkap"
                                                  onChange={handleChange}
                                                  showHint
                                                  error={errors?.sekprodi} value={formData.sekprodi}/>
