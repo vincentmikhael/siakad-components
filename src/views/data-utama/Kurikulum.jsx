@@ -609,39 +609,46 @@ const Kurikulum = ({listInit}) => {
                         loadingDataForm || loadingInitForm ? (
                             <FormSkeleton count={3} cols={3}/>
                         ) : (
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 flex-grow">
-                                <SearchInput options={formInit?.mata_kuliah} label="Mata kuliah" icon={false}
-                                             placeholder="Pilih kode mata kuliah" showLabel size="lg" name="kd_mk"
-                                             labelKey="nama" valueKey="id" keywordKey="id"
-                                             secondKeywordKey="nama"
-                                             onChange={handleChange}
-                                             showHint
-                                             disabled={editMode}
-                                             error={errors?.kd_mk} value={formData.kd_mk}/>
-                                <Select
-                                    value={formData.sifat}
-                                    options={formInit?.sifat}
-                                    label="Sifat"
-                                    labelKey="nama"
-                                    valueKey="id"
-                                    placeholder="Pilih sifat"
-                                    showLabel
-                                    size="lg"
-                                    onChange={handleChange}
-                                    showHint
-                                    name="sifat"
-                                    error={errors?.sifat}/>
-                                <Select
-                                    value={formData.semester}
-                                    options={semesterOption}
-                                    label="Semester Kurikulum"
-                                    placeholder="Pilih semester kurikulum"
-                                    showLabel
-                                    size="lg"
-                                    onChange={handleChange}
-                                    showHint
-                                    name="semester"
-                                    error={errors?.semester}/>
+                            <div className="grid grid-cols-1 sm:grid-cols-12 gap-6 flex-grow">
+                                <div className="sm:col-span-6">
+                                    <SearchInput options={formInit?.mata_kuliah} label="Mata kuliah" icon={false}
+                                                 placeholder="Pilih mata kuliah" showLabel size="lg" name="kd_mk"
+                                                 customLabel={(option) => `${option.id} - ${option.nama}`}
+                                                 labelKey="nama" valueKey="id" keywordKey="id"
+                                                 secondKeywordKey="nama"
+                                                 onChange={handleChange}
+                                                 showHint
+                                                 disabled={editMode}
+                                                 error={errors?.kd_mk} value={formData.kd_mk}/>
+                                </div>
+                                <div className="sm:col-span-3">
+                                    <Select
+                                        value={formData.sifat}
+                                        options={formInit?.sifat}
+                                        label="Sifat"
+                                        labelKey="nama"
+                                        valueKey="id"
+                                        placeholder="Pilih sifat"
+                                        showLabel
+                                        size="lg"
+                                        onChange={handleChange}
+                                        showHint
+                                        name="sifat"
+                                        error={errors?.sifat}/>
+                                </div>
+                                <div className="sm:col-span-3">
+                                    <Select
+                                        value={formData.semester}
+                                        options={semesterOption}
+                                        label="Semester Kurikulum"
+                                        placeholder="Pilih semester kurikulum"
+                                        showLabel
+                                        size="lg"
+                                        onChange={handleChange}
+                                        showHint
+                                        name="semester"
+                                        error={errors?.semester}/>
+                                </div>
                             </div>
                         )}
                 </Modal.Body>
