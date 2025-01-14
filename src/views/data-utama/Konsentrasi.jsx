@@ -172,7 +172,7 @@ export default function Konsentrasi({listInit}) {
         {name: "no", className: "min-w-14"},
         {name: "alias", className: "min-w-[100px] text-center"},
         {name: "nama", className: "min-w-[260px]"},
-        {name: "nama_en", className: "min-w-[174px] text-center"},
+        {name: "nama_en", className: "min-w-[174px]"},
         {name: "status", className: "min-w-[120px] text-center"},
         {name: "action", className: "min-w-[120px] text-center"},
     ];
@@ -532,9 +532,9 @@ export default function Konsentrasi({listInit}) {
                                     <Text size="xs" className="uppercase">{data?.nama}</Text>
                                 </TableBodyCell>
                                 <TableBodyCell>
-                                    <Text size="xs" className="text-center">{data?.nama_en}</Text>
+                                    <Text size="xs" className="uppercase">{data?.nama_en}</Text>
                                 </TableBodyCell>
-                                <TableBodyCell>{data.status == 1 ?
+                                <TableBodyCell className={'text-center'}>{data.status == 1 ?
                                     <Button variant="success" onClick={() => changeStatus(data.id, 0)}>Aktif</Button>
                                     :
                                     <Button variant="danger" onClick={() => changeStatus(data.id, 1)}>Tidak aktif</Button>
