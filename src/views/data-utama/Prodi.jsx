@@ -531,8 +531,12 @@ const Prodi = ({listInit}) => {
                 </Modal.Body>
                 <Modal.Footer>
                     <div className="gap-4 flex flex-row">
-                        <Button variant="primary" size="md" filled onClick={handleSubmit} disabled={isFormIncomplete}>
-                            {loadingSubmit ? <Spinner size={16}/> : editMode ? "Perbarui" : "Tambah"}
+                        <Button variant="primary" size="md" filled onClick={handleSubmit}
+                                disabled={isFormIncomplete || loadingSubmit}>
+                            {loadingSubmit ? <>
+                                {editMode ? "Memperbarui" : "Menyimpan"}
+                                <Spinner size={16}/>
+                            </> : editMode ? "Perbarui" : "Tambah"}
                         </Button>
                         <Button variant="white" size="md" filled onClick={closeModal}>
                             Batal
