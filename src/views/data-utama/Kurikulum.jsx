@@ -654,8 +654,12 @@ const Kurikulum = ({listInit}) => {
                 </Modal.Body>
                 <Modal.Footer>
                     <div className="gap-4 flex flex-row">
-                        <Button variant="primary" size="md" filled disabled={isFormIncomplete} onClick={handleSubmit}>
-                            {loadingSubmit ? <Spinner size={16}/> : editMode ? "Perbarui" : "Tambah"}
+                        <Button variant="primary" size="md" filled disabled={isFormIncomplete || loadingSubmit}
+                                onClick={handleSubmit}>
+                            {loadingSubmit ? <>
+                                {editMode ? "Memperbarui" : "Menyimpan"}
+                                <Spinner size={16}/>
+                            </> : editMode ? "Perbarui" : "Tambah"}
                         </Button>
                         <Button variant="white" size="md" filled onClick={closeModal}>
                             Batal
@@ -675,8 +679,8 @@ const Kurikulum = ({listInit}) => {
             >
                 <Modal.Footer>
                     <div className="gap-4 flex flex-row">
-                        <Button variant="danger" size="md" filled onClick={handleDelete}>
-                            {loadingSubmit ? <Spinner size={16}/> :
+                        <Button variant="danger" size="md" filled onClick={handleDelete} disabled={loadingSubmit}>
+                            {loadingSubmit ? <>{"Menghapus"} <Spinner size={16}/></> :
                                 "Hapus"}
                         </Button>
                         <Button variant="white" size="md" filled onClick={closeModal}>
