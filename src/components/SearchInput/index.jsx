@@ -48,8 +48,7 @@ const SearchInput = ({
 
     const handleSelectItem = (item) => {
         const newValue = item[valueKey];
-        const labelValue = customLabel ? customLabel(item) : item[labelKey];
-        setInputValue(labelValue);
+        setInputValue(item[labelKey]);
         setSelectedOption(item);
         setSearchTerm("");
         setIsOpen(false);
@@ -71,10 +70,7 @@ const SearchInput = ({
         if (value) {
             const selectedItem = options.find((item) => item[valueKey] === value);
             if (selectedItem) {
-                const labelValue = customLabel
-                    ? customLabel(selectedItem)
-                    : selectedItem[labelKey];
-                setInputValue(labelValue);
+                setInputValue(selectedItem[labelKey]);
             } else {
                 setInputValue("");
                 setSearchTerm("");
@@ -97,10 +93,6 @@ const SearchInput = ({
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, []);
-
-    const toggleDropdown = () => {
-        setIsOpen(true);
-    };
 
     const baseClasses =
         "flex flex-row gap-2 justify-between items-center py-2.5 px-3.5 border rounded-xl transition-all duration-200 cursor-pointer"
@@ -139,7 +131,7 @@ const SearchInput = ({
     const hintColorClasses = error ? "text-danger-90" : "text-gray-50";
     const inputClasses =
         `w-full block placeholder:text-gray-30 font-normal outline-none text-gray-100 ${size === "xs" ? "text-xs" : "text-sm"}`;
-
+    
     return (
         <div className="flex flex-col gap-1.5 w-full">
             {showLabel && (
@@ -156,7 +148,7 @@ const SearchInput = ({
                 className={twMerge("relative", className)}
                 ref={selectRef}
             >
-                <div className={twMerge(fieldClasses, iconClasses)} onClick={toggleDropdown}>
+                <div className={twMerge(fieldClasses, iconClasses)}>
                     {icon &&
                         <MagnifyingGlass size={16} weight="bold"/>
                     }

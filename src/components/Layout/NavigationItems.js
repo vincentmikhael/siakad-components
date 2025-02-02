@@ -10,6 +10,7 @@ import {
     Timer,
     Users
 } from "@phosphor-icons/react/dist/ssr";
+import React from "react";
 
 const navItems = [
     {href: "/dashboard", label: "Dashboard", icon: <Calendar/>},

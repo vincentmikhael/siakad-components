@@ -1,0 +1,18 @@
+{
+    "presets": [["@babel/preset-react", { "runtime": "automatic" }],["@babel/preset-env", {"modules": false}]],
+"plugins": [
+  [
+    "module-resolver",
+    {
+      "root": ["./src"],
+      "alias": {
+        "@": "./src",
+        "@context": "./src/context",
+        "@components": "./src/components"
+      }
+    }
+  ],
+    "@babel/plugin-transform-object-rest-spread",
+    "@babel/plugin-transform-react-jsx"
+  ]
+  }

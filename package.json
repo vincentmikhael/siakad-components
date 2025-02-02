@@ -1,11 +1,14 @@
 {
-  "name": "frontend",
-  "version": "0.1.0",
-  "main": "src/index.js",
-  "private": true,
+  "name": "siakad-components",
+  "version": "0.1.41",
+  "main": "dist/index.js",
+  "files": [
+    "dist/**"
+  ],
+  "private": false,
   "scripts": {
     "dev": "next dev -p 3001",
-    "build": "next build",
+    "build": "babel src --out-dir dist --copy-files",
     "start": "next start -p 3001",
     "lint": "next lint",
     "build:analyze": "cross-env ANALYZE=true npm run build"
@@ -15,18 +18,25 @@
     "@tanstack/react-query": "^5.62.11",
     "@tanstack/react-query-devtools": "^5.62.11",
     "axios": "^1.7.7",
+    "babel-plugin-module-resolver": "^5.0.2",
     "echarts": "^5.5.1",
     "echarts-for-react": "^3.0.2",
     "ioredis": "^5.4.1",
     "jose": "^5.9.6",
     "jsonwebtoken": "^9.0.2",
     "next": "14.2.15",
-    "react": "^18",
-    "react-dom": "^18",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "tailwind-merge": "^2.5.4",
     "uuid": "^11.0.2"
   },
   "devDependencies": {
+    "@babel/cli": "^7.26.4",
+    "@babel/plugin-transform-modules-commonjs": "^7.26.3",
+    "@babel/plugin-transform-object-rest-spread": "^7.25.9",
+    "@babel/plugin-transform-react-jsx": "^7.25.9",
+    "@babel/preset-env": "^7.26.7",
+    "@babel/preset-react": "^7.26.3",
     "@next/bundle-analyzer": "^15.0.3",
     "cross-env": "^7.0.3",
     "eslint": "^8",
